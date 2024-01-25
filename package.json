@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "puppeteer": "^21.7.0"
+  },
+  "name": "resumebuilder-server",
+  "description": "The server side for Resume Builder App. Offering APIs to be consummed for both mobile and web as front sides.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
