@@ -1,21 +1,13 @@
-bcrypt = require('bcryptjs');
 class User{
     id;
     email;
-    hashedPassword="";
+    hashedPassword;
     username;  
-    constructor(email, passwordToHash, username){
+    constructor(email, hashedPassword, username){
         this.id = Date.now(); 
         this.email = email;
         this.username = username;
-        bcrypt.hash(passwordToHash, 12, (err, hash) =>{
-            if(err){
-                console.log(err);
-            }
-            else{
-                this.hashedPassword = hash;
-            }
-        });
+        this.hashedPassword = hashedPassword;
     };
         
 }

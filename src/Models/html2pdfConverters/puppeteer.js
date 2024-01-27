@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 
-async function  htmlToPdf(filePath, output) {
+module.exports = async function  htmlToPdf(filePath, output) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -21,7 +21,7 @@ async function  htmlToPdf(filePath, output) {
   await browser.close();
 
   console.log(`PDF generated successfully at: ${outputPdfPath}`);
-};
+}
 
 async function convertFromURL (url,output) {
   const browser = await puppeteer.launch();
@@ -35,12 +35,17 @@ async function convertFromURL (url,output) {
 
   // Generate PDF
   const pdfPath = output; // Adjust the file path and name as needed
-  await page.pdf({ path: pdfPath, format: 'A4' });
+  await page.pdf({
+    path: 'colored_square_test.pdf',
+    format: 'A4',
+    printBackground: true, // Important for background colors
+  });
+
+
 
   console.log(`PDF generated successfully at: ${pdfPath}`);
 
   await browser.close();
-};
+}
 
 
-module.exports= { htmlToPdf, convertFromURL};

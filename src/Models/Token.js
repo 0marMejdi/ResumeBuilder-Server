@@ -1,15 +1,29 @@
 const jwt = require('jsonwebtoken');
-const generateToken = function (user){
-    return 'Bearer '+jwt.sign({id: user.id, email: user.email }, 'HASTA_LA_VISTA_BABE', {expiresIn: '1h'});
-}
-const resolveToken = function(token){
-    try{
-        let resolved = jwt.verify(token, 'HASTA_LA_VISTA_BABE');
-        return {id:resolved.id, email:resolved.email};
-    }
-    catch(err){
-        throw err;
-    }
+
+const generateToken = function (user) {
+    return new Promise((resolve, reject) => {
+        jwt.sign({ id: user.id, email: user.email }, 'HASTA_LA_VISTA_BABE', (err, token) => {
+            if (err) {
+                reject(new Error('Error generating token: ' + err.message));
+            } else {
+                resolve('Bearer ' + token);
+            }
+        });
+    });
+};
+
+const resolveToken =  function(token){
+    let resolved = {};
+    jwt.verify(token, 'HASTA_LA_VISTA_BABE',(err,decoded)=>{
+        if(err){
+            throw new Error("Unauthorized");
+        }else{
+            resolved.id = decoded.id;
+            resolved.email = decoded.email;
+        }
+    });
+    return resolved ;
+
     
 }
 const isValidToken = function(token){
