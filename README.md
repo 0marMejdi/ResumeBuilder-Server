@@ -30,9 +30,11 @@ or skills or etc...
 
 • `PUT /project/{projectId}` : updates the whole snapshot object with all current values. require a Snapshot Object type. (Less complex, but resources consuming).
 
-•`GET /template` :  gets you the name list of template names.
+•`GET /template/names` :  gets you the name list of template names.
 
 •`GET /template/html/{templateName}` : returns the html content of a template given in parameter.
+
+•`GET /template/pdf/{templateName}` : returns the pdf content of a template given in parameter.
 
 •`GET /template/html` : returns them all html contents of templates in one json object containing array. 
 

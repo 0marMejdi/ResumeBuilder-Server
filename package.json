@@ -8,15 +8,18 @@
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.1",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.0.3",
+    "pdf-to-png-converter": "^3.1.0",
     "pdfkit": "^0.14.0",
-    "puppeteer": "^21.7.0"
+    "puppeteer": "^21.7.0",
+    "uuid": "^9.0.1"
   },
   "name": "resumebuilder-server",
   "description": "The server side for Resume Builder App. Offering APIs to be consummed for both mobile and web as front sides.",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",

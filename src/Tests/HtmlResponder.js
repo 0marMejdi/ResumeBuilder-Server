@@ -10,7 +10,7 @@ const port = 3000;
 app.use(cors());
 
 app.get('/', (req, res) => {
-    const htmlFilePath = path.join(__dirname, 'resumeExample.html');
+    const htmlFilePath = path.join(__dirname, 'Marine.html');
 
     try {
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf-8');

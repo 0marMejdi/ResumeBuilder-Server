@@ -2,7 +2,7 @@ const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
 // Read HTML content from an external file
-const htmlFilePath = './resumeExample.html';
+const htmlFilePath = './Marine.html';
 const htmlContent = fs.readFileSync(htmlFilePath, 'utf-8');
 
 // Create a DOM document from the HTML content

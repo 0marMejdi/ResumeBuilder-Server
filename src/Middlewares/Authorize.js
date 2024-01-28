@@ -3,6 +3,9 @@ const UserRepository = require("../Repositories/UserRepository");
 async function authorize(req,res,next){
 
     try{
+        if (!req.body.authorization){
+            throw new Error("Not Logged in");
+        }
         //resolving the token to extract id and email from it
         let user = Token.resolveToken(req.body.authorization.split(' ')[1]);
         //cheking if the extracted id and email exist in database
