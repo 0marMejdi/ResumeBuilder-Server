@@ -1,4 +1,9 @@
-FROM ubuntu:latest
+FROM node:latest
 LABEL authors="Omar"
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 8000
+
+CMD ["npm","start"]

@@ -16,7 +16,7 @@ const resolveToken =  function(token){
     let resolved = {};
     jwt.verify(token, 'HASTA_LA_VISTA_BABE',(err,decoded)=>{
         if(err){
-            throw new Error("Unauthorized");
+            throw new Error("Invalid Token!");
         }else{
             resolved.id = decoded.id;
             resolved.email = decoded.email;

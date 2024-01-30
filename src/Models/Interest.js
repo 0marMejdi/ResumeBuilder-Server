@@ -1,0 +1,4 @@
+class Interest {
+    tag;
+    name;
+}

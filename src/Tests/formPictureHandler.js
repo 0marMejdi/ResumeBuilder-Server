@@ -29,7 +29,7 @@ app.post('/register', upload.single('profilePicture'), (req, res) => {
     const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
-
+    console.log(firstName + " " + lastName);
     // Access uploaded file information
     const profilePicture = req.file;
 
