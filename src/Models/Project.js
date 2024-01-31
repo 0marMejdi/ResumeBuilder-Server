@@ -1,14 +1,18 @@
-const Snapshot = require (__dirname + "Snapshot");
+const Snapshot = require (__dirname + "/Snapshot");
 module.exports = class Project{
-    id;
-    title;
-    creationDate;
-    lastModifiedDate;
-    snapshot;
-    constructor(title) {
-        this.title= title;
-        this.creationDate = Date.now().toString();
-        this.lastModifiedDate = this.creationDate;
 
+    /**@type string*/ id;
+    /**@type string*/ userId;
+    /**@type string*/ title;
+    /**@type number*/ creationDate;
+    /**@type number*/ lastModifiedDate;
+    /**@type Snapshot*/ snapshot;
+    constructor(title,userId) {
+        this.id=Date.now().toString();
+        this.userId=userId;
+        this.title= title;
+        this.creationDate = Date.now();
+        this.lastModifiedDate = this.creationDate;
+        this.snapshot = new Snapshot();
     }
 }

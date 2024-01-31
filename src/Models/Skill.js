@@ -1,5 +1,8 @@
 class Skill {
-    level;
-    name;
-    tag;
+    /**@type number*/ level;
+    /**@type string*/ name;
+    /**@type number*/ tag;
+    constructor(tag) {
+        this.tag=tag;
+    }
 }

@@ -1,21 +1,8 @@
 const fs = require("fs").promises;
 const pdfConverter = require ("../Models/html2pdfConverters/html2pdf")
-/*
-* •`GET /template` :  gets you the name list of template names.
-*
-* •`GET /template/html/{templateName}` :
-*
-* •`GET /template/html` : returns them all html contents of templates in one json object containing array.
-*
-* •`GET /template/thumb/{templateName}`: returns for given template name, the thumbnail image for it. return a PNG image content
-*
-* •`POST /template/{templateName}` : adds a new project for the current user using a preselected template given in param. must include in request body a Project Json Object `project: {title, creationDate}`
-*/
-
 function resolveName(name){
     return __dirname + "/../../assets/templates/" + name + ".html"
 }
-
 const getTemplatesList =  async  ()=>{
     let result = await fs.readdir(__dirname + "/../../assets/templates/");
     return result.map(temp=>temp.split('.')[0])
@@ -33,27 +20,27 @@ const getTemplatePdf = async (name)=>{
     return content;
 
 }
-const    getTemplateThumb= async (name)=>{
+/**
+ * gets the thumbnail image for a given template name. mainly it's the binary content of the image in a buffer.
+ * @param name : string
+ * @returns {Promise<Buffer>}
+ */
+const getTemplateThumb= async (name)=>  await fs.readFile(`${__dirname}/../../assets/templates/thumbs/${name}.png`);
 
+const getTemplateThumbDynamic = async(name)=>{
     const Thumb = require(__dirname+"/../Models/PdfToPng");
-    // const Thumb = require("../Models/PdfToPng");
     const html2pdf = require(`${__dirname}+/../Models/html2pdfConverters/html2pdf`);
-    // const html2pdf = require(`../Models/html2pdfConverters/html2pdf`);
-    // console.log("converting html to pdf");
+    // making temporary name for intermediate file
     const tempName=Date.now();
-    console.log("converting pdf to png content")
-    await html2pdf(resolveName(name),`${__dirname}/../../temp/${tempName}.pdf`);
-    console.log("pdf to png content success");
-    // console.log("html2pdf finished");
-
+    // converting template from html to pdf
+    await html2pdf(resolveName(name),`${__dirname}/../../temp/${tempName}.pdf`)
+    // converting template from pdf to png
     let pngContent = await Thumb.getPngContent(`${__dirname}/../../temp/${tempName}.pdf`);
-
-    fs.rm(`${__dirname}/../../temp/${tempName}.pdf`);
+    // deleting intermediate file
+    await fs.rm(`${__dirname}/../../temp/${tempName}.pdf`);
     return pngContent;
-    //return await fs.readFile(`${__dirname}/../../temp/thumb.png`);
-
 };
-  const  getAllTemplateContent = async()=>{
+const getAllTemplateContent = async()=>{
 
     let names = await getTemplatesList();
     let resalta = [];
