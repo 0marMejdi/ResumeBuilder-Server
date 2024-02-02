@@ -2,7 +2,7 @@ class Snapshot{
 
     /**@type string */ id;
     /**@type string */ projectId;
-    /**@type number */ tag;
+
     /**@type string */ firstName;
     /**@type string */ lastName;
     /**@type string */ email;
@@ -29,4 +29,4 @@ class Snapshot{
 
 
 
-module.exports =Snapshot;
+module.exports = Snapshot;

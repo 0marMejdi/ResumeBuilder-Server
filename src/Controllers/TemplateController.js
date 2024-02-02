@@ -1,5 +1,5 @@
 const fs = require("fs").promises;
-const pdfConverter = require ("../Models/html2pdfConverters/html2pdf")
+const pdfConverter = require ("../Library/html2pdfConverters/html2pdf")
 function resolveName(name){
     return __dirname + "/../../assets/templates/" + name + ".html"
 }

@@ -3,21 +3,8 @@ const route = express.Router();
 const TemplateController  = require("../Controllers/TemplateController");
 const {all} = require("express/lib/application");
 
-/**
- *  ROutes:
- * •`GET /template` :  gets you the name list of template names.
- *
- * •`GET /template/html/{templateName}` :
- *
- * •`GET /template/html` : returns them all html contents of templates in one json object containing array.
- *
- * •`GET /template/thumb/{templateName}`: returns for given template name, the thumbnail image for it. return a PNG image content
- *
- * •`POST /template/{templateName}` : adds a new project for the current user using a preselected template given in param. must include in request body a Project Json Object `project: {title, creationDate}`
- */
 
 // returns the html content of a template given in parameter.
-
 route.get("/template/html/:name",async(req,res)=>{
     try{
         let content = await TemplateController.getTemplateContent(req.params.name);
@@ -26,7 +13,6 @@ route.get("/template/html/:name",async(req,res)=>{
         res.status(401).json({message:e.message});
     }
 });
-
 route.get("/template/html",async(req,res)=>{
     try{
         let allContent = await TemplateController.getAllTemplateContent();
@@ -35,7 +21,6 @@ route.get("/template/html",async(req,res)=>{
         res.status(401).json({message:e.message});
     }
 });
-
 route.get("/template/thumb/:name",async(req,res)=>{
     try {
          console.log("sending the pic");
@@ -57,8 +42,6 @@ route.get("/template/pdf/:name",async(req,res)=>{
 
     }
 });
-
-
 route.get("/template/names",async (req,res)=>{
     try{
         let list = await TemplateController.getTemplatesList();

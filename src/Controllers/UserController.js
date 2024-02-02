@@ -1,7 +1,7 @@
 const UserRepository = require('../Repositories/UserRepository');
 const User = require('../Models/User');
-const Token = require ('../Models/Token');
-const PasswordHash = require('../Models/PasswordHash');
+const Token = require ('../Library/Token');
+const PasswordHash = require('../Library/PasswordHash');
     
 
     const login = async function(email, password){
@@ -44,9 +44,6 @@ const PasswordHash = require('../Models/PasswordHash');
         UserRepository.createUser(user);
         return await login(userInfo.email, userInfo.password);
     }
-    const getAllUsers = function(){
-        return UserRepository.getAllUsers();
-    }
     const getToken = function(email,password){
         return Token.generateToken(email,password);
     }
@@ -65,4 +62,4 @@ const PasswordHash = require('../Models/PasswordHash');
     }
     
 
-module.exports = {login, register,getAllUsers,getToken,getUserById};
+module.exports = {login, register,getToken,getUserById};

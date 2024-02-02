@@ -1,64 +1,49 @@
-/**@type {Project[]}*/
-let projects =[];
-/**@type {Snapshot[]}*/
-let snaps = [];
-const entries =["Language", "Interest", "Formation", "ProfessionalExp", "Skill"];
-const entryValues = {"Language":"languages", "Interest":"interests", "Formation":"formations", "ProfessionalExp":"professionalExps", "Skill":"skills"}
+const Project = require("../Models/Project");
+const Info = require("../Models/EnumData")
+let proj = new Project("And Another One","Marine","1706821332398");
+//let EnumDataController = require("../Controllers/EnumDataController")
+proj.id="1706863054682";
+proj.snapshot.projectId="1706863054682";
 
-const createProject = (project)=>{
-    projects.push(project);
+/**@type {Project[]}*/
+let projects =[proj];
+/**@type {Snapshot[]}*/
+let snaps = [proj.snapshot];
+const entries =["Language", "Interest", "Formation", "ProfessionalExp", "Skill"];
+function projectExists(projectId) {
+    return projects.findIndex(p => p.id === projectId) >= 0;
 
 }
-const getAllProjects = ()=>{
-    projects.map(proj=>{
+const createProject = (project)=>{
+    projects.push(project);
+    snaps.push(project.snapshot);
+}
+const getSimpleProjectsForUserById = (userId)=>{
+    return projects.filter(proj => proj.userId === userId).map(proj=>{
         delete proj.snapshot;
         return proj;
     });
-    return  projects;
 }
-const getAllProjectsWithSnapshot = ()=>{
-    return  projects.map(proj=>{
-        proj.snapshot = snaps.find(snap=>snap.projectId===proj.id);
-        return proj;
-    });
-}
-/**
- * returns project without its snapshots
- * @param id
- * @returns {Project}
- */
-const getProjectById = (id)=>{
-    let proj = projects.find(project=>project.id===id);
+const getSimpleProjectById = (projectId)=>{
+    let proj = projects.find(project=>project.id===projectId);
     if (proj)
         return proj;
-    throw new Error("Project Not Found!");
+    throw new Error("Repository : Project Not Found!");
 }
 /**
  * returns project with snapshots
- * @param id : string
+ * @param projectId : string
  * @returns {Project}
  */
-const getProjectWithSnapshotById=(id)=>{
-    let proj = getProjectById(id);
-    proj.snapshot=getSnapshotForProject(id);
+const getFullProjectById=(projectId)=>{
+    let proj = getSimpleProjectById(projectId);
+    proj.snapshot=getSnapshotOnly(projectId);
     return proj;
 }
-const getProjectIdsForUserById = (userId)=>{
-    return projects.filter(proj => proj.userId === userId).map(proj => proj.id);
-}
-const getProjectsForUserById = (userId)=>{
-    return projects.filter(proj => proj.userId === userId);
-}
-const getProjectsWithSnapshotsForUserById = (userId)=>{
-    return projects.filter(proj=>proj.userId===userId).map(proj=> {
-        proj.snapshot = snaps.find(snap=> snap.projectId === proj.id);
-        return proj;
-    })
-}
-const getSnapshotForProject = (projectId)=>{
+function getSnapshotOnly  (projectId){
     let snap = snaps.find(snap=>snap.projectId===projectId);
     if (!snap)
-        throw Error("Snapshot not Found for this project");
+        throw Error("Repository : Snapshot not Found for this project");
     return snap;
 }
 /**
@@ -69,14 +54,17 @@ const getSnapshotForProject = (projectId)=>{
  * @param entryName :string
  * @param tag :number
  */
-const updateSnapshotField = (projectId,fieldName,fieldValue,entryName,tag)=>{
+
+const updateSnapshotFieldForEnumerable = (projectId,fieldName,fieldValue,entryName,tag)=>{
     let index = snaps.findIndex(snap=>snap.projectId===projectId);
     if (index<0)
         throw Error("Snapshot was not found");
-
-    if (entryName && entryName in entries){
-        snaps[index][entryValues[entryName]][tag][fieldName]=fieldValue;
-    }
+        snaps[index][entryName][tag][fieldName]=fieldValue;
+}
+const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
+    let index = snaps.findIndex(snap=>snap.projectId===projectId);
+    if (index<0)
+        throw Error("Snapshot was not found");
     snaps[index][fieldName] = fieldValue;
 }
 /**
@@ -94,30 +82,16 @@ const updateSnapshot = (projectId,snapshot)=>{
  *
  * @param projectId : string
  * @param entryName : string
+ * @param datagroup : Object
  */
-const addDataGroup = (projectId,entryName)=> {
+const addDataGroup = (projectId,entryName,datagroup)=> {
     let index = snaps.findIndex(snap=>snap.projectId===projectId);
     if (index<0)
         throw Error ("snapshot not found");
-    if (! entryName in entries)
-        throw Error ("invalid entryName");
-    let tag=snaps[index][entryName].length;
 
-    if (entryName==="Language"){
-        snaps[index].languages.push(new Language(tag));
-
-    }else if(entryName==="Interest"){
-        snaps[index].interests.push(new Interest(tag));
-
-    }else if(entryName==="ProfessionalExp"){
-        snaps[index].professionalExps.push(new ProfessionalExp(tag));
-
-    }else if(entryName==="Skill"){
-        snaps[index].skills.push(new Skill(tag));
-    }else {
-        throw Error ("invalid entryName");
-    }
+    datagroup.tag=snaps[index][entryName].length;
+    snaps[index][(entryName)].push(datagroup);
 
 }
 
-module.exports = {addDataGroup,getProjectById,getProjectsForUserById,createProject,getProjectsWithSnapshotsForUserById,getProjectIdsForUserById,getProjectWithSnapshotById,getAllProjects,getAllProjectsWithSnapshot,updateSnapshotField,updateSnapshot}
+module.exports = {getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,addDataGroup,projectExists,getSimpleProjectById};

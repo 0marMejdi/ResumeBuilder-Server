@@ -24,24 +24,5 @@ router.post('/register', async (req, res) => {
         res.status(401).json({message: err.message});
     }
 }); 
-    
-router.get("/allusers", (req, res) => {
-    try{
-        let users = UserController.getAllUsers();
-        res.status(200).json(users);
-    }
-    catch(err){
-        res.status(401).json({message: err.message});
-    }
-});
-router.use(authorize);
-router.get("/profile/info",(req,res)=>{
-    try{
-        let user = UserController.getUserById(req.body.user.id);
-        res.status(200).json(user);
-    }catch(err) {
-        res.status(401).json({message: err.message});
-    }
 
-});
 module.exports = router;
