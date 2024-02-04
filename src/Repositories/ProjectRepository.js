@@ -10,25 +10,51 @@ let projects =[proj];
 /**@type {Snapshot[]}*/
 let snaps = [proj.snapshot];
 const entries =["Language", "Interest", "Formation", "ProfessionalExp", "Skill"];
+
 function projectExists(projectId) {
-    return projects.findIndex(p => p.id === projectId) >= 0;
+    createConnection.query('SELECT * FROM project WHERE id = ?',[projectId],(err,result)=>{
+        if(err) throw new Error(err);
+        else if(result.length==0){
+            return false;
+        }
+        else {
+            return true;
+        }
+
+
+    })
 
 }
 const createProject = (project)=>{
-    projects.push(project);
-    snaps.push(project.snapshot);
+    connection.query('INSERT INTO project SET ?',project, (err, result) => {
+        if (err) {
+         return('Error:', err);
+        } else {
+          return('Result:', result);
+        }
+      });
 }
 const getSimpleProjectsForUserById = (userId)=>{
-    return projects.filter(proj => proj.userId === userId).map(proj=>{
-        delete proj.snapshot;
-        return proj;
-    });
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM project WHERE userId = ?', [userId], (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      });
 }
 const getSimpleProjectById = (projectId)=>{
-    let proj = projects.find(project=>project.id===projectId);
-    if (proj)
-        return proj;
-    throw new Error("Repository : Project Not Found!");
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM project WHERE id = ?', [projectId], (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        });
+      });
 }
 /**
  * returns project with snapshots
@@ -36,15 +62,35 @@ const getSimpleProjectById = (projectId)=>{
  * @returns {Project}
  */
 const getFullProjectById=(projectId)=>{
-    let proj = getSimpleProjectById(projectId);
-    proj.snapshot=getSnapshotOnly(projectId);
-    return proj;
+    return new Promise((resolve, reject) => { 
+        connection.query(`select * from project p,snapshot s,skill sk,professionalexp pro,formation f,interest i 
+                                where 
+                                p.id=s.projectId and 
+                                p.id=sk.projectId and 
+                                p.id=pro.projectId and 
+                                p.id=f.projectId and
+                                p.id=i.projectId and
+                                p.id=?`,[projectId],(err,result)=>{
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(result);
+                                }
+    })
+})
 }
 function getSnapshotOnly  (projectId){
-    let snap = snaps.find(snap=>snap.projectId===projectId);
-    if (!snap)
-        throw Error("Repository : Snapshot not Found for this project");
-    return snap;
+    return new Promise((resolve,reject)=>{
+        connection.query(`SELECT * FROM snapshot WHERE projectId = ?`,[projectId],(err,result)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+
+        })
+    })
+
 }
 /**
  *
