@@ -155,7 +155,7 @@ const addDataGroup = (projectId,entryName,datagroup)=> {
     return new Promise((reject,resolve)=>{
         connection.query(`INSERT INTO ? SET ?;
         UPDATE ? SET  projectId=? where id=?;
-        update ? set tag=(select max_tag from(select max(tag) as max_tag from ?) as subquery )+1 where id=?;`,[entryName,datagroup,entryName,projectId,datagroup.id,entryName,entryName,datagroup.id],(err,result)=>{
+        update ? set tag=(select max_tag from(select max(tag) as max_tag from ?) as subquery )+1 where id=? ;`,[entryName,datagroup,entryName,projectId,datagroup.id,entryName,entryName,datagroup.id],(err,result)=>{
             if(err){
                 reject(err);
             }

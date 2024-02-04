@@ -8,7 +8,7 @@ let users = [{
 }];
 function getUserById(id) {
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM user WHERE id = ?', [id], (err, result) => {
+        connection.query('SELECT * FROM user WHERE id = ? ;', [id], (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -20,7 +20,7 @@ function getUserById(id) {
 
 function createUser(user) {
     return new Promise((reject,resolve)=>{
-    connection.query('INSERT INTO user SET ?',newUser, (err, result) => {
+    connection.query('INSERT INTO user SET ? ;',newUser, (err, result) => {
         if (err) {
             reject(err);
         } else {
@@ -32,7 +32,7 @@ function createUser(user) {
 
 function updateUser(user) {
     return new Promise((reject,resolve)=>{
-    connection.query('UPDATE user SET ? WHERE id = ? ',[userUpdate,userUpdate.userID],(err,result)=>{
+    connection.query('UPDATE user SET ? WHERE id = ? ;',[userUpdate,userUpdate.userID],(err,result)=>{
         if (err) {
             reject(err);
            } else {
@@ -43,7 +43,7 @@ function updateUser(user) {
 }
 function getUserByEmail(email) {
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM user WHERE email = ?', [email], (err, result) => {
+        connection.query('SELECT * FROM user WHERE email = ? ;', [email], (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -54,7 +54,7 @@ function getUserByEmail(email) {
 }
 function emailExists(email) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM user WHERE email = ?`, [email], (err, result) => {
+        connection.query(`SELECT * FROM user WHERE email = ? ;`, [email], (err, result) => {
             if (err) {
                 reject(new Error(err));
             } else {
@@ -66,7 +66,7 @@ function emailExists(email) {
 
 function userExists(id) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM user WHERE id = ?`,[id], (err, result) => {
+        connection.query(`SELECT * FROM user WHERE id = ? ;`,[id], (err, result) => {
             if (err) {
                 reject(new Error(err));
             } else {
