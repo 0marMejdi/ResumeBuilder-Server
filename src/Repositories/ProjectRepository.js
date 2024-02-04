@@ -11,29 +11,28 @@ let projects =[proj];
 let snaps = [proj.snapshot];
 const entries =["Language", "Interest", "Formation", "ProfessionalExp", "Skill"];
 
+
 function projectExists(projectId) {
-    createConnection.query('SELECT * FROM project WHERE id = ?',[projectId],(err,result)=>{
-        if(err) throw new Error(err);
-        else if(result.length==0){
-            return false;
-        }
-        else {
-            return true;
-        }
-
-
-    })
-
+    return new Promise((resolve, reject) => {
+        createConnection.query('SELECT * FROM project WHERE id = ?',[projectId], (err, result) => {
+            if (err) {
+                reject(new Error(err));
+            } else {
+                resolve(result.length > 0);
+            }
+        });
+    });
 }
 const createProject = (project)=>{
+    return new Promise((resolve,reject)=>{
     connection.query('INSERT INTO project SET ?',project, (err, result) => {
         if (err) {
-         return('Error:', err);
+            reject(new Error(err));
         } else {
-          return('Result:', result);
+          resolve(result);
         }
       });
-}
+})}
 const getSimpleProjectsForUserById = (userId)=>{
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM project WHERE userId = ?', [userId], (err, result) => {
@@ -102,10 +101,7 @@ function getSnapshotOnly  (projectId){
  */
 
 const updateSnapshotFieldForEnumerable = (projectId,fieldName,fieldValue,entryName,tag)=>{
-    let index = snaps.findIndex(snap=>snap.projectId===projectId);
-    if (index<0)
-        throw Error("Snapshot was not found");
-        snaps[index][entryName][tag][fieldName]=fieldValue;
+    
 }
 const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
     let index = snaps.findIndex(snap=>snap.projectId===projectId);
