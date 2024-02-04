@@ -1,5 +1,6 @@
 const Project = require("../Models/Project");
-const Info = require("../Models/EnumData")
+const Info = require("../Models/EnumData");
+const { resolve } = require("mathjs");
 let proj = new Project("And Another One","Marine","1706821332398");
 //let EnumDataController = require("../Controllers/EnumDataController")
 proj.id="1706863054682";
@@ -29,7 +30,7 @@ const createProject = (project)=>{
         if (err) {
             reject(new Error(err));
         } else {
-          resolve(result);
+            resolve(result);
         }
       });
 })}
@@ -67,7 +68,7 @@ const getFullProjectById=(projectId)=>{
                                 p.id=s.projectId and 
                                 p.id=sk.projectId and 
                                 p.id=pro.projectId and 
-                                p.id=f.projectId and
+                                p.id=f.projectId and 
                                 p.id=i.projectId and
                                 p.id=?`,[projectId],(err,result)=>{
                                 if (err) {
@@ -101,13 +102,31 @@ function getSnapshotOnly  (projectId){
  */
 
 const updateSnapshotFieldForEnumerable = (projectId,fieldName,fieldValue,entryName,tag)=>{
-    
+    return new Promise((reject,resolve)=>{
+        connection.query(`UPDATE ? SET ? = ? WHERE tag=? and projectId = ?`,[entryName,fieldName,fieldValue,tag,projectId],(err,result)=>{
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    })
 }
 const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
-    let index = snaps.findIndex(snap=>snap.projectId===projectId);
-    if (index<0)
-        throw Error("Snapshot was not found");
-    snaps[index][fieldName] = fieldValue;
+        return new Promise((reject,resolve)=>{
+            connection.query(`UPDATE snapshot SET ? = ? WHERE projectId=?`,[fieldName,fieldValue,projectId],(err,result)=>{
+                if(err){
+                    reject(err);
+                }
+                else{
+                    resolve(err);
+                }
+            })
+
+        })
+
+
 }
 /**
  *
@@ -115,10 +134,16 @@ const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
  * @param snapshot :Snapshot
  */
 const updateSnapshot = (projectId,snapshot)=>{
-    let index = snaps.findIndex(snap=>snap.projectId===projectId);
-    if (index<0)
-        throw Error("Snapshot not found");
-    snaps[index]=snapshot;
+    return new Promise((reject,resolve)=>{
+        connection.query(`UPDATE snapshot SET ? WHERE projectId=?`,[snapshot,projectId],(err,result)=>{
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(err);
+            }
+        })
+    })
 }
 /**
  *
@@ -127,12 +152,19 @@ const updateSnapshot = (projectId,snapshot)=>{
  * @param datagroup : Object
  */
 const addDataGroup = (projectId,entryName,datagroup)=> {
-    let index = snaps.findIndex(snap=>snap.projectId===projectId);
-    if (index<0)
-        throw Error ("snapshot not found");
+    return new Promise((reject,resolve)=>{
+        connection.query(`INSERT INTO ? SET ?;
+        UPDATE ? SET  projectId=? where id=?;
+        update ? set tag=(select max_tag from(select max(tag) as max_tag from ?) as subquery )+1 where id=?;;`,[entryName,datagroup,entryName,projectId,datagroup.id,entryName,entryName,datagroup.id],(err,result)=>{
+            if(err){
+                reject(err);
+            }
+            else{
+                resolve(result)
+            }
 
-    datagroup.tag=snaps[index][entryName].length;
-    snaps[index][(entryName)].push(datagroup);
+        })
+    })
 
 }
 
