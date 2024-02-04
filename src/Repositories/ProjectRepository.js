@@ -15,7 +15,7 @@ const entries =["Language", "Interest", "Formation", "ProfessionalExp", "Skill"]
 
 function projectExists(projectId) {
     return new Promise((resolve, reject) => {
-        createConnection.query('SELECT * FROM project WHERE id = ?',[projectId], (err, result) => {
+        createConnection.query('SELECT * FROM project WHERE id = ? ;',[projectId], (err, result) => {
             if (err) {
                 reject(new Error(err));
             } else {
@@ -26,7 +26,7 @@ function projectExists(projectId) {
 }
 const createProject = (project)=>{
     return new Promise((resolve,reject)=>{
-    connection.query('INSERT INTO project SET ?',project, (err, result) => {
+    connection.query('INSERT INTO project SET ? ;',project, (err, result) => {
         if (err) {
             reject(new Error(err));
         } else {
@@ -36,7 +36,7 @@ const createProject = (project)=>{
 })}
 const getSimpleProjectsForUserById = (userId)=>{
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM project WHERE userId = ?', [userId], (err, result) => {
+        connection.query('SELECT * FROM project WHERE userId = ? ;', [userId], (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -47,7 +47,7 @@ const getSimpleProjectsForUserById = (userId)=>{
 }
 const getSimpleProjectById = (projectId)=>{
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM project WHERE id = ?', [projectId], (err, result) => {
+        connection.query('SELECT * FROM project WHERE id = ? ;', [projectId], (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -70,7 +70,7 @@ const getFullProjectById=(projectId)=>{
                                 p.id=pro.projectId and 
                                 p.id=f.projectId and 
                                 p.id=i.projectId and
-                                p.id=?`,[projectId],(err,result)=>{
+                                p.id=? ;`,[projectId],(err,result)=>{
                                 if (err) {
                                     reject(err);
                                 } else {
@@ -81,7 +81,7 @@ const getFullProjectById=(projectId)=>{
 }
 function getSnapshotOnly  (projectId){
     return new Promise((resolve,reject)=>{
-        connection.query(`SELECT * FROM snapshot WHERE projectId = ?`,[projectId],(err,result)=>{
+        connection.query(`SELECT * FROM snapshot WHERE projectId = ? ;`,[projectId],(err,result)=>{
             if(err){
                 reject(err);
             }else{
@@ -103,7 +103,7 @@ function getSnapshotOnly  (projectId){
 
 const updateSnapshotFieldForEnumerable = (projectId,fieldName,fieldValue,entryName,tag)=>{
     return new Promise((reject,resolve)=>{
-        connection.query(`UPDATE ? SET ? = ? WHERE tag=? and projectId = ?`,[entryName,fieldName,fieldValue,tag,projectId],(err,result)=>{
+        connection.query(`UPDATE ? SET ? = ? WHERE tag=? and projectId = ? ;`,[entryName,fieldName,fieldValue,tag,projectId],(err,result)=>{
             if(err){
                 reject(err);
             }
@@ -115,7 +115,7 @@ const updateSnapshotFieldForEnumerable = (projectId,fieldName,fieldValue,entryNa
 }
 const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
         return new Promise((reject,resolve)=>{
-            connection.query(`UPDATE snapshot SET ? = ? WHERE projectId=?`,[fieldName,fieldValue,projectId],(err,result)=>{
+            connection.query(`UPDATE snapshot SET ? = ? WHERE projectId=? ;`,[fieldName,fieldValue,projectId],(err,result)=>{
                 if(err){
                     reject(err);
                 }
@@ -135,7 +135,7 @@ const updateSnapshotField = (projectId,fieldName,fieldValue)=>{
  */
 const updateSnapshot = (projectId,snapshot)=>{
     return new Promise((reject,resolve)=>{
-        connection.query(`UPDATE snapshot SET ? WHERE projectId=?`,[snapshot,projectId],(err,result)=>{
+        connection.query(`UPDATE snapshot SET ? WHERE projectId=? ;`,[snapshot,projectId],(err,result)=>{
             if(err){
                 reject(err);
             }
