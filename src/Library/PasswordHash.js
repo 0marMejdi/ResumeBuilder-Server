@@ -39,20 +39,21 @@ async function hashPassword(plainPassword) {
     }
 }
 
-function asyncComparePasswords(enteredPassword, hashedPassword) {
+function asyncComparePasswords(enteredPassword, passwordHash) {
     return new Promise((resolve, reject) => {
         // Compare the entered password with the stored hashed password
-        bcrypt.compare(enteredPassword, hashedPassword, (err, result) => {
+        bcrypt.compare(enteredPassword, passwordHash, (err, result) => {
             if (err) {
-                reject(new Error("Error comparing passwords: " + err.message));
+                reject(new Error("Error comparing passwords: "+ err.message +`
+attemptin to compare ${enteredPassword} and ${passwordHash}`));
             } else {
                 resolve(result);
             }
         });
     });
 }
-async function comparePasswords(enteredPassword, hashedPassword){
-    let resulit = await asyncComparePasswords(enteredPassword,hashedPassword);
+async function comparePasswords(enteredPassword, passwordHash){
+    let resulit = await asyncComparePasswords(enteredPassword,passwordHash);
     return resulit;
 }
 

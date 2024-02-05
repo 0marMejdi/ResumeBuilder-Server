@@ -5,6 +5,7 @@ const Project = require("../Models/Project");
 const authorize = require("../Middlewares/Authorize");
 const injectProject = require("../Middlewares/injectProject");
 const fieldvalidator = require("../Middlewares/SnapshotFieldValidator");
+const validateSnapshot = require("../Middlewares/validateSnapshot")
 let router = express.Router();
 router.get("/project/list",authorize, (req,res)=>{
     try{
@@ -43,9 +44,10 @@ router.patch("/project/info",authorize,injectProject,fieldvalidator,(req,res)=>{
 
 })
 //updates whole snapshot object
-router.put("/project/snapshot",authorize,injectProject,(req,res)=>{
+router.put("/project/info",authorize,injectProject,validateSnapshot,(req,res)=>{
     try{
-        ProjectRepository.updateSnapshot(req.body.params.projectId,req.body.snapshot);
+        ProjectController.updateSnapshot(req.body.projectId,req.body.snapshot);
+        res.status(200).json(ProjectController.getFullProject(req.body.project.id));
 
     }catch (e) {
         res.status(401).json({message:e.message});

@@ -1,6 +1,6 @@
 
 class Language {
-    /**@type number*/ level;
+    /**@type {number}*/ level;
     /**@type string*/  name;
     /**@type number*/  tag;
     constructor(tag) {
@@ -49,8 +49,5 @@ class ProfessionalExp {
         this.tag=tag;
     }
 }
-
-
-
 
 module.exports = {ProfessionalExp,Skill,Formation ,Interest,Language}

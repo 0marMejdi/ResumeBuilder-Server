@@ -1,8 +1,7 @@
 const Project = require("../Models/Project");
-const Info = require("../Models/EnumData");
-const { resolve } = require("mathjs");
+const connection = require("../Models/ResumeBuilderDataBase").getConnection();
 let proj = new Project("And Another One","Marine","1706821332398");
-//let EnumDataController = require("../Controllers/EnumDataController")
+
 proj.id="1706863054682";
 proj.snapshot.projectId="1706863054682";
 

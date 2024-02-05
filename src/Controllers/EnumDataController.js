@@ -22,21 +22,21 @@ function getFinalEntryName(entryName){
     return entryValues[entryName];
 }
 function validateEntryName(entryName){
-    if (entryName===null)
+    if (entryName===undefined)
         throw Error("requires entry name")
     if (Object.getOwnPropertyNames(entryValues).includes(entryName))
         return;
     throw Error("invalid entry name");
 }
 function validateFieldName(entryName, fieldName){
-    if (fieldName===null)
+    if (fieldName===undefined)
         throw Error("requires field name");
     if ( Object.getOwnPropertyNames(getInstanceFromEntry(entryName)).includes(fieldName))
         return true;
     throw Error("invalid field name for "+ entryName);
 }
 function validateTag(projectId, entryName, tag){
-    if (tag===null)
+    if (tag===undefined)
         throw new Error("requires tag");
     if (!tag || tag==="" || tag<0 ){
         if (tag!==0)
@@ -78,8 +78,8 @@ function validateWholeField(projectId, fieldName, fieldValue, entryName, tag){
  * @returns boolean
  */
 function isEnumerable(entryName){
-    return (entryName && entryName !== "" && entryName !== "Snapshot");
+    return (entryName!==undefined && entryName !== "" && entryName !== "Snapshot");
 
 }
 
-module.exports = {getInstanceFromEntry,getFinalEntryName, validateEntryName, validateFieldName, validateTag, validateWholeField, isEnumerable}
+module.exports = {entryValues,getInstanceFromEntry,getFinalEntryName, validateEntryName, validateFieldName, validateTag, validateWholeField, isEnumerable}

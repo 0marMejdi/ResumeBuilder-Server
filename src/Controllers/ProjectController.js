@@ -2,6 +2,7 @@ let Project = require( "../Models/Project");
 let EnumDataController = require("../Controllers/EnumDataController")
 let ProjectRepository = require("../Repositories/ProjectRepository")
 const Snapshot = require("../Models/Snapshot")
+const {entryValues} = require("./EnumDataController");
 
 const newProject = (title,templateName,userId)=>{
     console.log(JSON.stringify(ProjectRepository));
@@ -26,11 +27,8 @@ const getSnapshot = (projectId)=>{
 
 }
 const updateSnapshot = (projectId, snapshot)=>{
-    let filteredSnap = new Snapshot();
-    filteredSnap.projectId=projectId;
-    for (const filteredSnapKey in filteredSnap) {
-        
-    }
+
+
 }
 const updateSnapshotField = (projectId,field)=>{
 

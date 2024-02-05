@@ -3,13 +3,13 @@ async function validator (req,res,next){
     let field={};
     try{
         if (!req.body.hasOwnProperty('tag'))
-            req.body.tag=null;
+            req.body.tag=undefined;
         if (!req.body.hasOwnProperty('fieldName'))
-            req.body.fieldName=null;
+            req.body.fieldName=undefined;
         if (!req.body.hasOwnProperty('fieldValue'))
-            req.body.fieldValue=null;
+            req.body.fieldValue=undefined;
         if (!req.body.hasOwnProperty('entryName'))
-            req.body.entryName=null;
+            req.body.entryName=undefined;
         field = EnumDataController.validateWholeField(req.body.project.id,req.body.fieldName,req.body.fieldValue,req.body.entryName,req.body.tag);
         req.body.field=field;
         next();

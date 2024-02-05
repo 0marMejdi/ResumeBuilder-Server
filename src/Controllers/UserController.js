@@ -14,45 +14,54 @@ const PasswordHash = require('../Library/PasswordHash');
         if (!password){
             throw  new Error("password is required");
         }
-        let user = UserRepository.getUserByEmail(email);
+        let user =await UserRepository.getUserByEmail(email);
 //        console.log(`user password is: ${JSON.stringify(user)}`);
         if (!user) 
             throw new Error("Wrong email");
-        let result = await PasswordHash.comparePasswords(password,user.hashedPassword);
+        let result = await PasswordHash.comparePasswords(password,user.passwordHash);
         if(!result)
             throw new Error("Wrong password");
         return Token.generateToken(user);
     }
     
     const register = async function(userInfo){
-        console.log("attempting to register with ")
-        if (userInfo.email == null || userInfo.email === "")
-            throw new Error("Email is required");
-        if (userInfo.password == null || userInfo.password === "")
-            throw new Error("Password is required");
-        if (userInfo.firstName == null || userInfo.firstName === "")
-            throw new Error("FirstName is required");
-        if (userInfo.lastName == null || userInfo.lastName === "")
-            throw new Error("FirstName is required");
-        if (UserRepository.emailExists(userInfo.email)) {
-            throw new Error("Email Taken");
-        }
+        let token;
 
-        let hashedPassword = await PasswordHash.hashPassword(userInfo.password);
-        let user = new User(userInfo.email, hashedPassword, userInfo.firstName,userInfo.lastName);
-        
-        UserRepository.createUser(user);
-        return await login(userInfo.email, userInfo.password);
+        try{
+            console.log("attempting to register with ")
+            if (userInfo.email == null || userInfo.email === "")
+                throw new Error("Email is required");
+            if (userInfo.password == null || userInfo.password === "")
+                throw new Error("Password is required");
+            if (userInfo.firstName == null || userInfo.firstName === "")
+                throw new Error("FirstName is required");
+            if (userInfo.lastName == null || userInfo.lastName === "")
+                throw new Error("FirstName is required");
+            if (await UserRepository.emailExists(userInfo.email)) {
+                throw new Error("Email Taken");
+            }
+
+            let passwordHash = await PasswordHash.hashPassword(userInfo.password);
+            let user = new User(userInfo.email, passwordHash, userInfo.firstName, userInfo.lastName);
+            user.profilePictureUrl = "/";
+            let res = await UserRepository.createUser(user);
+            console.log("tab3a 2" + res);
+            token = await login(userInfo.email, userInfo.password);
+        }catch(e){
+            console.log("entered in tab3a");
+            throw new Error(e);
+        }
+        return token ;
     }
     const getToken = function(email,password){
         return Token.generateToken(email,password);
     }
-    const getUserById = (id)=>{
-        if (!UserRepository.userExists(id))
+    const getUserById = async (id)=>{
+        if (! await UserRepository.userExists(id))
             throw new Error("User not found");
-        let user = UserRepository.getUserById(id);
+        let user = await UserRepository.getUserById(id);
         for (const userKey in user) {
-            if (userKey==="hashedPassword"){
+            if (userKey==="passwordHash"){
                 delete user[userKey];
                 break;
             }
