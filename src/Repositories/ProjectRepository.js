@@ -111,27 +111,7 @@ async function updateSnapshot(projectId,snapshot){
     let updateSnapQuery = connection.format(`UPDATE snapshot SET ? WHERE projectId=? ;`, [Snapshot.sanitize(snapshot), projectId]);
     return await executeQuery(updateSnapQuery);
 }
-/**
- *
- * @param projectId : string
- * @param entryName : string
- * @param datagroup : Object
- */
-const addDataGroup = (projectId,entryName,datagroup)=> {
-    return new Promise((resolve,reject)=>{
-        connection.query(`INSERT INTO ? SET ?;
-        UPDATE ? SET  projectId=? where id=?;
-        update ? set tag=(select max_tag from(select max(tag) as max_tag from ?) as subquery )+1 where id=? ;`,[entryName,datagroup,entryName,projectId,datagroup.id,entryName,entryName,datagroup.id],(err,result)=>{
-            if(err){
-                reject(err);
-            }
-            else{
-                resolve(result)
-            }
 
-        })
-    })
-}
 async function getNextTag(projectId, entryName){
     let query = connection.format(`SELECT * FROM ?? WHERE projectId = ? `,[entryName,projectId]);
     /**@type Object[]*/
@@ -159,5 +139,34 @@ async function tagExists(projectId,entryName,tag){
         return false;
 }
 
+/**
+ * TODO:datagroup must be sanitized!
+ * @param projectId : string
+ * @param entryName : string
+ * @param datagroup : Object
+ */
+async function addWholeDataGroup (projectId,entryName,datagroup) {
 
-module.exports = {getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,addDataGroup,projectExists,getSimpleProjectById};
+    let query = connection.format(`INSERT INTO ?? SET ?`,[entryName,datagroup]);
+    if (await tagExists(projectId,entryName,datagroup.tag))
+        throw new Error("duplicate tag found!");
+    await executeQuery(query);
+    return datagroup;
+}
+
+/**
+ * TODO: Needs the entryName to be validated first !
+ * @param projectId
+ * @param entryName
+ * @return {Promise<Object>}
+ */
+async function addNewDataGroup(projectId,entryName){
+    let nextTag = await getNextTag(projectId,entryName);
+    let enumerableDataGroup = new Snapshot.enumerableList[entryName]();
+    enumerableDataGroup.tag= nextTag;
+    enumerableDataGroup.projectId = projectId;
+    return await addWholeDataGroup(projectId,entryName,enumerableDataGroup);
+
+}
+
+module.exports = {getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,getSimpleProjectById};
