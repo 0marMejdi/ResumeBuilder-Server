@@ -4,9 +4,9 @@ class User{
     /**@type string */ passwordHash;
     /**@type string */ firstName;
     /**@type string */ lastName;
-    /**@type string */ profilePictureUrl;
+    /**@type string */ imageURL;
     constructor(email, passwordHash, firstName,lastName){
-        this.id = Date.now().toString();
+        this.id=require("uuid").v4().toString();
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -14,21 +14,22 @@ class User{
 
     };
 
-    /**
-     *
-     * @param user : User
-     */
-    static delegate(user){
+    static sanitize(user){
         let delegatedUser = new User();
         if (!user.id)
             throw new Error("invalid user to parse without id");
-        if (!user.firstName || !user.lastName || !user.email || user.passwordHash )
-            throw new Error("invalid user, missing attribute or values");
-        for (const delegatedUserKey in delegatedUser) {
-            delegatedUser[delegatedUserKey] = user[delegatedUserKey];
+        if (!user.firstName || !user.lastName || !user.email || !user.passwordHash ) {
+
+            throw new Error("invalid user, missing attribute or values, your user input: "+ JSON.stringify(user));
+        }
+        for (const key in delegatedUser) {
+            delegatedUser[key] = user[key];
         }
         return delegatedUser;
     }
-        
+    sanitize(){
+        return User.sanitize(this);
+    }
+
 }
 module.exports = User;

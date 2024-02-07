@@ -22,7 +22,6 @@ app.use(badRoute);
 app.listen(PORT, async() => {
     console.log("Connecting to database and checking tables");
     let res = await dbContext.createTables();
-    console.log(res);
-console.log(`Server is running on port ${PORT}.
+    console.log(`Server is running on port ${PORT}.
 http://localhost:${PORT}`);
 });

@@ -14,9 +14,9 @@ async function authorize(req,res,next){
             throw new Error("Bad Authentication : invalid token");
         }
         //cheking if the extracted id and email exist in database
-        if (!UserRepository.userExists(user.id))
+        if (!await UserRepository.userExists(user.id))
             throw new Error("Bad Authentication : This user doesn't exist anymore!");
-        let existingUser = UserRepository.getUserById(user.id);
+        let existingUser = await UserRepository.getUserById(user.id);
         if (existingUser.email!==user.email)
             throw new Error("Bad Authentication : This user doesn't exist anymore!");
         req.body.user= user;

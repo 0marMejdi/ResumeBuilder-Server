@@ -1,90 +1,76 @@
+const {executeQuery} = require("../Models/ResumeBuilderDataBase");
 const connection = require("../Models/ResumeBuilderDataBase").getConnection();
+const User = require("../Models/User")
 
-function getUserById(id) {
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM user WHERE id = ? ;', [id], (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-              if (result.length==0)
-                  reject (new  Error("none is found"));
-            resolve(result);
-          }
-        });
-      });
+/**
+ *
+ * @param id : string
+ * @return {Promise<boolean>}
+ */
+async function userExists(id) {
+    let query = connection.format(`SELECT * FROM user WHERE id = ? ;`,[id]);
+    let result =  await executeQuery(query);
+    return result.length !== 0;
 }
-
-function createUser(user) {
-    return new Promise((resolve,reject)=>{
-        connection.query('INSERT INTO user SET ? ;',user, (err, result) => {
-            console.log("inserting")
-            if (err) {
-                console.log("occured error " + err);
-                reject(new Error(err.message));
-                console.log("its have been rejected");
-            } else {
-                console.log("inserted: " + result);
-                resolve(result);
-            }
-      })
-    });
-
-
-}
-
-
-function updateUser(user) {
-    return new Promise((resolve,reject)=>{
-    connection.query('UPDATE user SET ? WHERE id = ? ;',[user,user.id],(err,result)=>{
-        if (err) {
-            reject(err);
-           } else {
-            resolve(result)
-           }
-        
-    })})
+/**
+ *
+ * @param email : string
+ * @return {Promise<boolean>}
+ */
+async function emailExists(email) {
+    let query = connection.format('SELECT * FROM user WHERE email = ? ;', [email]);
+    let result =  await executeQuery(query);
+    return result.length !== 0;
 }
 
 /**
  *
- * @param email
- * @returns {Promise<User>}
+ * @param id : string
+ * @return {Promise<User>}
  */
-function getUserByEmail(email) {
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM user WHERE email = ? ;', [email], /**@param result : User */(err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            console.log("retrieved " + result);
-              resolve(result);
-          }
-        });
-      });
-}
-function emailExists(email) {
-    return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM user WHERE email = ? ;`, [email], (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log(result.length > 0);
-                resolve(result.length > 0);
-            }
-        });
-    });
+async function getUserById(id) {
+    let query = connection.format('SELECT * FROM user WHERE id = ? ;', [id]);
+    let result =  await executeQuery(query);
+    if (result.length===0)
+        throw new Error("No user found");
+    return result[0];
 }
 
-function userExists(id) {
-    return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM user WHERE id = ? ;`,[id], (err, result) => {
-            if (err) {
-                reject((err));
-            } else {
-                resolve(result.length > 0);
-            }
-        });
-    });
+/**
+ *
+ * @param email : string
+ * @return {Promise<User>}
+ */
+async function getUserByEmail(email) {
+    let query = connection.format('SELECT * FROM user WHERE email = ? ;', [email]);
+    let result =  await executeQuery(query);
+    if (result.length===0)
+        throw new Error("No user found");
+    return result[0];
 }
+
+/**
+ *
+ * @param user : User
+ * @return {Promise<*>}
+ */
+async function createUser(user) {
+    user = User.sanitize(user);
+    let query = connection.format(`INSERT INTO user SET ? ;`,user);
+    return await executeQuery(query) ;
+}
+
+/**
+ *
+ * @param user : User
+ * @return {Promise<*>}
+ */
+
+async function  updateUser(user) {
+    user = User.sanitize(user);
+    let query=  connection.format('UPDATE user SET ? WHERE id = ? ;',[user,user.id]);
+    return await executeQuery(query);
+}
+
 
 module.exports = { getUserById, createUser, updateUser, getUserByEmail, emailExists, userExists };

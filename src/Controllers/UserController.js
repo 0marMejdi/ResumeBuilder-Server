@@ -15,7 +15,7 @@ const PasswordHash = require('../Library/PasswordHash');
             throw  new Error("password is required");
         }
         let user =await UserRepository.getUserByEmail(email);
-//        console.log(`user password is: ${JSON.stringify(user)}`);
+
         if (!user) 
             throw new Error("Wrong email");
         let result = await PasswordHash.comparePasswords(password,user.passwordHash);
@@ -43,12 +43,11 @@ const PasswordHash = require('../Library/PasswordHash');
 
             let passwordHash = await PasswordHash.hashPassword(userInfo.password);
             let user = new User(userInfo.email, passwordHash, userInfo.firstName, userInfo.lastName);
-            user.profilePictureUrl = "/";
-            let res = await UserRepository.createUser(user);
-            console.log("tab3a 2" + res);
+
+            await UserRepository.createUser(user);
             token = await login(userInfo.email, userInfo.password);
         }catch(e){
-            console.log("entered in tab3a");
+
             throw new Error(e);
         }
         return token ;

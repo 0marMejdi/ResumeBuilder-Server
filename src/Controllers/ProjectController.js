@@ -1,26 +1,25 @@
 let Project = require( "../Models/Project");
 let EnumDataController = require("../Controllers/EnumDataController")
 let ProjectRepository = require("../Repositories/ProjectRepository")
-const Snapshot = require("../Models/Snapshot")
-const {entryValues} = require("./EnumDataController");
+let Snapshot = require("../Models/Snapshot")
 
-const newProject = (title,templateName,userId)=>{
-    console.log(JSON.stringify(ProjectRepository));
+
+const newProject =async (title,templateName,userId)=>{
     let project = new Project(title,templateName,userId);
-    ProjectRepository.createProject(project);
+    await ProjectRepository.createProject(project);
 }
-const getSimpleProjectsList = (userId) =>{
-    return ProjectRepository.getSimpleProjectsForUserById(userId);
+const getSimpleProjectsList = async (userId) =>{
+    return await ProjectRepository.getSimpleProjectsForUserById(userId);
 }
-const getSimpleProject = (projectId)=>{
-    return ProjectRepository.getSimpleProjectById(projectId);
+const getSimpleProject =async (projectId)=>{
+    return await ProjectRepository.getSimpleProjectById(projectId);
 }
-const getFullProject= (projectId)=>{
-    return ProjectRepository.getFullProjectById(projectId);
+const getFullProject= async(projectId)=>{
+    return await ProjectRepository.getFullProjectById(projectId);
 }
-const getSnapshot = (projectId)=>{
+const getSnapshot =async (projectId)=>{
     try{
-        return ProjectRepository.getSnapshotOnly(projectId);
+        return await ProjectRepository.getSnapshotOnly(projectId);
     }catch(e){
         throw new Error(e.message);
     }
@@ -30,18 +29,24 @@ const updateSnapshot = (projectId, snapshot)=>{
 
 
 }
-const updateSnapshotField = (projectId,field)=>{
+const updateSnapshotField =async (projectId,field)=>{
+    EnumDataController.validateFieldName(field.entryName, field.fieldName);
+    EnumDataController.validateTag(field.tag);
+    if(EnumDataController.isEnumerable(field.entryName)){
+        let snap  = await ProjectRepository.getSnapshotOnly(projectId);
+        let arrayOfDataGroup = snap[field.entryName].find(datagroup => datagroup.tag===field.tag);
+        if (arrayOfDataGroup.length===0)
+            throw new Error('this tag is not found');
 
-    if( field.isEnumerable){
-        ProjectRepository.updateSnapshotFieldForEnumerable(projectId,field.fieldName,field.fieldValue,field.entryName,field.tag);
+        await ProjectRepository.updateSnapshotFieldForEnumerable(projectId,field.fieldName,field.fieldValue,field.entryName,field.tag);
     }else{
-        ProjectRepository.updateSnapshotField(projectId,field.fieldName,field.fieldValue);
+        await ProjectRepository.updateSnapshotField(projectId,field.fieldName,field.fieldValue);
     }
 }
 
-const addDataGroup =(projectId,entryName)=>{
+const addDataGroup =async(projectId,entryName)=>{
     EnumDataController.validateEntryName(entryName);
-    ProjectRepository.addDataGroup(projectId,EnumDataController.getFinalEntryName(entryName),EnumDataController.getInstanceFromEntry(entryName));
+    await ProjectRepository.addDataGroup(projectId,EnumDataController.getFinalEntryName(entryName),EnumDataController.getInstanceFromEntry(entryName));
 }
 
 

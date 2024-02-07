@@ -1,17 +1,11 @@
 const mysql=require('mysql2');
 const {create} = require("html-pdf");
+const config = require ("dotenv").config();
 const connection = mysql.createConnection({
     host:process.env.DATABASE_HOST,
     user:process.env.DATABASE_USERNAME,
     password:process.env.DATABASE_PASSWORD,
 });
-
-
-
-
-
-
-
 
 // Function to execute a single query and return a promise
 function executeQuery(query) {
@@ -54,15 +48,15 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS Project (
         id varchar(40) PRIMARY KEY NOT NULL,
         title VARCHAR(255) NOT NULL,
-        creationDate date,
+        creationDate date,      
         templateName VARCHAR(255),
         userId varchar(40),
         FOREIGN KEY (userId) REFERENCES User(id)
     );`,
     `CREATE TABLE IF NOT EXISTS Snapshot (
-        id varchar(40) PRIMARY KEY,
+        id varchar(40) PRIMARY KEY NOT NULL,
         aboutMe text,
-        address varchar(50),
+        address varchar(50) ,
         city varchar(30),
         email varchar(30),
         firstName varchar(20),
@@ -71,7 +65,7 @@ const createTableQueries = [
         phoneNumber varchar(30),
         postalCode varchar(10),
         profileTitle varchar(50),
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
     `CREATE TABLE IF NOT EXISTS Language (
@@ -129,4 +123,4 @@ const createTableQueries = [
 function  createTables(){
     return executeQueriesSequentially(createTableQueries);
 }
-module.exports = {getConnection:() => connection , createTables};
+module.exports = {executeQuery, getConnection:() => connection , createTables};
