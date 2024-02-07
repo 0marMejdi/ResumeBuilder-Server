@@ -5,6 +5,7 @@ let templateRouter = require("./Routes/TemplateRoutes");
 let projectRouter = require("./Routes/ProjectRoutes");
 let userRouter=require("./Routes/UserRouters")
 let badRoute = require("./Middlewares/PageNotFound")
+let logger = require("./Middlewares/Logger");
 let cors = require("cors")
 let app = express();
 const dbContext = require("./Models/ResumeBuilderDataBase");
@@ -14,6 +15,7 @@ app.use(express.json());
 
 const PORT = 8000;
 app.use(cors());
+app.use(logger);
 app.use(templateRouter);
 app.use(authenticationRouter);
 app.use(userRouter);
