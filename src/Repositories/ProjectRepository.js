@@ -17,9 +17,12 @@ async function projectExists(projectId) {
  * @returns {Promise<unknown>}
  */
 async function createProject (project){
-    project = Project.sanitize(project);
-    let query  = connection.format('INSERT INTO project SET ? ;',project);
-    return await executeQuery(query);
+
+    let query  = connection.format('INSERT INTO project SET ? ;',Project.sanitize(project));
+    let snapQuery = connection.format('INSERT INTO SNAPSHOT SET ?;',Snapshot.sanitize(project.snapshot));
+    await executeQuery(query);
+    await executeQuery(snapQuery);
+    return Project.sanitize(project);
 
 }
 /**@param userId : string
@@ -28,7 +31,7 @@ async function createProject (project){
 async function getSimpleProjectsForUserById (userId){
     let query = connection.format('SELECT * FROM project WHERE userId = ? ;', [userId]);
     // it's okay if he doesn't have any project, no exception needed
-    return await executeQuery(query);
+    return (await executeQuery(query));
 }
 
 /**
@@ -50,23 +53,31 @@ async function  getSimpleProjectById(projectId){
  */
 async function  getFullProjectById(projectId){
     let projectQuery = connection.format(`SELECT * FROM Project WHERE id = ?`,[projectId]);
-    let snapshotQuery = connection.format(`SELECT * FROM Snapshot WHERE projectId = ?`, [projectId] );
 
-    /**@type Project*/
+
+    /**@type Project[]*/
     let project = await executeQuery(projectQuery);
-    project.snapshot = await getSnapshotOnly(projectId);
-    return project;
+    if (project.length===0)
+        throw new Error("Project Not Found!")
+    let snapshot = await getSnapshotOnly(projectId);
+    project[0].snapshot = snapshot;
+    return project[0];
 }
 async function getSnapshotOnly(projectId){
     let snapshotQuery = connection.format(`SELECT * FROM Snapshot WHERE projectId = ?`, [projectId] );
+    let resalta = await executeQuery(snapshotQuery);
     /**@type Snapshot*/
-    let snapshot = await executeQuery(snapshotQuery);
+    let snapshot = resalta[0];
+    if (resalta.length===0){
+        throw new Error("Snapshot not found for this project");
+    }
     for (const enumClassName in Snapshot.enumerableList) {
         snapshot[enumClassName] = [];
         let enumQuery = connection.format(`SELECT * FROM ${connection.escapeId(enumClassName)} WHERE projectId = ?`,[projectId]);
         let enumDataGroupList = await executeQuery(enumQuery);
-        if (enumDataGroupList.length>0)
-            snapshot[enumClassName]  = enumDataGroupList;
+        if (enumDataGroupList.length>0) {
+            snapshot[enumClassName] = enumDataGroupList;
+        }
     }
     return snapshot;
 }
@@ -169,4 +180,4 @@ async function addNewDataGroup(projectId,entryName){
 
 }
 
-module.exports = {getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,getSimpleProjectById};
+module.exports = {tagExists,getNextTag,addNewDataGroup, getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,getSimpleProjectById};

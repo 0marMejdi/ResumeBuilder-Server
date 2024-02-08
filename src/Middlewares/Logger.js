@@ -1,6 +1,6 @@
 let express = require("express");
 let router = express.Router();
-let dateNow = require("../Library/stringDate")
+let dateNow = require("../Library/stringDate").getCurrentDateTimeString;
 router.use((req, res, next) => {
     console.log("\n\n\n");
     console.log(dateNow());

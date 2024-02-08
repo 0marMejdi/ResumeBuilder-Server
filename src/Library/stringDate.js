@@ -10,5 +10,10 @@ function getCurrentDateTimeString() {
 
     return `${year}-${month}-${day} ${hours}-${minutes}-${seconds}`;
 }
+function getCurrentTimeStamp(){
+    let currentDate = new Date();
+    return currentDate.getTime();
+}
 
-module.exports=getCurrentDateTimeString;
+
+module.exports= {getCurrentDateTimeString,getCurrentTimeStamp};

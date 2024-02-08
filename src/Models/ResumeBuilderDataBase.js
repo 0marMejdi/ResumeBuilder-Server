@@ -48,7 +48,7 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS Project (
         id varchar(40) PRIMARY KEY NOT NULL,
         title VARCHAR(255) NOT NULL,
-        creationDate date,      
+        creationDate BIGINT,      
         templateName VARCHAR(255),
         userId varchar(40),
         FOREIGN KEY (userId) REFERENCES User(id)
@@ -73,7 +73,7 @@ const createTableQueries = [
         name varchar(30),
         level varchar(10),
         tag int,
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
     `CREATE TABLE IF NOT EXISTS Skill (
@@ -81,7 +81,7 @@ const createTableQueries = [
         name VARCHAR(100),
         level VARCHAR(50),
         tag int,
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
     `CREATE TABLE IF NOT EXISTS ProfessionalExp (
@@ -95,7 +95,7 @@ const createTableQueries = [
         startingMonth int,
         startingYear int,
         tag int,
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
     `CREATE TABLE IF NOT EXISTS formation (
@@ -109,18 +109,19 @@ const createTableQueries = [
         startingYear int,
         tag int,
         title varchar(100),
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
     `CREATE TABLE IF NOT EXISTS interest (
         id varchar(40) PRIMARY KEY,
         name varchar(30),
         tag int,
-        projectId varchar(30),
+        projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`
 ];
 function  createTables(){
     return executeQueriesSequentially(createTableQueries);
 }
+
 module.exports = {executeQuery, getConnection:() => connection , createTables};

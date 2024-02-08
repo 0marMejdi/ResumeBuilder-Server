@@ -6,9 +6,9 @@ const authorize = require("../Middlewares/Authorize");
 const injectProject = require("../Middlewares/injectProject");
 
 let router = express.Router();
-router.get("/project/list",authorize, (req,res)=>{
+router.get("/project/list",authorize, async (req,res)=>{
     try{
-        let projs = ProjectController.getSimpleProjectsList(req.body.user.id);
+        let projs = await ProjectController.getSimpleProjectsList(req.body.user.id);
         res.status(200).json(projs);
     }catch (e) {
         res.status(401).json({message:e.message});
@@ -16,8 +16,8 @@ router.get("/project/list",authorize, (req,res)=>{
 });
 router.post("/project/new",authorize,async(req,res)=>{
     try{
-        await ProjectController.newProject(req.body.title,req.body.templateName,req.body.user.id)
-        res.status(200).json({message:"project has been added successfully"});
+        let project = await ProjectController.newProject(req.body.title,req.body.templateName,req.body.user.id)
+        res.status(200).json({message:"project has been added successfully",project});
     }catch (e) {
         res.status(401).json({message:e.message});
     }
@@ -25,6 +25,7 @@ router.post("/project/new",authorize,async(req,res)=>{
 router.get("/project/info/:projectId",authorize,injectProject,async(req,res)=>{
     try{
         let project = await ProjectRepository.getFullProjectById(req.params.projectId);
+        delete project.userId;
         res.status(200).json(project);
     }catch (e) {
         res.status(401).json({message:e.message});
@@ -35,7 +36,7 @@ router.get("/project/info/:projectId",authorize,injectProject,async(req,res)=>{
 router.patch("/project/info",authorize,injectProject,async(req,res)=>{
     try{
         await ProjectController.updateSnapshotField(req.body.project.id, {fieldValue:req.body.fieldValue,fieldName:req.body.fieldName , entryName:req.body.entryName,tag: req.body.tag});
-        res.status(200).json({message:"updated successfully",projectId:req.body.project.id ,project: ProjectController.getFullProject(req.body.project.id)});
+        res.status(200).json({message:"updated successfully",projectId:req.body.project.id ,project:await ProjectController.getFullProject(req.body.project.id)});
     }catch (e) {
         res.status(401).json({message:e.message, stack:e.stack});
     }

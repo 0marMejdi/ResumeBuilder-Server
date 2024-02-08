@@ -15,9 +15,12 @@ function validateFieldName(entryName, fieldName){
         return;
     }
     if (entryName && Info.hasOwnProperty(entryName)){
-        if ((new Info[entryName]()).hasOwnProperty(fieldName))
-            return;
-        throw new Error(`${entryName} doesn't have a field called ${fieldName}`)
+        if (!(new Info[entryName]()).hasOwnProperty(fieldName))
+            throw new Error(`${entryName} doesn't have a field called ${fieldName}`)
+        if (['id','projectId','userId','creationDate'].includes(fieldName)){
+            throw  new Error(`Forbidden! cannot set ${fieldName} attribute`)
+        }
+        return;
     }
     throw new Error(`there is no entry name of ${entryName}`);
 }

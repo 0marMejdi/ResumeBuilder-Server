@@ -13,7 +13,7 @@ class Project {
         this.userId = userId;
         this.templateName = templateName;
         this.title = title;
-        this.creationDate = Date.now();
+        this.creationDate = (new Date()).getTime();
         this.snapshot = new Snapshot(this.id);
         this.snapshot.projectId = this.id;
     }
