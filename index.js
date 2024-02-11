@@ -198,8 +198,58 @@ new APIEndpoint()
     )
     .outObj({ "message": "Updated successfully" })
     .add();
+apisProject = [...apis];
+apis=[];
+new APIEndpoint()
+    .method('post')
+    .url("/login")
+    .urlDesc("Allows users to enter their credentials in order to login")
+    .add();
+new APIEndpoint()
+    .method('post')
+    .url("/register")
+    .urlDesc("Allows visitors to create a new account, once entered all necessary information")
+    .add();
+new APIEndpoint()
+    .method('get')
+    .url("/profile/info")
+    .urlDesc("Gets All the personal information of the current user")
+    .add();
+apisUser = [...apis];
+apis=[];
+// Templates Project
+new APIEndpoint()
+    .method('get')
+    .url("/template/names")
+    .urlDesc("gets all the available template names")
+    .add();
+new APIEndpoint()
+    .method('get')
+    .url("/template/html/{templateName}")
+    .urlDesc("returns the HTML format of a template which name is given in parameter, useful for manipulation with DOM and inserting fields")
+    .add();
 
-//APIEndpoint.renderAll();
+new APIEndpoint()
+    .method('get')
+    .url("/template/pdf/{templateName}")
+    .urlDesc("returns the PDF format of a template which name is given in parameter, useful for downloading the template itself")
+    .add();
+
+new APIEndpoint()
+    .method('get')
+    .url("/template/thumb/{templateName}")
+    .urlDesc("returns the PNG format of a template which name is given in parameter, useful for listing a templates")
+    .add();
+
+new APIEndpoint()
+    .method('get')
+    .url("/template/html")
+    .urlDesc("returns them all html contents of templates in one json object containing array")
+    .add();
+
+
+apisTemplate=[...apis];
+apis=[]
 function getId(index){
     return apis[index]._url.split("/").join('-')+index.toString();
 }
@@ -379,7 +429,11 @@ function insertAll(elemId){
     })
 }
 function insertAllDomains(){
-    
+    apis = [...apisProject];
     insertAll('api-container-project');
+    apis = [...apisUser];
+    insertAll('api-container-user');
+    apis = [...apisTemplate]
+    insertAll('api-container-template')
 }
 insertAllDomains();
