@@ -2,6 +2,10 @@
 The server side for Resume Builder App. Offering APIs to be consummed for both mobile and web as front sides.
 
 ### API endpoints:
+visit this link for further details on how to use the endpoints: 
+
+https://0marmejdi.github.io/ResumeBuilder-Server/
+
 ◘ `POST /login` : logs in for un-connected users. must include `{email,password}` in body of the request. and will return a token for authorization if credentials are correct with a message of success under this form `{
 "Authorization" : "Bearer eyJhbGci..."}` otherwise an error `{"message":error}`. The token should be saved to attach them to requests that require authorization.
 
