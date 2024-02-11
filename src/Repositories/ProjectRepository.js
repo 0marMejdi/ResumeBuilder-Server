@@ -157,7 +157,6 @@ async function tagExists(projectId,entryName,tag){
  * @param datagroup : Object
  */
 async function addWholeDataGroup (projectId,entryName,datagroup) {
-
     let query = connection.format(`INSERT INTO ?? SET ?`,[entryName,datagroup]);
     if (await tagExists(projectId,entryName,datagroup.tag))
         throw new Error("duplicate tag found!");

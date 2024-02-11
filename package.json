@@ -14,6 +14,7 @@
     "nodemon": "^3.0.3",
     "pdf-to-png-converter": "^3.1.0",
     "pdfkit": "^0.14.0",
+    "prismjs": "^1.29.0",
     "puppeteer": "^21.7.0",
     "uuid": "^9.0.1"
   },

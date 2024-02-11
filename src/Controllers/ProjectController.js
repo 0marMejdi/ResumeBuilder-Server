@@ -26,7 +26,10 @@ const getSnapshot =async (projectId)=>{
     }
 
 }
-const updateSnapshot = (projectId, snapshot)=>{
+const updateSnapshot = async(projectId, snapshot)=>{
+
+    snapshot = Snapshot.fullSanitize(snapshot);
+    await ProjectRepository.updateSnapshot(projectId, snapshot);
 
 
 }

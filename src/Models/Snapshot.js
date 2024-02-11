@@ -90,7 +90,9 @@ class Snapshot extends enumerableList  {
             }
             let sanitizeFunction = (new Snapshot.enumerableList[enumerableElClass]()).sanitize;
             for (const index in snapshot[enumerableElClass]) {
+                /*-------- project id injection ! ----------*/
                 snapshot[enumerableElClass][index].projectId=snapshot.projectId;
+                /*-------------------------------------------*/
                 if (!snapshot[enumerableElClass][index].id)
                     snapshot[enumerableElClass][index].id=guid.v4().toString();
                 let sanitizedElement = sanitizeFunction(snapshot[enumerableElClass][index]);
