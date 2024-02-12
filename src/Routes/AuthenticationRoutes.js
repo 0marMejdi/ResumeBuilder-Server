@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
         console.log(JSON.stringify(req.body));
         let token = await UserController.login(req.body.email, req.body.password);
         console.log("login success")
-        res.status(200).json({Authorization: token});
+        res.status(200).json({message:"logged in successfully",Authorization: token});
         
     }
     catch(err){

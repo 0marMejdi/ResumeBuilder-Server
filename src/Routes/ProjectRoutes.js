@@ -46,7 +46,7 @@ router.patch("/project/info",authorize,injectProject,async(req,res)=>{
 router.put("/project/info",authorize,injectProject,async(req,res)=>{
     try{
         await ProjectController.updateSnapshot(req.body.projectId,req.body.snapshot);
-        res.status(200).json(await ProjectController.getFullProject(req.body.project.id));
+        res.status(200).json({message:"updated successfully", project: await ProjectController.getFullProject(req.body.project.id)});
 
     }catch (e) {
         res.status(401).json({message:e.message});
