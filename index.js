@@ -600,10 +600,10 @@ function formatEndPoint(api){
 function getCard(api){
     let color =methods[api._method];
     return `
-    <div class="container mt-4"> 
+    <div class="container mt-4 custom-padding"> 
         <div class="card">
             <div class="card-header p-1 d-flex flex-wrap justify-content-between">
-                <div class="btn btn-${color} disabled align-self-start">POST</div>
+                <div class="btn btn-${color} disabled align-self-start">${api._method.toUpperCase()}</div>
                 <span class="mx-3 align-self-start">${formatEndPoint(api)}</span>
                 <div class="btn btn-dark ml-auto collapsed " 
                     type="button" data-bs-toggle="collapse" data-bs-target="#${getIdFrom(api)}" 

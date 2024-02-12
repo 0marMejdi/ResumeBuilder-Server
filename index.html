@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Api Documentation - Resume Builder Server</title>
     <style>
+        /* Custom CSS */
+        @media (max-width: 475px) {
+            .custom-padding {
+                padding: 0 !important;
+            }
+            .custom-margin {
+                margin: 0 !important;
+            }
+        }
         /* Dark theme styles */
         .response {
         background-color: #27ae60;
@@ -45,15 +54,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
-<div class="container col-lg-8">
-    <div class="p-2 pt-4 card mt-3" style="background-color: darkslategray; color:white">
+<div class="container col-lg-8 custom-padding custom-margin">
+    <div class="p-2 pt-4 card mt-3 custom-padding custom-margin" style="background-color: darkslategray; color:white">
         <h1>API Documentation</h1>
         <p>Here you can find the documentation for the Resume Builder Server API</p>
     </div>
-    <div id="api-container-user" class="container  card my-3 py-2">
+    <div id="api-container-user" class="container custom-padding custom-margin card my-3 py-2">
         <h3>User Connection Endpoints</h3>
     </div>
-    <div id="api-container-project" style="" class="container card my-3 py-2">
+    <div id="api-container-project" style="" class="container custom-padding custom-margin card my-3 py-2">
         <h3>Projects Management Endpoints</h3>
         <hr>
         <h5 >Projects Management</h5>
@@ -70,7 +79,7 @@
         <div id="convertProj"></div>
         
     </div>
-    <div id="api-container-template" class="container  card my-3 py-2">
+    <div id="api-container-template" class="container custom-padding custom-margin card my-3 py-2">
         <h3>Templates Retrieving Endpoints</h3>
     </div>
 </div>
