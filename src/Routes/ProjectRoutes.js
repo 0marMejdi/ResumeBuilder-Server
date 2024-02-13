@@ -49,7 +49,7 @@ router.put("/project/info",authorize,injectProject,async(req,res)=>{
         res.status(200).json({message:"updated successfully", project: await ProjectController.getFullProject(req.body.project.id)});
 
     }catch (e) {
-        res.status(401).json({message:e.message});
+        res.status(401).json({message:e.message, stack:e.stack});
     }
 
 });
@@ -58,8 +58,8 @@ router.post("/project/info",authorize,injectProject,async (req,res)=>{
     try{
         if(!req.body.hasOwnProperty("entryName"))
             throw new Error("entryName is required");
-        await ProjectController.addDataGroup(req.body.project.id,req.body.entryName);
-        res.status(200).json(await ProjectController.getFullProject(req.body.project.id));
+        let newTag= await ProjectController.addDataGroup(req.body.project.id,req.body.entryName);
+        res.status(200).json({tag: newTag,project: await ProjectController.getFullProject(req.body.project.id)});
     }catch (e) {
         res.status(401).json({message:e.message});
     }

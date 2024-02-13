@@ -23,9 +23,7 @@ route.get("/template/html",async(req,res)=>{
 });
 route.get("/template/thumb/:name",async(req,res)=>{
     try {
-         console.log("sending the pic");
         const thumb = await TemplateController.getTemplateThumb(req.params.name);
-         console.log("pic sent");
         res.setHeader('Content-Type', 'image/png');
         res.status(200).send(thumb);
     }catch (e) {

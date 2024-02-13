@@ -1,6 +1,5 @@
 const Snapshot = require("../Models/Snapshot");
-const ProjectRepository = require("../Repositories/ProjectRepository");
-const Info = require("../Models/EnumData")
+const Info = require("../Models/DataGroupClassList")
 
 
 /**
@@ -29,20 +28,6 @@ function validateEntryNameOnly(entryName){
     if (!Info.hasOwnProperty(entryName))
         throw  new Error(`there is no entry name of ${entryName}`);
 }
-function validateTag(tag){
-    if (tag===undefined)
-        throw new Error("requires tag");
-    if (!tag || tag==="" || tag<0 ){
-        if (tag!==0)
-            throw new Error ("invalid tag value");
-    }
-    if (typeof tag !== 'number'){
-        console.log("tag must be number");
-        throw new Error ("tag must be number");
-    }
-    console.log("succeed tag valid");
-
-}
 
 /**
  *
@@ -54,4 +39,4 @@ function isEnumerable(entryName){
 
 }
 
-module.exports = { validateEntryNameOnly, validateFieldName, validateTag, isEnumerable}
+module.exports = { validateEntryNameOnly, validateFieldName, isEnumerable}

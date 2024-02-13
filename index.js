@@ -437,7 +437,7 @@ new APIEndpoint()
     })
     .outDesc("The response is the same as for login. As a return you get a message indicating the success of the operation or no... and, in case of success, the authorization token (Bearer Token) to use for further requests.")
     .outObj({
-        "message":"User created successfully",
+        "message":"user created successfully",
         "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwNjgyMTMzMjM5OCwiaWF0IjoxNjMzNzYwNzIzfQ.7"
     })
     .add();
@@ -447,7 +447,7 @@ new APIEndpoint()
     .urlDesc("Gets All the personal information of the current user")
     .outDesc("The response is a JSON object containing all the personal information of the user in details (except the password of course xD).")
     .outObj({
-        "id": "1706821332398",
+        "id": "7d5a0045-e703-4a3d-b801-45ce6ee21e51",
         "email": "email.example@gmail.com",
         "firstName": "Code",
         "lastName": "Craft"

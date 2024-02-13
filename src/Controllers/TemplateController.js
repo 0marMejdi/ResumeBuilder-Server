@@ -25,7 +25,7 @@ const getTemplatePdf = async (name)=>{
  * @param name : string
  * @returns {Promise<Buffer>}
  */
-const getTemplateThumb= async (name)=>  await fs.readFile(`${__dirname}/../../assets/templates/thumbs/${name}.png`);
+const getTemplateThumb= async (name)=>  await fs.readFile(`${__dirname}/../../assets/thumbs/templates/${name}.png`);
 
 const getTemplateThumbDynamic = async(name)=>{
     const Thumb = require(__dirname+"/../Models/PdfToPng");

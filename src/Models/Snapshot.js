@@ -1,4 +1,4 @@
-const EnumeData  = require("../Models/EnumData");
+const EnumeData  = require("./DataGroupClassList");
 const guid = require("uuid");
 class enumerableList  {
     Interest =  EnumeData.Interest;
@@ -37,15 +37,20 @@ class Snapshot extends enumerableList  {
         }
 
     }
-    sanitize = ()=>{
-      return Snapshot.sanitize(this);
-    }
+
     /**
-     *
-     * @param snapshot : Snapshot
+     * general Sanitization to Snapshot.
+     * * check for the existence of the required attributes (such as id, and project id), if they are valid or no.
+     * * and also keeps the true attributes of real Snapshot objects (avoid injecting unwanted attributes)
+     * @param snapshot
+     * @return {Snapshot}
+     * @private
      */
-    static sanitize = (snapshot)=>{
+    static __preSanitization(snapshot){
         let sanitized = new Snapshot();
+        if (!snapshot){
+            throw new Error("invalid snapshot object! you cannot sanitize NULL !! ");
+        }
         if (!snapshot.id)
             throw new Error("invalid id! requires id for sanitizing snapshot");
         if (!snapshot.projectId)
@@ -53,54 +58,76 @@ class Snapshot extends enumerableList  {
         for (const key in sanitized) {
             sanitized[key]=snapshot[key];
         }
+        return sanitized;
+    }
+
+    /**
+     * keeps the version that going to be directly inserted in database. it does:
+     *
+     * * check for the existence of the required attributes (such as id, and project id), if they are valid or no.
+     * * and also keeps the true attributes of real Snapshot objects (avoid injecting unwanted attributes)
+     * * deletes all enumerable data ! keeping only primitive data
+     * @param snapshot : Snapshot
+     */
+    static sanitize  (snapshot){
+        let sanitized = Snapshot.__preSanitization(snapshot);
         for (const key in Snapshot.enumerableList) {
             delete sanitized[key];
         }
-        delete sanitized.sanitize;
         return sanitized;
-
     }
 
     /**
+     * keeps the version that going to be used for full update, including enumerable data. but should be done manually for each. it does:
      *
-     * @param snapshot
+     * * check for the existence of the required attributes (such as id, and project id), if they are valid or no.
+     * * id injection for project id in every enumerable data element
+     * * id injection for each enumerable data id itself ( creation at time )
+     * * keeps the true attributes of real Snapshot objects (avoid injecting unwanted attributes)
+     * * keeps the true attribute of every Enumerable Element
+     * @param snapshot : Snapshot
      */
     static fullSanitize(snapshot){
-        if (!snapshot)
-            throw new Error("invalid snapshot object! requires Snapshot Object for sanitizing");
-        let sanitized = new Snapshot();
-        if (!snapshot.id)
-            throw new Error("invalid id! requires id for sanitizing snapshot");
-        if (!snapshot.projectId)
-            throw new Error("invalid projectId! requires projectID for sanitizing snapshot");
-        for (const key in sanitized) {
-            sanitized[key]=snapshot[key];
-        }
-        let classList = Snapshot.enumerableList
+        // usual checks and big snapshot sanitization
+        let sanitized = Snapshot.__preSanitization(snapshot);
 
-        for (const enumerableElClass in classList){
-            /**@type Skill */
-            let enumerableElement = new Snapshot.enumerableList[enumerableElClass]();
+        // cleaning every enumerable element is all down :D
+
+        // first we loop for each Class of Enumerable separately
+        for (const enumerableElClass in Snapshot.enumerableList){
+            // adding the empty arrays for each Class of Enumerable to our final object to return
+            // it is going to be kept empty if there is nothing in our object, otherwise we are going to keep pushing
             sanitized[enumerableElClass]=[];
-
+            // checking if the content is not null, otherwise it is empty, and we go to next class
             if (!snapshot[enumerableElClass])
                 continue;
-            if ( !Array.isArray(snapshot[enumerableElClass])){
-                throw new Error("not valid arrays");
-            }
+            // checking if our enumerable element is a valid array. otherwise our object
+            // TODO: soft or hard approach? throwing error on first problem? or ignoring it?
+            if ( !Array.isArray(snapshot[enumerableElClass]))
+                // throw new Error("not valid arrays");    // hard approach
+                continue ;                           // soft approach
+
+            // now our object is valid array. now we start cleaning each element for that array
+
+            // getting sanitization function for that specific enumerable Element Type!
             let sanitizeFunction = (new Snapshot.enumerableList[enumerableElClass]()).sanitize;
+
+            // for each inside element, we are going to apply that function
             for (const index in snapshot[enumerableElClass]) {
                 /*-------- project id injection ! ----------*/
                 snapshot[enumerableElClass][index].projectId=snapshot.projectId;
                 /*-------------------------------------------*/
-                if (!snapshot[enumerableElClass][index].id)
-                    snapshot[enumerableElClass][index].id=guid.v4().toString();
-                let sanitizedElement = sanitizeFunction(snapshot[enumerableElClass][index]);
-                sanitized[enumerableElClass].push(sanitizedElement);
 
+                /*-------- enumerable id injection! --------*/
+                snapshot[enumerableElClass][index].id=guid.v4().toString();
+                /*------------------------------------------*/
+
+                // applying sanitization to that element !
+                let sanitizedElement = sanitizeFunction(snapshot[enumerableElClass][index]);
+                // pushing the sanitized element to our clean list
+                sanitized[enumerableElClass].push(sanitizedElement);
             }
         }
-        delete sanitized.sanitize;
         return sanitized;
     }
 

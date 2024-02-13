@@ -1,3 +1,5 @@
+
+
 const Project = require("../Models/Project");
 const Snapshot = require("../Models/Snapshot");
 const connection = require("../Models/ResumeBuilderDataBase").getConnection();
@@ -98,31 +100,18 @@ async function updateSnapshotField (projectId,fieldName,fieldValue){
     let query = connection.format(`UPDATE snapshot SET ${connection.escapeId(fieldName)} = ? WHERE projectId=?`,[fieldValue,projectId]);
     return await executeQuery(query);
 }
-/**
- *
- * @param projectId :string
- * @param snapshot :Snapshot
- */
-async function updateSnapshot(projectId,snapshot){
-    // before we start, we sanitize the snapshot from any suspicious stuff.
-    snapshot = Snapshot.fullSanitize(snapshot);
-    // now for each enumerable data group:
-    for (const key in Snapshot.enumerableList) {
-        // first, we delete all enumerable data to let us replace them by newer ones.
-        let deleteAllEnum = connection.format(`DELETE FROM ${connection.escapeId(key)} WHERE projectId= ?`, [snapshot.projectId]);
-        await executeQuery(deleteAllEnum);
-        // now for each enumerable data group, we insert them one by one in their appropriate table
-        for (const index in snapshot[key]) {
-            let enumData = snapshot[key][index];
-            let insertEnum = connection.format(`INSERT INTO ${connection.escapeId(key)} SET ?`, enumData);
-            await executeQuery(insertEnum);
-        }
-    }
-    // now we update the big Snapshot object regardless their enumerable data.
-    let updateSnapQuery = connection.format(`UPDATE snapshot SET ? WHERE projectId=? ;`, [Snapshot.sanitize(snapshot), projectId]);
+async function deleteEnumerableForProject(projectId,entryName) {
+    let deleteAllEnum = connection.format(`DELETE FROM ${connection.escapeId(entryName)} WHERE projectId= ?`, [projectId]);
+    return await executeQuery(deleteAllEnum);
+}
+async function insertNewEnumerable(entryName, enumData) {
+     let insertEnum = connection.format(`INSERT INTO ${connection.escapeId(entryName)} SET ?`, enumData);
+     return await executeQuery(insertEnum);
+}
+async function updateSnapshotForProject(projectId, snapshot) {
+    let updateSnapQuery = connection.format(`UPDATE snapshot SET ? WHERE projectId=? ;`, [snapshot, projectId]);
     return await executeQuery(updateSnapQuery);
 }
-
 async function getNextTag(projectId, entryName){
     let query = connection.format(`SELECT * FROM ?? WHERE projectId = ? `,[entryName,projectId]);
     /**@type Object[]*/
@@ -170,13 +159,9 @@ async function addWholeDataGroup (projectId,entryName,datagroup) {
  * @param entryName
  * @return {Promise<Object>}
  */
-async function addNewDataGroup(projectId,entryName){
-    let nextTag = await getNextTag(projectId,entryName);
-    let enumerableDataGroup = new Snapshot.enumerableList[entryName]();
-    enumerableDataGroup.tag= nextTag;
-    enumerableDataGroup.projectId = projectId;
-    return await addWholeDataGroup(projectId,entryName,enumerableDataGroup);
 
-}
 
-module.exports = {tagExists,getNextTag,addNewDataGroup, getSnapshotOnly,updateSnapshot,updateSnapshotField,updateSnapshotFieldForEnumerable,getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,getSimpleProjectById};
+module.exports = {tagExists,getNextTag, addWholeDataGroup, getSnapshotOnly
+    ,updateSnapshotField,updateSnapshotFieldForEnumerable,
+    getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,
+    getSimpleProjectById,deleteEnumerableForProject,insertNewEnumerable,updateSnapshotForProject};

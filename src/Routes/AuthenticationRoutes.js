@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
         console.log(JSON.stringify(req.body));
         let token = await UserController.register(req.body);
         console.log("register success")
-        res.status(200).json({message: "User created successfully",Authorization: token});
+        res.status(200).json({message: "user created successfully",Authorization: token});
     }
     catch(err){
         console.log(err.message)
