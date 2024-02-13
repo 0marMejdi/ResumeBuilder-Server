@@ -26,30 +26,22 @@ const PasswordHash = require('../Library/PasswordHash');
     
     const register = async function(userInfo){
         let token;
-
-        try{
-            console.log("attempting to register with ")
-            if (userInfo.email == null || userInfo.email === "")
-                throw new Error("Email is required");
-            if (userInfo.password == null || userInfo.password === "")
-                throw new Error("Password is required");
-            if (userInfo.firstName == null || userInfo.firstName === "")
-                throw new Error("FirstName is required");
-            if (userInfo.lastName == null || userInfo.lastName === "")
-                throw new Error("FirstName is required");
-            if (await UserRepository.emailExists(userInfo.email)) {
-                throw new Error("Email Taken");
-            }
-
-            let passwordHash = await PasswordHash.hashPassword(userInfo.password);
-            let user = new User(userInfo.email, passwordHash, userInfo.firstName, userInfo.lastName);
-
-            await UserRepository.createUser(user);
-            token = await login(userInfo.email, userInfo.password);
-        }catch(e){
-
-            throw new Error(e);
+        console.log("attempting to register with ")
+        if (userInfo.email == null || userInfo.email === "")
+            throw new Error("Email is required");
+        if (userInfo.password == null || userInfo.password === "")
+            throw new Error("Password is required");
+        if (userInfo.firstName == null || userInfo.firstName === "")
+            throw new Error("FirstName is required");
+        if (userInfo.lastName == null || userInfo.lastName === "")
+            throw new Error("FirstName is required");
+        if (await UserRepository.emailExists(userInfo.email)) {
+            throw new Error("Email Taken");
         }
+        let passwordHash = await PasswordHash.hashPassword(userInfo.password);
+        let user = new User(userInfo.email, passwordHash, userInfo.firstName, userInfo.lastName);
+        await UserRepository.createUser(user);
+        token = await login(userInfo.email, userInfo.password);
         return token ;
     }
     const getToken = function(email,password){
@@ -65,7 +57,7 @@ const PasswordHash = require('../Library/PasswordHash');
                 break;
             }
         }
-        return user;
+        return User.trim(user);
 
     }
     

@@ -131,6 +131,27 @@ class Snapshot extends enumerableList  {
         return sanitized;
     }
 
+    /**
+     *
+     * @param snapshot :Snapshot
+     */
+    static fullTrim(snapshot){
+
+        for (const className in Snapshot.enumerableList) {
+            // is it really necessary?----- i think it is retrieved from database so it's not really
+            if (!Array.isArray(snapshot[className]))
+                continue;
+            //------------------------------
+            for (const index in snapshot[className] ) {
+                // passed by value or reference? if reference, then remove the equal!
+                snapshot[className][index]=(require("./EnumerableData").trim(snapshot[className][index]));
+            }
+        }
+        delete snapshot.id;
+        delete snapshot.projectId;
+        return snapshot;
+    }
+
 }
 
 module.exports = Snapshot;

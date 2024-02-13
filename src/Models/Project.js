@@ -1,4 +1,4 @@
-const Snapshot = require (__dirname + "/Snapshot");
+const Snapshot = require ("./Snapshot");
 class Project {
 
     /**@type string*/ id ;
@@ -24,7 +24,7 @@ class Project {
      * must be used at the final layer of inserting
      * @return Project
      */
-    static sanitize = (project)=>{
+    static sanitize  (project){
         let sanitized = new Project();
         if (!project.id)
             throw new Error("invalid Id! require id for sanitizing project");
@@ -39,6 +39,12 @@ class Project {
         delete sanitized.sanitize;
         return sanitized;
     }
+    static fullTrim (project){
+        if (project.snapshot)
+            project.snapshot = Snapshot.fullTrim(project.snapshot);
+        delete project.userId;
+        return project;
+    }
     sanitize = ()=>{
         return Project.sanitize(this);
     }
@@ -46,4 +52,3 @@ class Project {
 
 module.exports = Project;
 
-let proj = new Project("hela","romana","omar");

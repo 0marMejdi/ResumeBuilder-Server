@@ -17,16 +17,18 @@ class EnumerableData{
     sanitize = (enumerik)=>{
         if (!enumerik)
             throw new Error("trying to sanitize null")
-
         let instance = new (require('./DataGroupClassList')[this.constructor.name])();
-
         EnumerableData.validateTag(enumerik.tag);
         for (const key in instance) {
             instance[key]=enumerik[key];
         }
         delete  instance.sanitize;
         return instance;
-
+    }
+    static trim(instance){
+        delete instance.projectId;
+        delete instance.id;
+        return instance;
     }
     static validateTag(tag){
         if (tag===undefined)

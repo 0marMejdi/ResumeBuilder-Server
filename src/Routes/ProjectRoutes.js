@@ -1,10 +1,9 @@
 const express = require("express");
-const ProjectRepository = require("../Repositories/ProjectRepository");
 const ProjectController = require("../Controllers/ProjectController");
 const Project = require("../Models/Project");
 const authorize = require("../Middlewares/Authorize");
 const injectProject = require("../Middlewares/injectProject");
-
+const notImplemented = require("../Middlewares/NotImplemented")
 let router = express.Router();
 router.get("/project/list",authorize, async (req,res)=>{
     try{
@@ -24,7 +23,7 @@ router.post("/project/new",authorize,async(req,res)=>{
 });
 router.get("/project/info/:projectId",authorize,injectProject,async(req,res)=>{
     try{
-        let project = await ProjectRepository.getFullProjectById(req.params.projectId);
+        let project = await ProjectController.getFullProject(req.params.projectId);
         delete project.userId;
         res.status(200).json(project);
     }catch (e) {
@@ -65,21 +64,18 @@ router.post("/project/info",authorize,injectProject,async (req,res)=>{
     }
 
 })
-//delete a data group, needs `{entryName, tag}`
-// router.delete("/project/info/:projectId",authorize,(req,res)=>{
-//     try{
-//         throw Error ("Not Implemented");
-//     }catch (e) {
-//         res.status(401).json({message:e.message});
-//     }
-//
-// })
 
-// •`GET /project/snapshot/{projectId}` : gets the latest saved values for fields that user has entered for a given project. return a Snapshot Json Object.
+router.post("/project/image",authorize,injectProject,notImplemented) ;
 
-// •`GET /project/thumb/{projectId}` : gets the latest saved picture as thumbnail for that specific project. return a PNG image file.
+router.delete("/project/info",authorize,injectProject,notImplemented) ;
 
-// •`GET /project/pdf/{projectId}` : returns pdf result (for preview or download) of the project after applying the latest modification.
+router.delete("/project",authorize,injectProject,notImplemented);
 
-// •`POST /project/new/` : adds a new project for the current user logged in using. body must include the title and the template name for the project: `{title, templateName}`
+router.get("/project/thumb/:projectId",authorize,injectProject,notImplemented);
+
+router.get("/project/pdf/:projectId",authorize,injectProject,notImplemented);
+
+router.get("/project/html/:projectId",authorize,injectProject,notImplemented);
+
+router.get("/project/image/:projectId",authorize,injectProject,notImplemented)
 module.exports = router;

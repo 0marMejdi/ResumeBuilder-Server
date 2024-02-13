@@ -11,13 +11,17 @@ const newProject =async (title,templateName,userId)=>{
     return project;
 }
 const getSimpleProjectsList = async (userId) =>{
-    return await ProjectRepository.getSimpleProjectsForUserById(userId);
+    let projects= await ProjectRepository.getSimpleProjectsForUserById(userId);
+    return projects.map(project=>Project.fullTrim(project));
 }
 const getSimpleProject =async (projectId)=>{
-    return await ProjectRepository.getSimpleProjectById(projectId);
+    let project=  await ProjectRepository.getSimpleProjectById(projectId);
+    return Project.fullTrim(project);
+
 }
 const getFullProject= async(projectId)=>{
-    return await ProjectRepository.getFullProjectById(projectId);
+    let project= await ProjectRepository.getFullProjectById(projectId);
+    return Project.fullTrim(project);
 }
 const getSnapshot =async (projectId)=>{
     try{
@@ -77,4 +81,5 @@ const addDataGroup =async(projectId,entryName)=>{
 
 
 
-module.exports = {addDataGroup,newProject,getSimpleProjectsList,updateSnapshotField,updateSnapshot,getSnapshot,getFullProject,getSimpleProject}
+module.exports = {addDataGroup,newProject,getSimpleProjectsList,updateSnapshotField,
+    updateSnapshot,getSnapshot,getFullProject,getSimpleProject}

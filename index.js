@@ -9,6 +9,7 @@ let methods = {
     patch: 'secondary',
     delete: 'danger',
     put: 'primary'
+
 }
 
 class APIEndpoint {
@@ -21,6 +22,8 @@ class APIEndpoint {
     _iobjDesc="";
     _urlDesc="";
     _grp = "";
+    _done =false;
+    done =()=>{this._done=true; return this;}
     grp = (_grp)=>{
         this._grp=_grp;
         return this;
@@ -62,10 +65,9 @@ class APIEndpoint {
         this._urlDesc = _urlDesc;
         return this;
     }
-
 }
 function generateCodeMarkup(obj, indentLevel = 0) {
-    const indent = '&nbsp;'.repeat(indentLevel);
+    const indent = '&nbsp;&nbsp;'.repeat(indentLevel);
     let html = '<pre class="code m-0 p-0"><code>';
 
     if (Array.isArray(obj)) {
@@ -90,7 +92,7 @@ function generateCodeMarkup(obj, indentLevel = 0) {
         const keys = Object.keys(obj);
         keys.forEach((key, index) => {
             const value = obj[key];
-            html += indent + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="property">"' + key + '"</span>: ';
+            html += indent + '&nbsp;&nbsp;<span class="property">"' + key + '"</span>: ';
             if (typeof value === 'object' && value !== null) {
                 if (Array.isArray(value)) {
                     if (value.length === 0) {
@@ -129,11 +131,11 @@ function generateCodeMarkup(obj, indentLevel = 0) {
     html += '</code></pre>';
     return html;
 }
-
 function loadProject(){
     
 // Example usage
 new APIEndpoint()
+    .done()
     .method('post')
     .url('/project/new')
     .urlDesc('Creates a new project with the given title and template name.')
@@ -159,6 +161,7 @@ new APIEndpoint()
     .add()
 
 new APIEndpoint()
+    .done()
     .method('get')
     .url('/project/list')
     .urlDesc('Gets a list of all projects that user has.')
@@ -188,6 +191,7 @@ new APIEndpoint()
 
 new APIEndpoint()
     .method('get')
+    .done()
     .url('/project/info/{projectId}')
     .urlDesc('Returns all related infos to the project with the given ID.')
     .outObj({
@@ -219,6 +223,7 @@ new APIEndpoint()
 
 
 new APIEndpoint()
+    .done()
     .method('get')
     .url('/project/snapshot/{projectId}')
     .urlDesc('Returns all inserted data for a project with the given ID.')
@@ -244,6 +249,7 @@ new APIEndpoint()
     .add();
 
 new APIEndpoint()
+    .done()
     .method('patch')
     .url('/project/info')
     .urlDesc('Updates a certain field of snapshot. ')
@@ -260,6 +266,7 @@ new APIEndpoint()
     .add();
 
 new APIEndpoint()
+    .done()
     .method('put')
     .url('/project/info')
     .urlDesc('Updates the whole snapshot object of a project.')
@@ -334,6 +341,7 @@ new APIEndpoint()
     .add();
 
 new APIEndpoint()
+    .done()
     .method('post')
     .url('/project/info')
     .urlDesc('Adds a new element enumerable type (Languages, Skills) to the project. It is used when user wants to add a new language for example.')
@@ -402,14 +410,32 @@ new APIEndpoint()
     .grp("manageProj")
     .add();
 
+new APIEndpoint()
+    .url("/project/image")
+    .method("post")
+    .grp("dataProj")
+    .urlDesc("Allows user to add (or update) a profile image for a resume project")
+    .inDesc("the sent request should be a 'multipart/form-data' request containing an image file of type PNG, JPG or JPEG, amongst with the project id")
+    .inObj({projectId:"959bbf9a-51af-4a30-85a8-25ae038f8bdc", profilePicture:{type:"png",name:"myImage",content:"&lt;Buffer 89 50 4e 47 0d 0a 1a 0a 00 00..."}})
+    .outDesc("the response body contains a message indicating if the operation was successful or no.")
+    .outObj({"message":"image has been uploaded successfully"})
+    .add();
+new APIEndpoint()
+        .url("/project/image/{projectId}")
+        .method("get")
+        .grp("dataProj")
+        .urlDesc("Allows user to get the profile image for a given project (by id).")
 
+        .outObj({message:"image downloaded successfully", profilePicture:{type:"png",content:"&lt;Buffer 89 50 4e 47 0d 0a 1a 0a 00 00..."}})
+        .outDesc("the response body contains a message indicating if the operation was successful or no.\nAlong with the image content as buffer")
 
-    
+        .add()
     apisProject = [...apis];
     apis=[];
 }
 function loadUser(){
 new APIEndpoint()
+    .done()
     .method('post')
     .url("/login")
     .urlDesc("Allows users to enter their credentials in order to login")
@@ -425,6 +451,7 @@ new APIEndpoint()
     })
     .add();
 new APIEndpoint()
+    .done()
     .method('post')
     .url("/register")
     .urlDesc("Allows visitors to create a new account, once entered all necessary information")
@@ -442,6 +469,7 @@ new APIEndpoint()
     })
     .add();
 new APIEndpoint()
+    .done()
     .method('get')
     .url("/profile/info")
     .urlDesc("Gets All the personal information of the current user")
@@ -456,9 +484,8 @@ new APIEndpoint()
 apisUser = [...apis];
 apis=[];
 }
-// Templates Project
-
 function loadTemplates(){new APIEndpoint()
+    .done()
     .method('get')
     .url("/template/names")
     .urlDesc("gets all the available template names")
@@ -469,13 +496,14 @@ function loadTemplates(){new APIEndpoint()
     .outDesc("The returned Object is an Array containing all the templates names that are available. you can use each template name for listing templates images or getting one explicitly")
     .add();
 new APIEndpoint()
+    .done()
     .method('get')
     .url("/template/html/{templateName}")
     .outObj( {"Content-Type": "text/html; charset=utf-8"})
     .urlDesc("returns the HTML format of a template which name is given in parameter, useful for manipulation with DOM and inserting fields")
     .add();
-
 new APIEndpoint()
+    .done()
     .method('get')
     .url("/template/pdf/{templateName}")
     .urlDesc("returns the PDF format of a template which name is given in parameter, useful for downloading the template itself")
@@ -484,6 +512,7 @@ new APIEndpoint()
     .add();
 
 new APIEndpoint()
+    .done()
     .method('get')
     .url("/template/thumb/{templateName}")
     .urlDesc("returns the PNG format of a template which name is given in parameter, useful for listing a templates")
@@ -492,6 +521,7 @@ new APIEndpoint()
     .add();
 
 new APIEndpoint()
+    .done()
     .method('get')
     .url("/template/html")
     .urlDesc("returns them all html contents of templates in one json object containing array")
@@ -513,14 +543,9 @@ new APIEndpoint()
 apisTemplate=[...apis];
 apis=[];
 }
-function getId(index){
-    return apis[index]._url.split("/").join('-')+index.toString();
-}
 function getIdFrom(api){
     return api._method+"-"+api._url.split("/").join('-').split("{").join('-').split("}").join("");
 }
-
-
 function insertAll(elemId){
     let cont = document.getElementById(elemId);
     apis.forEach((api)=>{
@@ -541,8 +566,6 @@ function insertAllDomains(){
     apis = [...apisTemplate]
     insertAll('api-container-template')
 }
-
-
 /**
  *
  * @param api : APIEndpoint
@@ -591,7 +614,6 @@ function formatEndPoint(api){
 
     return urlString ;
 }
-
 /**
  *
  * @param api : APIEndpoint
@@ -599,13 +621,14 @@ function formatEndPoint(api){
  */
 function getCard(api){
     let color =methods[api._method];
+    let moreColor = (api._done)?"dark":"outline-dark"
     return `
     <div class="container mt-4 custom-padding"> 
         <div class="card custom-padding custom-margin ">
             <div class="card-header p-1 d-flex flex-wrap justify-content-between">
                 <div class="btn btn-${color} disabled align-self-start">${api._method.toUpperCase()}</div>
                 <span class="mx-3 align-self-start">${formatEndPoint(api)}</span>
-                <div class="btn btn-dark ml-auto collapsed " 
+                <div class="btn btn-${moreColor} ml-auto collapsed " 
                     type="button" data-bs-toggle="collapse" data-bs-target="#${getIdFrom(api)}" 
                     aria-expanded="false" aria-controls="collapseExample">
                     More...

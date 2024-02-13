@@ -31,5 +31,15 @@ class User{
         return User.sanitize(this);
     }
 
+    /**
+     *
+     * @param user : User
+     */
+    static trim(user){
+        delete user.id;
+        delete user.imageURL;
+        return user;
+    }
+
 }
 module.exports = User;
