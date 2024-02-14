@@ -8,7 +8,6 @@ const getTemplatesList =  async  ()=>{
     return result.map(temp=>temp.split('.')[0])
 };
 const getTemplateContent =async (name)=>{
-
     return await fs.readFile(resolveName(name), 'utf-8');
 };
 

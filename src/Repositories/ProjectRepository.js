@@ -160,8 +160,18 @@ async function addWholeDataGroup (projectId,entryName,datagroup) {
  * @return {Promise<Object>}
  */
 
+async function deleteProjectById(projectId){
+    for (const className in Snapshot.enumerableList){
+        let delEnumQuery = connection.format("DELETE FROM ?? WHERE projectId = ?",[className,projectId]);
+        await executeQuery(delEnumQuery);
+    }
+    let delSnapQuery= connection.format("DELETE FROM Snapshot WHERE projectId=?",[projectId]);
+    await executeQuery(delSnapQuery);
+    let delProjQuery =  connection.format("DELETE FROM Project WHERE id = ?",[projectId]);
+    await executeQuery(delProjQuery);
 
-module.exports = {tagExists,getNextTag, addWholeDataGroup, getSnapshotOnly
+}
+module.exports = {deleteProjectById, tagExists,getNextTag, addWholeDataGroup, getSnapshotOnly
     ,updateSnapshotField,updateSnapshotFieldForEnumerable,
     getSimpleProjectsForUserById,getFullProjectById,createProject,projectExists,
     getSimpleProjectById,deleteEnumerableForProject,insertNewEnumerable,updateSnapshotForProject};

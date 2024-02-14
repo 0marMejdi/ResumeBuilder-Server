@@ -92,7 +92,7 @@ function generateCodeMarkup(obj, indentLevel = 0) {
         const keys = Object.keys(obj);
         keys.forEach((key, index) => {
             const value = obj[key];
-            html += indent + '&nbsp;&nbsp;<span class="property">"' + key + '"</span>: ';
+            html += indent + '&nbsp;&nbsp;<span class="property">' + key + '</span>: ';
             if (typeof value === 'object' && value !== null) {
                 if (Array.isArray(value)) {
                     if (value.length === 0) {
@@ -168,22 +168,18 @@ new APIEndpoint()
     .outDesc('The Returned object is an array of project objects, each containing only the basic information of the project (not detailled).')
     .inObj(null)
     .outObj([
-        {
-        "id": "1706824084732",
-        "userId": "1706821332398",
-        "title": "My New One",
-        "creationDate": 1706824084732,
-        "lastModifiedDate": 1706824084732,
-        "templateName": "Obsidian"
-        },
-        {
-        "id": "1706824142334",
-        "userId": "1706821332398",
-        "title": "And Another One",
-        "creationDate": 1706824142334,
-        "lastModifiedDate": 1706824142334,
-        "templateName": "Marine"
-        }
+            {
+                "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
+                "title": "Blue Sea",
+                "creationDate": 1707838213453,
+                "templateName": "Marine"
+            },
+            {
+                "id": "e742c692-b0e8-4a9e-a16b-7be168e0a1c9",
+                "title": "Dark Crystal",
+                "creationDate": 1707869539534,
+                "templateName": "Obsidian"
+            }
         ]
     )
     .grp("manageProj")
@@ -195,27 +191,47 @@ new APIEndpoint()
     .url('/project/info/{projectId}')
     .urlDesc('Returns all related infos to the project with the given ID.')
     .outObj({
-        "id": "1706863054682",
-        "userId": "1706821332398",
-        "title": "And Another One",
-        "creationDate": 1706911726475,
-        "lastModifiedDate": 1706911726475,
-        "templateName": "Marine",
-        "snapshot": {
-            "id": "1706911726475",
-            "projectId": "1706863054682",
-            "firstName": "Code",
-            "lastName": "Craft",
-            "interests": [{"tag": 0}],
-            "formations": [],
-            "professionalExps": [],
-            "skills": [],
-            "languages": [
-               {"level": 5,
-                "name": "French",
-                "tag": 0}]
-        }
-    }
+                "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
+                "title": "Blue Sea",
+                "creationDate": 1707838213453,
+                "templateName": "Marine",
+                "snapshot": {
+                    "aboutMe": null,
+                    "address": null,
+                    "city": null,
+                    "email": null,
+                    "firstName": "Code",
+                    "imageURL": null,
+                    "lastName": "Craft",
+                    "phoneNumber": null,
+                    "postalCode": null,
+                    "profileTitle": null,
+                    "Interest": [],
+                    "Formation": [],
+                    "ProfessionalExp": [
+                        {
+                            "city": null,
+                            "description": null,
+                            "employerName": null,
+                            "finishMonth": null,
+                            "finishYear": null,
+                            "post": null,
+                            "startingMonth": null,
+                            "startingYear": null,
+                            "tag": 7
+                        }
+                    ],
+                    "Skill": [],
+                    "Language": [
+                        {
+                            "name": "French",
+                            "level": "5",
+                            "tag": 10
+                        }
+                    ]
+                }
+            }
+
     )
     .outDesc('The returned object is a project object with all detailled informations that belongs to the project with the given ID')
     .grp("manageProj")
@@ -272,47 +288,67 @@ new APIEndpoint()
     .urlDesc('Updates the whole snapshot object of a project.')
     .inDesc('The request body should contain the id of the project and the new snapshot object as given below.')
     .inObj({
-        "projectId":"1706822220158",
-        "snapshot":{
-            "id": "1706911726475",
-            "projectId": "1706863054682",
-            "firstName": "Code",
-            "lastName": "Craft",
-            "interests": [{"tag": 0}],
-            "formations": [],
-            "professionalExps": [],
-            "skills": [],
-            "languages": [
-               {"level": 5,
-                "name": "French",
-                "tag": 0}]
+            "projectId":"1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
+            "snapshot":{
+                "firstName": "Code",
+                "lastName": "Craft",
+                "interests": [{"tag": 0, "name":"Sleeping"}],
+                "formations": [{"tag":0}],
+                "ProfessionalExp": [{"tag":7}],
+                "skills": [{"level":"2"}],
+                "Language": [
+                    {"level": 5,
+                        "name": "French",
+                        "tag": 10}]
+            }
         }
-    }
     )
     
     .outDesc('As a return you get a message indicating the success of the operation or no... and, in case of success, the project object itself. You may use the returned object for testing if your input has been updated as expected or no, and also for redirection if needed.')
     .outObj({
-        "message":"updated successfully",
-        "project":{
-        "id": "1706824084732",
-        "userId": "1706821332398",
-        "title": "My New One",
-        "creationDate": 1706824084732,
-        "lastModifiedDate": 1706824084732,
-        "templateName": "Obsidian",
-        "Snapshot": {
-            "firstName": "Code",
-            "lastName": "Craft",
-            "interests": [{"tag": 0}],
-            "formations": [],
-            "professionalExps": [],
-            "skills": [],
-            "languages": [
-               {"level": 5,
-                "name": "French",
-                "tag": 0}]
+        "message": "updated successfully",
+        "project": {
+            "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
+            "title": "Blue Sea",
+            "creationDate": 1707838213453,
+            "templateName": "Marine",
+            "snapshot": {
+                "aboutMe": null,
+                "address": null,
+                "city": null,
+                "email": null,
+                "firstName": "Code",
+                "imageURL": null,
+                "lastName": "Craft",
+                "phoneNumber": null,
+                "postalCode": null,
+                "profileTitle": null,
+                "Interest": [],
+                "Formation": [],
+                "ProfessionalExp": [
+                    {
+                        "city": null,
+                        "description": null,
+                        "employerName": null,
+                        "finishMonth": null,
+                        "finishYear": null,
+                        "post": null,
+                        "startingMonth": null,
+                        "startingYear": null,
+                        "tag": 7
+                    }
+                ],
+                "Skill": [],
+                "Language": [
+                    {
+                        "name": "French",
+                        "level": "5",
+                        "tag": 10
+                    }
+                ]
+            }
         }
-    }})
+    })
     .grp("dataProj")
     .add();
 new APIEndpoint()
@@ -408,6 +444,7 @@ new APIEndpoint()
         "projectId":"1706822220158"
     })
     .grp("manageProj")
+    .done()
     .add();
 
 new APIEndpoint()

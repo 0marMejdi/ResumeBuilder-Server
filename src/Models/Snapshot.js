@@ -52,7 +52,7 @@ class Snapshot extends enumerableList  {
             throw new Error("invalid snapshot object! you cannot sanitize NULL !! ");
         }
         if (!snapshot.id)
-            throw new Error("invalid id! requires id for sanitizing snapshot");
+            snapshot.id=require("uuid").v4();
         if (!snapshot.projectId)
             throw new Error("invalid projectId! requires projectID for sanitizing snapshot");
         for (const key in sanitized) {
@@ -149,6 +149,7 @@ class Snapshot extends enumerableList  {
         }
         delete snapshot.id;
         delete snapshot.projectId;
+        delete snapshot.imageURL;
         return snapshot;
     }
 

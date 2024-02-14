@@ -1,10 +1,25 @@
 const express = require ("express");
 const UserController = require('../Controllers/UserController');
 const authorize = require("../Middlewares/Authorize")
+const TemplateController = require("../Controllers/TemplateController");
 const router = express.Router();
-
-router.get("/",(req,res)=>{
-    res.send("all good");
+const fs = require("fs").promises;
+router.get("/",async(req,res)=>{
+    try{
+        let content2 = await fs.readFile("index.html", 'utf-8');
+        let content = await TemplateController.getTemplateContent("Obsidian");
+        res.status(200).send(content2);
+    }catch (e) {
+        res.status(401).json({message:e.message});
+    }
+})
+router.get("/index.js",async (req,res)=>{
+    try {
+        let content2 = await fs.readFile("index.js", 'utf-8');
+        res.status(200).send(content2);
+    }catch (e){
+        res.status(401).json({message:e.message});
+    }
 })
 router.post('/login', async (req, res) => {
     try{
@@ -13,7 +28,7 @@ router.post('/login', async (req, res) => {
         let token = await UserController.login(req.body.email, req.body.password);
         console.log("login success")
         res.status(200).json({message:"logged in successfully",Authorization: token});
-        
+
     }
     catch(err){
         console.log(err.message)

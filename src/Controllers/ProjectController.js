@@ -1,3 +1,5 @@
+
+
 let Project = require( "../Models/Project");
 let EnumDataController = require("../Controllers/EnumDataController")
 let ProjectRepository = require("../Repositories/ProjectRepository")
@@ -6,6 +8,9 @@ let EnumerableData = require("../Models/EnumerableData")
 
 
 const newProject =async (title,templateName,userId)=>{
+    let templates = await require("../Controllers/TemplateController").getTemplatesList();
+    if (!templates.includes(templateName))
+        throw  new Error("this template is not found!");
     let project = new Project(title,templateName,userId);
     await ProjectRepository.createProject(project);
     return project;
@@ -25,7 +30,7 @@ const getFullProject= async(projectId)=>{
 }
 const getSnapshot =async (projectId)=>{
     try{
-        return await ProjectRepository.getSnapshotOnly(projectId);
+        return Snapshot.fullTrim(await ProjectRepository.getSnapshotOnly(projectId));
     }catch(e){
         throw new Error(e.message);
     }
@@ -76,10 +81,12 @@ const addDataGroup =async(projectId,entryName)=>{
     return nextTag;
 }
 
+const deleteProject = async (projectId) =>{
+    await ProjectRepository.deleteProjectById(projectId);
+}
 
 
 
 
-
-module.exports = {addDataGroup,newProject,getSimpleProjectsList,updateSnapshotField,
+module.exports = {deleteProject, addDataGroup,newProject,getSimpleProjectsList,updateSnapshotField,
     updateSnapshot,getSnapshot,getFullProject,getSimpleProject}

@@ -31,6 +31,14 @@ router.get("/project/info/:projectId",authorize,injectProject,async(req,res)=>{
     }
 
 });
+router.get("/project/snapshot/:projectId",authorize,injectProject,async(req,res)=>{
+    try{
+        let snap =await ProjectController.getSnapshot(req.body.project.id);
+        res.status(200).json(snap)
+    }catch (e) {
+        res.status(401).json({message:e.message});
+    }
+})
 //updates a certain field of snapshot object
 router.patch("/project/info",authorize,injectProject,async(req,res)=>{
     try{
@@ -69,7 +77,14 @@ router.post("/project/image",authorize,injectProject,notImplemented) ;
 
 router.delete("/project/info",authorize,injectProject,notImplemented) ;
 
-router.delete("/project",authorize,injectProject,notImplemented);
+router.delete("/project",authorize,injectProject,async (req,res)=>{
+    try{
+        await ProjectController.deleteProject(req.body.project.id);
+        res.status(200).json({message:"project deleted successfully"});
+    }catch(e){
+        res.status(401).json({message:e.message});
+    }
+});
 
 router.get("/project/thumb/:projectId",authorize,injectProject,notImplemented);
 
@@ -78,4 +93,6 @@ router.get("/project/pdf/:projectId",authorize,injectProject,notImplemented);
 router.get("/project/html/:projectId",authorize,injectProject,notImplemented);
 
 router.get("/project/image/:projectId",authorize,injectProject,notImplemented)
+
+
 module.exports = router;
