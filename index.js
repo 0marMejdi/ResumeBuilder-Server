@@ -383,7 +383,7 @@ new APIEndpoint()
     .urlDesc('Adds a new element enumerable type (Languages, Skills) to the project. It is used when user wants to add a new language for example.')
     .inDesc('The request body should contain the id of the project and the name of the enumerable data type to add as given below.')
     .inObj({
-        "projectId":"1706822220158",
+        "projectId":"1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
         "entryName":"Language"
     })
     .outDesc('As a return you get a message indicating the success of the operation or no... and the tag (new index) of the newly added element.')
@@ -401,7 +401,7 @@ new APIEndpoint()
     .urlDesc('Removes an element of enumerable type (Languages, Skills,...) from the saved data of a project.')
     .inDesc('The request body should contain the id of the project and the name of the enumerable data type to remove as given below. Note that the tag is also required to specify the exact element to remove. Also the entry name must a class name like : "Language", "Skill", "Interest", "Formation", "ProfessionalExp". \n The Example below will remove the second language (0-index) of the project with the given id. it is useful when user wants to delete a language for example after mistakenly adding it.')
     .inObj({
-        "projectId":"1706822220158",
+        "projectId":"1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
         "entryName":"Language",
         "tag":1
     }
@@ -410,7 +410,7 @@ new APIEndpoint()
     .outObj({
         "message":"data group deleted successfully",
         "project":{
-        "id": "1706824084732",
+        "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
         "userId": "1706821332398",
         "title": "My New One",
         "creationDate": 1706824084732,
@@ -439,9 +439,9 @@ new APIEndpoint()
     .outObj({
         "message":"project deleted successfully"
     })
-    .inDesc('The request body should contain the id of the project to delete as given below. Note that the tag is also required to specify the exact element to remove.')
+    .inDesc('The request body should contain the id of the project to delete as given below.')
     .inObj({
-        "projectId":"1706822220158"
+        "projectId":"1474fe47-013b-4fcd-85fb-2ed3bfd65aa6"
     })
     .grp("manageProj")
     .done()
