@@ -76,7 +76,6 @@ router.post("/project/info",authorize,injectProject,async (req,res)=>{
 router.post("/project/image",authorize,injectProject,notImplemented) ;
 
 router.delete("/project/info",authorize,injectProject,notImplemented) ;
-
 router.delete("/project",authorize,injectProject,async (req,res)=>{
     try{
         await ProjectController.deleteProject(req.body.project.id);
@@ -92,7 +91,9 @@ router.get("/project/pdf/:projectId",authorize,injectProject,notImplemented);
 
 router.get("/project/html/:projectId",authorize,injectProject,notImplemented);
 
-router.get("/project/image/:projectId",authorize,injectProject,notImplemented)
+router.get("/project/image/:projectId",authorize,injectProject,notImplemented);
+
+router.put("/project/orders/update",authorize,injectProject,notImplemented);
 
 
 module.exports = router;

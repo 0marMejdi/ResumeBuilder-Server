@@ -6,18 +6,18 @@ class Language extends EnumerableData{
 
 }
 class Interest extends EnumerableData {
-    name;
-
+    /**@type string*/ name;
 }
-class Formation extends  EnumerableData{
-    city;
-    description;
-    establishment
-    startingMonth;
-    startingYear;
-    finishMonth;
-    finishYear;
-    title;
+class Education extends  EnumerableData{
+    /**@type {string}*/ degree;
+    /**@type boolean*/ toPresent=false;
+    /**@type string*/ description;
+    /**@type string*/ institutionName
+    /**@type int*/ startingMonth;
+    /**@type int*/ startingYear;
+    /**@type int*/ finishMonth;
+    /**@type int*/ finishYear;
+
 }
 class Skill extends  EnumerableData{
     /**@type number*/ level;
@@ -28,13 +28,14 @@ class ProfessionalExp extends EnumerableData{
 
     /**@type string*/ city;
     /**@type string*/ description;
-    /**@type string*/ employerName;
+    /**@type string*/ companyName;
     /**@type number*/finishMonth;
     /**@type number*/finishYear;
     /**@type string*/ post;
     /**@type number*/startingMonth;
     /**@type number*/startingYear;
+    /**@type boolean*/ toPresent=false;
 }
-let classList={ProfessionalExp,Skill,Formation ,Interest,Language};
+let classList={ProfessionalExp,Skill,Education ,Interest,Language};
 
 module.exports = classList;

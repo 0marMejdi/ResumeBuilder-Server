@@ -1,11 +1,23 @@
 const mysql=require('mysql2');
-const {create} = require("html-pdf");
+
 const config = require ("dotenv").config();
-const connection = mysql.createConnection({
-    host:process.env.DATABASE_HOST,
-    user:process.env.DATABASE_USERNAME,
-    password:process.env.DATABASE_PASSWORD,
-});
+const defaultConnection={
+    host:"localhost",
+    user:"root",
+    password:"",
+};
+function getConfiguration(){
+    let conn = defaultConnection;
+    if (process.env.DATABASE_HOST)
+        conn.host=process.env.DATABASE_HOST;
+    if (process.env.DATABASE_PASSWORD)
+        conn.password=process.env.DATABASE_PASSWORD;
+    if (process.env.DATABASE_USERNAME)
+        conn.user = process.env.DATABASE_USERNAME;
+    return conn;
+}
+const dataBaseName = process.env.DATABASE_NAME?process.env.DATABASE_NAME:defaultConnection.dbName;
+const connection = mysql.createConnection(getConfiguration());
 
 // Function to execute a single query and return a promise
 function executeQuery(query) {
@@ -35,8 +47,8 @@ function executeQueriesSequentially(queries) {
 }
 
 const createTableQueries = [
-    `CREATE DATABASE IF NOT EXISTS Resumey`,
-    `USE Resumey`,
+    `CREATE DATABASE IF NOT EXISTS ${dataBaseName}`,
+    `USE ${dataBaseName}`,
     `CREATE TABLE IF NOT EXISTS User (
         id varchar(40) PRIMARY KEY NOT NULL,
         firstName VARCHAR(255) NOT NULL,
@@ -56,6 +68,8 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS Snapshot (
         id varchar(40) PRIMARY KEY NOT NULL,
         aboutMe text,
+        fontFamily varchar(50),
+        reference varchar(50),
         address varchar(50) ,
         city varchar(30),
         email varchar(30),
@@ -71,7 +85,7 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS Language (
         id varchar(40) PRIMARY KEY,
         name varchar(30),
-        level varchar(10),
+        level int,
         tag int,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
@@ -79,7 +93,7 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS Skill (
         id varchar(40) PRIMARY KEY not null,
         name VARCHAR(100),
-        level VARCHAR(50),
+        level int,
         tag int,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
@@ -87,28 +101,29 @@ const createTableQueries = [
     `CREATE TABLE IF NOT EXISTS ProfessionalExp (
         id varchar(40) PRIMARY KEY not null,
         city varchar(50),
-        description varchar(255),
-        employerName varchar(50),
+        description text,
+        companyName varchar(50),
         finishMonth int,
         finishYear int,
         post varchar(100),
         startingMonth int,
         startingYear int,
         tag int,
+        toPresent TINYINT,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
-    `CREATE TABLE IF NOT EXISTS formation (
+    `CREATE TABLE IF NOT EXISTS Education (
         id varchar(40) PRIMARY KEY not null,
-        city varchar(50),
-        description varchar(255),
-        establishment varchar(50),
+        institutionName varchar(255),
+        description text,
+        degree varchar(255),
         finishMonth int,
         finishYear int,
         startingMonth int,
         startingYear int,
         tag int,
-        title varchar(100),
+        toPresent TINYINT,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
@@ -118,7 +133,17 @@ const createTableQueries = [
         tag int,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
-    );`
+    );`,
+    `CREATE TABLE IF NOT EXISTS Orders(
+        id varchar(40) PRIMARY KEY,
+        Education int,
+        ProfessionalExp INT,
+        Language INT,
+        Skill INT,
+        INTEREST INT,
+        projectId varchar(40),
+        FOREIGN KEY (projectId) REFERENCES Project(id)
+     )`
 ];
 function  createTables(){
     return executeQueriesSequentially(createTableQueries);

@@ -1,13 +1,16 @@
 const EnumeData  = require("./DataGroupClassList");
 const guid = require("uuid");
+const Orders = require("./Orders");
 class enumerableList  {
-    Interest =  EnumeData.Interest;
-    Formation = EnumeData.Formation;
+    Education = EnumeData.Education;
     ProfessionalExp = EnumeData.ProfessionalExp;
-    Skill = EnumeData.Skill;
     Language = EnumeData.Language;
+    Skill = EnumeData.Skill;
+    Interest =  EnumeData.Interest;
 }
+
 class Snapshot extends enumerableList  {
+
     static enumerableList = new enumerableList();
     /**@type string */ id;
     /**@type string */ projectId;
@@ -24,6 +27,11 @@ class Snapshot extends enumerableList  {
     /*work summary*/
     /**@type string */ profileTitle;
     /**@type string */aboutMe;
+    /**@type string*/ imageURL;
+
+    /**@type Orders */ Orders;
+    /**@type string */ fontFamily;
+    /**@type string*/ reference;
     /**
      *
      * @param projectId : string
@@ -35,9 +43,10 @@ class Snapshot extends enumerableList  {
         for (const key in Snapshot.enumerableList) {
             this[key] = [];
         }
+        this.Orders= new Orders(projectId);
 
     }
-
+//TODO : don't forget to sanitize and trim from Orders!
     /**
      * general Sanitization to Snapshot.
      * * check for the existence of the required attributes (such as id, and project id), if they are valid or no.
@@ -58,6 +67,8 @@ class Snapshot extends enumerableList  {
         for (const key in sanitized) {
             sanitized[key]=snapshot[key];
         }
+        sanitized.Orders.projectId= snapshot.projectId;
+        sanitized.Orders = Orders.sanitize(sanitized.Orders);
         return sanitized;
     }
 
@@ -74,6 +85,7 @@ class Snapshot extends enumerableList  {
         for (const key in Snapshot.enumerableList) {
             delete sanitized[key];
         }
+        delete sanitized.Orders;
         return sanitized;
     }
 
@@ -147,12 +159,13 @@ class Snapshot extends enumerableList  {
                 snapshot[className][index]=(require("./EnumerableData").trim(snapshot[className][index]));
             }
         }
+        snapshot.Orders = Orders.trim(snapshot.Orders);
         delete snapshot.id;
         delete snapshot.projectId;
         delete snapshot.imageURL;
         return snapshot;
     }
-
 }
+
 
 module.exports = Snapshot;

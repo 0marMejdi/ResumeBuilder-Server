@@ -19,11 +19,15 @@ async function projectExists(projectId) {
  * @returns {Promise<unknown>}
  */
 async function createProject (project){
+    console.log(`Attempting to insert ${JSON.stringify(project.snapshot.Orders)}`);
 
-    let query  = connection.format('INSERT INTO project SET ? ;',Project.sanitize(project));
     let snapQuery = connection.format('INSERT INTO SNAPSHOT SET ?;',Snapshot.sanitize(project.snapshot));
+    let query  = connection.format('INSERT INTO project SET ? ;',Project.sanitize(project));
+    let Orders = connection.format('INSERT INTO ORDERS SET ?;', project.snapshot.Orders);
     await executeQuery(query);
     await executeQuery(snapQuery);
+    await executeQuery(Orders);
+
     return Project.sanitize(project);
 
 }
@@ -62,8 +66,17 @@ async function  getFullProjectById(projectId){
     if (project.length===0)
         throw new Error("Project Not Found!")
     let snapshot = await getSnapshotOnly(projectId);
+    let orders = await getOrdersOnly(projectId)
     project[0].snapshot = snapshot;
+    project[0].snapshot.Orders = orders;
     return project[0];
+}
+async function getOrdersOnly(projectId){
+    let query = connection.format(`SELECT * FROM Orders WHERE projectId = ?`,[projectId]);
+    let result = await executeQuery(query);
+    if (!result || result.length===0)
+        throw new Error("No Orders found !");
+    return result[0];
 }
 async function getSnapshotOnly(projectId){
     let snapshotQuery = connection.format(`SELECT * FROM Snapshot WHERE projectId = ?`, [projectId] );
@@ -169,7 +182,8 @@ async function deleteProjectById(projectId){
     await executeQuery(delSnapQuery);
     let delProjQuery =  connection.format("DELETE FROM Project WHERE id = ?",[projectId]);
     await executeQuery(delProjQuery);
-
+    let delOrdersQuery = connection.format("DELETE FROM Orders WHERE projectId = ?",projectId);
+    await executeQuery(delOrdersQuery);
 }
 module.exports = {deleteProjectById, tagExists,getNextTag, addWholeDataGroup, getSnapshotOnly
     ,updateSnapshotField,updateSnapshotFieldForEnumerable,

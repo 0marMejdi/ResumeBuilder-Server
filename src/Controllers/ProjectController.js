@@ -13,7 +13,7 @@ const newProject =async (title,templateName,userId)=>{
         throw  new Error("this template is not found!");
     let project = new Project(title,templateName,userId);
     await ProjectRepository.createProject(project);
-    return project;
+    return (project.id);
 }
 const getSimpleProjectsList = async (userId) =>{
     let projects= await ProjectRepository.getSimpleProjectsForUserById(userId);

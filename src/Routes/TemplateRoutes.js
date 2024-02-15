@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const TemplateController  = require("../Controllers/TemplateController");
-const {all} = require("express/lib/application");
+
 
 
 // returns the html content of a template given in parameter.

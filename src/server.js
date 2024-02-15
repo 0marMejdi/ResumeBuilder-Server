@@ -13,14 +13,18 @@ const dbContext = require("./Models/ResumeBuilderDataBase");
 app.use(express.json());
 
 
-const PORT = 8000;
+
 app.use(cors());
 app.use(logger);
 app.use(templateRouter);
 app.use(authenticationRouter);
 app.use(userRouter);
 app.use(projectRouter);
+app.use(require("./Routes/TestRoutes"));
 app.use(badRoute);
+
+
+const PORT = process.env.PORT?process.env.PORT:8000;
 app.listen(PORT, async() => {
     console.log("Connecting to database and checking tables");
     let res = await dbContext.createTables();
