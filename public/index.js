@@ -349,7 +349,7 @@ new APIEndpoint()
                 "ProfessionalExp": 1,
                 "Language": 2,
                 "Skill": 3,
-                "INTEREST": 4
+                "Interest": 4
             }
         }
     )
