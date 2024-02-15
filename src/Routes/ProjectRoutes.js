@@ -15,7 +15,8 @@ router.get("/project/list",authorize, async (req,res)=>{
 });
 router.post("/project/new",authorize,async(req,res)=>{
     try{
-        let project = await ProjectController.newProject(req.body.title,req.body.templateName,req.body.user.id)
+        let project = await ProjectController.newProject(req.body.title,req.body.templateName,req.body.user.id);
+        project = await ProjectController.getSimpleProject(project);
         res.status(200).json({message:"project has been added successfully",project});
     }catch (e) {
         res.status(401).json({message:e.message});
@@ -43,7 +44,7 @@ router.get("/project/snapshot/:projectId",authorize,injectProject,async(req,res)
 router.patch("/project/info",authorize,injectProject,async(req,res)=>{
     try{
         await ProjectController.updateSnapshotField(req.body.project.id, {fieldValue:req.body.fieldValue,fieldName:req.body.fieldName , entryName:req.body.entryName,tag: req.body.tag});
-        res.status(200).json({message:"updated successfully",projectId:req.body.project.id ,project:await ProjectController.getFullProject(req.body.project.id)});
+        res.status(200).json({message:"updated successfully",projectId:req.body.project.id });
     }catch (e) {
         res.status(401).json({message:e.message, stack:e.stack});
     }
@@ -66,7 +67,7 @@ router.post("/project/info",authorize,injectProject,async (req,res)=>{
         if(!req.body.hasOwnProperty("entryName"))
             throw new Error("entryName is required");
         let newTag= await ProjectController.addDataGroup(req.body.project.id,req.body.entryName);
-        res.status(200).json({tag: newTag,project: await ProjectController.getFullProject(req.body.project.id)});
+        res.status(200).json({tag: newTag,message: "data group added successfully"});
     }catch (e) {
         res.status(401).json({message:e.message});
     }

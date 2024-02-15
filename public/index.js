@@ -141,21 +141,20 @@ new APIEndpoint()
     .urlDesc('Creates a new project with the given title and template name.')
     .inDesc('The request body should contain the title of the project and the name of the template to use as given below.')
     .inObj({
-        "title":"My Resume For CodeCraft",
-        "templateName":"Obsidian"
-    }
+            "title":"Blue Sea",
+            "templateName":"Marine"
+        }
     )
     .outDesc('As a return you get a message indicating the success of the operation and, in case of success, the project object itself. You may use the id of the returned object and the necceassary information to redirect the user to the newly created project.')
     .outObj({
-        "message":"project has been added successfully",
-        "Project":{
-        "id": "1706824084732",
-        "userId": "1706821332398",
-        "title": "My New One",
-        "creationDate": 1706824084732,
-        "lastModifiedDate": 1706824084732,
-        "templateName": "Obsidian"
-    }}
+            "message": "project has been added successfully",
+            "project": {
+                "id": "7813c97b-5adb-4722-89e5-5a73b6082a1b",
+                "title": "Blue Sea",
+                "creationDate": 1708017745619,
+                "templateName": "Marine"
+            }
+        }
     )
     .grp("manageProj")
     .add()
@@ -169,15 +168,15 @@ new APIEndpoint()
     .inObj(null)
     .outObj([
             {
-                "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
+                "id": "7813c97b-5adb-4722-89e5-5a73b6082a1b",
                 "title": "Blue Sea",
-                "creationDate": 1707838213453,
+                "creationDate": 1708017745619,
                 "templateName": "Marine"
             },
             {
-                "id": "e742c692-b0e8-4a9e-a16b-7be168e0a1c9",
+                "id": "a0fe5464-a186-444a-97df-273f799fe9bc",
                 "title": "Dark Crystal",
-                "creationDate": 1707869539534,
+                "creationDate": 1707956677599,
                 "templateName": "Obsidian"
             }
         ]
@@ -191,46 +190,83 @@ new APIEndpoint()
     .url('/project/info/{projectId}')
     .urlDesc('Returns all related infos to the project with the given ID.')
     .outObj({
-                "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
-                "title": "Blue Sea",
-                "creationDate": 1707838213453,
-                "templateName": "Marine",
-                "snapshot": {
-                    "aboutMe": null,
-                    "address": null,
-                    "city": null,
-                    "email": null,
-                    "firstName": "Code",
-                    "imageURL": null,
-                    "lastName": "Craft",
-                    "phoneNumber": null,
-                    "postalCode": null,
-                    "profileTitle": null,
-                    "Interest": [],
-                    "Formation": [],
-                    "ProfessionalExp": [
-                        {
-                            "city": null,
-                            "description": null,
-                            "employerName": null,
-                            "finishMonth": null,
-                            "finishYear": null,
-                            "post": null,
-                            "startingMonth": null,
-                            "startingYear": null,
-                            "tag": 7
-                        }
-                    ],
-                    "Skill": [],
-                    "Language": [
-                        {
-                            "name": "French",
-                            "level": "5",
-                            "tag": 10
-                        }
-                    ]
+            "id": "a0fe5464-a186-444a-97df-273f799fe9bc",
+            "title": "Dark Crystal",
+            "creationDate": 1707956677599,
+            "templateName": "Obsidian",
+            "snapshot": {
+                "aboutMe": "Placeholder about me text",
+                "fontFamily": "Arial",
+                "reference": "Placeholder reference",
+                "address": "123 Placeholder St",
+                "city": "Placeholder City",
+                "email": "example@example.com",
+                "firstName": "John",
+                "lastName": "Doe",
+                "phoneNumber": "+1234567890",
+                "postalCode": "12345",
+                "profileTitle": "Placeholder Profile Title",
+                "Education": [
+                    {
+                        "institutionName": "INSAT",
+                        "description": "All about INSAT",
+                        "degree": "Software Engineering Degree",
+                        "finishMonth": 5,
+                        "finishYear": 2023,
+                        "startingMonth": 9,
+                        "startingYear": 2019,
+                        "tag": 0,
+                        "toPresent": 0
+                    }
+                ],
+                "ProfessionalExp": [
+                    {
+                        "city": "Tunis",
+                        "description": "I did this and that and so on",
+                        "companyName": "ElyaData",
+                        "finishMonth": 12,
+                        "finishYear": 2022,
+                        "post": "Front End Developer",
+                        "startingMonth": 5,
+                        "startingYear": 2020,
+                        "tag": 0,
+                        "toPresent": 0
+                    }
+                ],
+                "Language": [
+                    {
+                        "name": "English",
+                        "level": "5",
+                        "tag": 1
+                    },
+                    {
+                        "name": "French",
+                        "level": "2",
+                        "tag": 0
+                    }
+                ],
+                "Skill": [
+                    {
+                        "name": "Designing",
+                        "level": "3",
+                        "tag": 0
+                    }
+                ],
+                "Interest": [
+                    {
+                        "name": "Sleeping",
+                        "tag": 0
+                    }
+                ],
+                "Orders": {
+                    "Education": 0,
+                    "ProfessionalExp": 1,
+                    "Language": 2,
+                    "Skill": 3,
+                    "Interest": 4
                 }
             }
+        }
 
     )
     .outDesc('The returned object is a project object with all detailled informations that belongs to the project with the given ID')
@@ -245,21 +281,79 @@ new APIEndpoint()
     .urlDesc('Returns all inserted data for a project with the given ID.')
 
     .outObj({
-        "id": "1706911726475",
-        "projectId": "1706863054682",
-        "firstName": "Code",
-        "lastName": "Craft",
-        "interests": [{"tag": 0}],
-        "formations": [],
-        "professionalExps": [],
-        "skills": [],
-        "languages": [
-           {"level": 5,
-            "name": "French",
-            "tag": 0}]
-    }
+            "aboutMe": "Placeholder about me text",
+            "fontFamily": "Arial",
+            "reference": "Placeholder reference",
+            "address": "123 Placeholder St",
+            "city": "Placeholder City",
+            "email": "example@example.com",
+            "firstName": "John",
+            "lastName": "Doe",
+            "phoneNumber": "+1234567890",
+            "postalCode": "12345",
+            "profileTitle": "Placeholder Profile Title",
+            "Education": [
+                {
+                    "institutionName": "INSAT",
+                    "description": "All about INSAT",
+                    "degree": "Software Engineering Degree",
+                    "finishMonth": 5,
+                    "finishYear": 2023,
+                    "startingMonth": 9,
+                    "startingYear": 2019,
+                    "tag": 0,
+                    "toPresent": 0
+                }
+            ],
+            "ProfessionalExp": [
+                {
+                    "city": "Tunis",
+                    "description": "I did this and that and so on",
+                    "companyName": "ElyaData",
+                    "finishMonth": 12,
+                    "finishYear": 2022,
+                    "post": "Front End Developer",
+                    "startingMonth": 5,
+                    "startingYear": 2020,
+                    "tag": 0,
+                    "toPresent": 0
+                }
+            ],
+            "Language": [
+                {
+                    "name": "English",
+                    "level": "5",
+                    "tag": 1
+                },
+                {
+                    "name": "French",
+                    "level": "2",
+                    "tag": 0
+                }
+            ],
+            "Skill": [
+                {
+                    "name": "Designing",
+                    "level": "3",
+                    "tag": 0
+                }
+            ],
+            "Interest": [
+                {
+                    "name": "Sleeping",
+                    "tag": 0
+                }
+            ],
+            "Orders": {
+                "Education": 0,
+                "ProfessionalExp": 1,
+                "Language": 2,
+                "Skill": 3,
+                "INTEREST": 4
+            }
+        }
     )
-    .outDesc('The returned object a Snapshot object with all detailled informations that belongs to the project with the given ID')
+    .outDesc('The returned object a Snapshot object with all detailed informations that belongs to the project with the given ID')
     .grp("dataProj")
 
     .add();
@@ -269,15 +363,20 @@ new APIEndpoint()
     .method('patch')
     .url('/project/info')
     .urlDesc('Updates a certain field of snapshot. ')
+    .description("This API allows you to update a certain field of the project information, which means that it offers you the possibility to avoid updating the whole project informations when you only need small modification. Based on Key Value, that you provide them to update. For Example Telling it to update 'firstName' to 'John'")
+    .inDesc("The request body should contain the project ID and primarily a fieldName & fieldValue. the field Name is the attribute name you are going to update, like firstName, aboutMe, phoneNumber, etc... and the fieldValue, which is the new value which will replace the old value of that field, like feildValue = 'John' when you are updating firstName or anything.. But also if the field we are going to update is in a List of elements (like Languages, Skills...) it should also contain an entry name (for the type like Language) and tag (the index, like tag 0 means the first Language we are going to update)..\n Like this example Below: We are telling to update the project with that id, updating the first Language Object (the tag is 0, we are using 0-indexed values) name into english.")
     .inObj({
-        "projectId":"1706822220158",
-        "fieldValue":5,
-        "fieldName":"level",
-        "entryName":"Language",
-        "tag":0
-    }
+            "projectId":"a0fe5464-a186-444a-97df-273f799fe9bc",
+            "fieldName":"name",
+            "entryName":"Language",
+            "tag":0,
+            "fieldValue":"English"
+
+        }
     )
-    .outObj({ "message": "Updated successfully" })
+    .outObj({
+        "message": "updated successfully"
+    })
     .grp("dataProj")
     .add();
 
@@ -288,67 +387,165 @@ new APIEndpoint()
     .urlDesc('Updates the whole snapshot object of a project.')
     .inDesc('The request body should contain the id of the project and the new snapshot object as given below.')
     .inObj({
-            "projectId":"1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
-            "snapshot":{
-                "firstName": "Code",
-                "lastName": "Craft",
-                "interests": [{"tag": 0, "name":"Sleeping"}],
-                "formations": [{"tag":0}],
-                "ProfessionalExp": [{"tag":7}],
-                "skills": [{"level":"2"}],
+            "projectId":"a0fe5464-a186-444a-97df-273f799fe9bc",
+            "snapshot": {
+                "aboutMe": "Placeholder about me text",
+                "fontFamily": "Arial",
+                "reference": "Placeholder reference",
+                "address": "123 Placeholder St",
+                "city": "Placeholder City",
+                "email": "example@example.com",
+                "firstName": "John",
+                "lastName": "Doe",
+                "phoneNumber": "+1234567890",
+                "postalCode": "12345",
+                "profileTitle": "Placeholder Profile Title",
+                "Education": [
+                    {
+                        "institutionName": "INSAT",
+                        "description": "All about INSAT",
+                        "degree": "Software Engineering Degree",
+                        "finishMonth": 5,
+                        "finishYear": 2023,
+                        "startingMonth": 9,
+                        "startingYear": 2019,
+                        "tag": 0,
+                        "toPresent": 0
+                    }
+                ],
+                "ProfessionalExp": [
+                    {
+                        "city": "Tunis",
+                        "description": "I did this and that and so on",
+                        "companyName": "ElyaData",
+                        "finishMonth": 12,
+                        "finishYear": 2022,
+                        "post": "Front End Developer",
+                        "startingMonth": 5,
+                        "startingYear": 2020,
+                        "tag": 0,
+                        "toPresent": 0
+                    }
+                ],
                 "Language": [
-                    {"level": 5,
+                    {
+                        "name": "English",
+                        "level": 5,
+                        "tag": 1
+                    },
+                    {
                         "name": "French",
-                        "tag": 10}]
+                        "level": 2,
+                        "tag": 0
+                    }
+                ],
+                "Skill": [
+                    {
+                        "name": "Designing",
+                        "level": 3,
+                        "tag": 0
+                    }
+                ],
+                "Interest": [
+                    {
+                        "name": "Sleeping",
+                        "tag": 0
+                    }
+                ],
+                "Orders": {
+                    "Education": 0,
+                    "ProfessionalExp": 1,
+                    "Language": 2,
+                    "Skill": 3,
+                    "Interest": 4
+                }
             }
         }
     )
     
-    .outDesc('As a return you get a message indicating the success of the operation or no... and, in case of success, the project object itself. You may use the returned object for testing if your input has been updated as expected or no, and also for redirection if needed.')
+    .outDesc('As a return you get a message indicating the success of the operation or no... ')
     .outObj({
         "message": "updated successfully",
-        "project": {
-            "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
-            "title": "Blue Sea",
-            "creationDate": 1707838213453,
-            "templateName": "Marine",
+        /*"project": {
+            "id": "a0fe5464-a186-444a-97df-273f799fe9bc",
+            "title": "Dark Crystal",
+            "creationDate": 1707956677599,
+            "templateName": "Obsidian",
             "snapshot": {
-                "aboutMe": null,
-                "address": null,
-                "city": null,
-                "email": null,
-                "firstName": "Code",
-                "imageURL": null,
-                "lastName": "Craft",
-                "phoneNumber": null,
-                "postalCode": null,
-                "profileTitle": null,
-                "Interest": [],
-                "Formation": [],
-                "ProfessionalExp": [
+                "aboutMe": "Placeholder about me text",
+                "fontFamily": "Arial",
+                "reference": "Placeholder reference",
+                "address": "123 Placeholder St",
+                "city": "Placeholder City",
+                "email": "example@example.com",
+                "firstName": "John",
+                "lastName": "Doe",
+                "phoneNumber": "+1234567890",
+                "postalCode": "12345",
+                "profileTitle": "Placeholder Profile Title",
+                "Education": [
                     {
-                        "city": null,
-                        "description": null,
-                        "employerName": null,
-                        "finishMonth": null,
-                        "finishYear": null,
-                        "post": null,
-                        "startingMonth": null,
-                        "startingYear": null,
-                        "tag": 7
+                        "institutionName": "INSAT",
+                        "description": "All about INSAT",
+                        "degree": "Software Engineering Degree",
+                        "finishMonth": 5,
+                        "finishYear": 2023,
+                        "startingMonth": 9,
+                        "startingYear": 2019,
+                        "tag": 0,
+                        "toPresent": 0
                     }
                 ],
-                "Skill": [],
+                "ProfessionalExp": [
+                    {
+                        "city": "Tunis",
+                        "description": "I did this and that and so on",
+                        "companyName": "ElyaData",
+                        "finishMonth": 12,
+                        "finishYear": 2022,
+                        "post": "Front End Developer",
+                        "startingMonth": 5,
+                        "startingYear": 2020,
+                        "tag": 0,
+                        "toPresent": 0
+                    }
+                ],
                 "Language": [
                     {
-                        "name": "French",
+                        "name": "English",
                         "level": "5",
-                        "tag": 10
+                        "tag": 1
+                    },
+                    {
+                        "name": "French",
+                        "level": "2",
+                        "tag": 0
                     }
-                ]
+                ],
+                "Skill": [
+                    {
+                        "name": "Designing",
+                        "level": "3",
+                        "tag": 0
+                    }
+                ],
+                "Interest": [
+                    {
+                        "name": "Sleeping",
+                        "tag": 0
+                    }
+                ],
+                "Orders": {
+                    "Education": 0,
+                    "ProfessionalExp": 1,
+                    "Language": 2,
+                    "Skill": 3,
+                    "Interest": 4
+                }
             }
-        }
+        }*/
     })
+
     .grp("dataProj")
     .add();
 new APIEndpoint()
@@ -409,7 +606,7 @@ new APIEndpoint()
     .outDesc('As a return you get a message indicating the success of the operation or no... and, in case of success, the project object itself. You may use the returned object for testing if the requested entry has been deleted successfully or no, and also for redirection if needed.')
     .outObj({
         "message":"data group deleted successfully",
-        "project":{
+        /*"project":{
         "id": "1474fe47-013b-4fcd-85fb-2ed3bfd65aa6",
         "userId": "1706821332398",
         "title": "My New One",
@@ -428,7 +625,7 @@ new APIEndpoint()
                 "name": "French",
                 "tag": 0}]
         }
-    }})
+    }*/})
     .grp("dataProj")
     .add();
 new APIEndpoint()

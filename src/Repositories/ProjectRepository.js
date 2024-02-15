@@ -66,9 +66,9 @@ async function  getFullProjectById(projectId){
     if (project.length===0)
         throw new Error("Project Not Found!")
     let snapshot = await getSnapshotOnly(projectId);
-    let orders = await getOrdersOnly(projectId)
+
     project[0].snapshot = snapshot;
-    project[0].snapshot.Orders = orders;
+
     return project[0];
 }
 async function getOrdersOnly(projectId){
@@ -94,6 +94,7 @@ async function getSnapshotOnly(projectId){
             snapshot[enumClassName] = enumDataGroupList;
         }
     }
+    snapshot.Orders = await getOrdersOnly(projectId);
     return snapshot;
 }
 /**
@@ -178,12 +179,13 @@ async function deleteProjectById(projectId){
         let delEnumQuery = connection.format("DELETE FROM ?? WHERE projectId = ?",[className,projectId]);
         await executeQuery(delEnumQuery);
     }
+    let delOrdersQuery = connection.format("DELETE FROM Orders WHERE projectId = ?",projectId);
+    await executeQuery(delOrdersQuery);
     let delSnapQuery= connection.format("DELETE FROM Snapshot WHERE projectId=?",[projectId]);
     await executeQuery(delSnapQuery);
     let delProjQuery =  connection.format("DELETE FROM Project WHERE id = ?",[projectId]);
     await executeQuery(delProjQuery);
-    let delOrdersQuery = connection.format("DELETE FROM Orders WHERE projectId = ?",projectId);
-    await executeQuery(delOrdersQuery);
+
 }
 module.exports = {deleteProjectById, tagExists,getNextTag, addWholeDataGroup, getSnapshotOnly
     ,updateSnapshotField,updateSnapshotFieldForEnumerable,

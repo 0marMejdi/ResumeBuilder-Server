@@ -2,6 +2,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
@@ -21,7 +22,7 @@
   "name": "resumebuilder-server",
   "description": "The server side for Resume Builder App. Offering APIs to be consummed for both mobile and web as front sides.",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "public/index.js",
   "scripts": {
     "start": "nodemon src/server.js"
   },

@@ -140,7 +140,7 @@ const createTableQueries = [
         ProfessionalExp INT,
         Language INT,
         Skill INT,
-        INTEREST INT,
+        Interest INT,
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
      )`

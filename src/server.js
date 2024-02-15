@@ -21,6 +21,7 @@ app.use(authenticationRouter);
 app.use(userRouter);
 app.use(projectRouter);
 app.use(require("./Routes/TestRoutes"));
+app.use(require("./Routes/GlobalRoutes"));
 app.use(badRoute);
 
 

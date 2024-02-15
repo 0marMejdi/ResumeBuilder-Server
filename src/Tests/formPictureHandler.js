@@ -7,15 +7,15 @@ const port = 3000;
 
 // Configure multer to handle file uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (req, file, callBackFunction) {
         let id = Date.now().toString();
         fs.mkdir("uploads/"+id, {recursive: true},(err,path)=>{
 
         });
-        cb(null, `uploads/${id}/`); // Set the destination folder for uploaded files
+        callBackFunction(null, `uploads/${id}/`); // Set the destination folder for uploaded files
     },
-    filename: function (req, file, cb) {
-        cb(null, "pdp"+ path.extname(file.originalname)); // Set the filename to be unique
+    filename: function (req, file, callBackFunction) {
+        callBackFunction(null, "pdp"+ path.extname(file.originalname)); // Set the filename to be unique
     }
 });
 
