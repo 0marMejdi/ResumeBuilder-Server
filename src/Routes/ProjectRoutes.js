@@ -4,6 +4,8 @@ const Project = require("../Models/Project");
 const authorize = require("../Middlewares/Authorize");
 const injectProject = require("../Middlewares/injectProject");
 const notImplemented = require("../Middlewares/NotImplemented")
+const bodyParser = require("body-parser");
+const pictureHandler = require("../Middlewares/PictureHandler");
 let router = express.Router();
 router.get("/project/list",authorize, async (req,res)=>{
     try{
@@ -44,7 +46,7 @@ router.get("/project/snapshot/:projectId",authorize,injectProject,async(req,res)
 router.patch("/project/info",authorize,injectProject,async(req,res)=>{
     try{
         await ProjectController.updateSnapshotField(req.body.project.id, {fieldValue:req.body.fieldValue,fieldName:req.body.fieldName , entryName:req.body.entryName,tag: req.body.tag});
-        res.status(200).json({message:"updated successfully",projectId:req.body.project.id });
+        res.status(200).json({message:"updated successfully" });
     }catch (e) {
         res.status(401).json({message:e.message, stack:e.stack});
     }
@@ -54,7 +56,7 @@ router.patch("/project/info",authorize,injectProject,async(req,res)=>{
 router.put("/project/info",authorize,injectProject,async(req,res)=>{
     try{
         await ProjectController.updateSnapshot(req.body.projectId,req.body.snapshot);
-        res.status(200).json({message:"updated successfully", project: await ProjectController.getFullProject(req.body.project.id)});
+        res.status(200).json({message:"updated successfully"});
 
     }catch (e) {
         res.status(401).json({message:e.message, stack:e.stack});
@@ -74,8 +76,16 @@ router.post("/project/info",authorize,injectProject,async (req,res)=>{
 
 })
 
-router.post("/project/image",authorize,injectProject,notImplemented) ;
-
+router.post("/project/image",  bodyParser.urlencoded({extended:true}) ,
+    pictureHandler, authorize,injectProject,
+    async (req,res)=>{
+        try{
+            await ProjectController.uploadImage(req.body.project.id,req.body.imageBuffer,req.body.imageType);
+            res.status(200).json({message:"image uploaded successfully"});
+        }catch(err) {
+            res.status(401).json({message: err.message});
+        }
+    });
 router.delete("/project/info",authorize,injectProject,notImplemented) ;
 router.delete("/project",authorize,injectProject,async (req,res)=>{
     try{
@@ -88,13 +98,38 @@ router.delete("/project",authorize,injectProject,async (req,res)=>{
 
 router.get("/project/thumb/:projectId",authorize,injectProject,notImplemented);
 
-router.get("/project/pdf/:projectId",authorize,injectProject,notImplemented);
+router.get("/project/pdf/:projectId",authorize,injectProject,async(req,res)=>{
+    try{
+        let htmlContent = await ProjectController.injectInfosHtml(req.body.project.id);
+        let pdf  = await ProjectController.getPDFContent(req.body.project.id);
+        res.setHeader("Content-Type",'application/pdf');
+        res.status(200).send(pdf);
+    }catch(e){
+        res.status(401).json({message:e.message});
+    }
+});
 
-router.get("/project/html/:projectId",authorize,injectProject,notImplemented);
+router.get("/project/html/:projectId",authorize,injectProject,async(req,res)=>{
+    try{
+        let htmlContent = await ProjectController.injectInfosHtml(req.body.project.id);
+        res.status(200).send(htmlContent);
+    }catch(e){
+        res.status(401).json({message:e.message});
+    }
+});
 
-router.get("/project/image/:projectId",authorize,injectProject,notImplemented);
+router.get("/project/image/:projectId",authorize,injectProject,async(req,res)=>{
+    try{
+        let buffer = await ProjectController.downloadImage(req.body.project.id);
+        res.setHeader("Content-Type", `image/${await ProjectController.getImageType(req.body.project.id)}`);
+        if (!buffer)
+            throw new Error("NO IMAGE !!!!! ")
+        res.status(200).send(buffer);
+    }catch(e){
+        res.status(401).json({message:e.message});
+    }
+});
 
-router.put("/project/orders/update",authorize,injectProject,notImplemented);
-
+router.put("/project/order/update",authorize,injectProject,notImplemented);
 
 module.exports = router;

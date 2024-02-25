@@ -69,6 +69,8 @@ class Snapshot extends enumerableList  {
         }
         sanitized.Orders.projectId= snapshot.projectId;
         sanitized.Orders = Orders.sanitize(sanitized.Orders);
+        // this should not updated like that!
+        delete sanitized.imageURL;
         return sanitized;
     }
 
@@ -144,7 +146,8 @@ class Snapshot extends enumerableList  {
     }
 
     /**
-     *
+     * prepares the snapshot object to be returned for the user. it deletes every unused fields such as ids, url...
+     * and trims recursively every object
      * @param snapshot :Snapshot
      */
     static fullTrim(snapshot){
@@ -163,6 +166,14 @@ class Snapshot extends enumerableList  {
         delete snapshot.id;
         delete snapshot.projectId;
         delete snapshot.imageURL;
+        return snapshot;
+    }
+
+    static minimalTrim(snapshot) {
+        snapshot = Snapshot.fullTrim(snapshot);
+        for (const className in Snapshot.enumerableList) {
+            delete snapshot[className];
+        }
         return snapshot;
     }
 }

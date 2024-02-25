@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawPrototype - Resume</title>
+</head>
+
+<style id="mainStyle">
+    .testBorder{
+        border: black solid 1px;
+    }
+    body{
+        font-family: 'Arial', sans-serif;
+    }
+</style>
+<!-- Yaaaa Islem!
+
+important! you can't change any ids,
+you can't remove any key word classes like : value, startingYear... but you can append classes
+you are free to change the order of elements but not the nested structure
+a nested structure? for example the "firstName" tag has to contain a tag that has class called "value"
+and so Education Section must contain an element with classes "tag-1" and  "enumerable-element"
+and inside  <div class="tag-1 enumerable-element" > there must be an element with class called "degree"
+and inside degree element, there must be value class element.
+note that you can add anything between classes. you are free to fill between them except values classes.
+because they interfere directly with the backend. the values that are going to be changed themselves.
+
+-->
+
+
+
+<!-- You can remove the testBorder class for body, it's just for seeing the limits of real A4 page -->
+<body   class="testBorder"  style="width: 814px; padding: 0; margin: 0;">
+    <div>
+        <section id="PersonalInfo">
+            <!-- you have the freedom to write and add and style everything here for example,-->
+            <img class="profile-photo" width="150px" height="150px" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile Photo" id="profilePicture">
+            <div id="firstName">
+                <!-- for example here you can add anything for your styling,
+                as long as it's not inside the class value
+                add anything here, and you can nest the value element inside other classes and so on.
+                -->
+                <span class="value">John</span>
+            </div>
+            <div id="lastName">
+                <span class="value">Doe</span>
+            </div>
+            <div id="profileTitle">
+                <span class="value">Software Developer</span>
+            </div>
+            <div id="email">
+                <span class="value">john.doe@example.com</span>
+            </div>
+            <div id="phoneNumber">
+                <span class="value">+1 234 567 8901</span>
+            </div>
+            <div id="address">
+                <span class="value">123 Main Street</span>
+            </div>
+            <div id="city">
+                <span class="value">Techville</span>
+            </div>
+            <div id="postalCode">
+                <span class="value">1846</span>
+            </div>
+            <a href="https://www.linkedin.com/in/johndoe/" id="reference">
+                <span class="value">https://www.linkedin.com/in/johndoe/</span>
+            </a>
+            <div id="aboutMe">
+                <span class="value">Passionate software developer with a keen interest in crafting elegant solutions to complex problems. Constantly learning and exploring new technologies.</span>
+            </div>
+        </section>
+
+        <section id="Education">
+            <h2>Education Section</h2>
+            <div class="tag-1 enumerable-element" >
+                <div class="instituteName">
+                    <span class="value"> Lycee Mana3refech chnowa </span>
+                </div>
+                <div class="degree">
+                    <span class="value"> Software Engineer </span>
+                </div>
+                <div class="started">
+                    Started at:
+                    <span class="startingMonth">
+                        <span class="value"> September </span>
+                    </span>
+                    <span class="startingYear">
+                        <span class="value">2022 </span>
+                    </span>
+                </div>
+                <div class="finished">
+                    To:
+                    <span class="present">
+                        <span class="value"> Present </span>
+                    </span>
+                </div>
+                <div class="description">
+                    <span class="value">
+                        Here I think there goes to what you have learned here academic skills, maybe some description for your institute...
+                    </span>
+                </div>
+            </div>
+            <div class="tag-2 enumerable-element" >
+                <div class="instituteName">
+                    <span class="value"> Lycee Ibnu 5oldoun </span>
+                </div>
+                <div class="degree">
+                    <span class="value">Bac Sciences Mention très bien </span>
+                </div>
+                <div class="started">
+                    Started at:
+                    <span class="startingMonth">
+                        <span class="value"> September </span>
+                    </span>
+                    <span class="startingYear">
+                        <span class="value">2018 </span>
+                    </span>
+                </div>
+                <div class="finished">
+                    To:
+                    <span class="finishingMonth">
+                        <span class="value"> Juin </span>
+                    </span>
+                    <span class="finishingYear">
+                        <span class="value">2022</span>
+                    </span>
+                </div>
+                <div class="description">
+                    <span class="value">More boring description...</span>
+                </div>
+            </div>
+        </section>
+        <section id="ProfessionalExp">
+        <h2>Professional Experience Section</h2>
+        <div class="tag-1 enumerable-element">
+            <div class="post">
+                <span class="value">Web Developer</span>
+            </div>
+            <div class="companyName">
+                <span class="value">ElyaData</span>
+            </div>
+            <div class="city">
+                <span class="value">Tunis</span>
+            </div>
+            <div class="started">
+                Started at:
+                <span class="startingMonth">
+                    <span class="value">September</span>
+                </span>
+                <span class="startingYear">
+                    <span class="value">2018</span>
+                </span>
+            </div>
+            <div class="finished">
+                To:
+                <span class="finishingMonth">
+                    <span class="value">Juin</span>
+                </span>
+                <span class="finishingYear">
+                    <span class="value">2022</span>
+                </span>
+            </div>
+            <div class="description">
+                <span class="value">
+                    Developed and maintained company websites
+                    Collaborated with cross-functional teams to achieve project goals
+                </span>
+            </div>
+        </div>
+
+        <div class="tag-2 enumerable-element">
+            <div class="post">
+                <span class="value">Intern</span>
+            </div>
+            <div class="companyName">
+                <span class="value">ABC Tech</span>
+            </div>
+            <div class="city">
+                <span class="value">Tunis</span>
+            </div>
+            <div class="started">
+                Started at:
+                <span class="startingMonth">
+                    <span class="value">September </span>
+                </span>
+                <span class="startingYear">
+                    <span class="value">2022</span>
+                </span>
+            </div>
+            <div class="finished">
+                To:
+                <span class="present">
+                    <span class="value">Present</span>
+                </span>
+            </div>
+            <div class="description">
+                <span class="value">
+                    Assisted in front-end development tasks
+                    Gained experience with industry-standard tools and practices
+                </span>
+            </div>
+        </div>
+
+    </section>
+        <section id="Skill">
+    <h2>Skills</h2>
+            <div class="tag-1 enumerable-element">
+                <span class="name"> HTML </span>
+                <span class="level">Pro </span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+            </div>
+            <div class="tag-2 enumerable-element">
+                <span class="name"> CSS </span>
+                <span class="level"> Noob</span>
+            </div>
+            <div class="tag-3 enumerable-element">
+                <span class="name"> JavaScript </span>
+                <span class="level"> Good</span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+            </div>
+            <div class="tag-4 enumerable-element">
+                <span class="name"> NodeJs </span>
+                <span class="level">Not Bad</span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+            </div>
+        </section>
+        <section id="Language">
+            <h2> Languages</h2>
+            <div class="tag-1 enumerable-element">
+                <span class="name"> French </span>
+                <span class="level">Intermediate </span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+            </div>
+            <div class="tag-2 enumerable-element">
+                <span class="name"> Arabic </span>
+                <span class="level"> Native</span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+            </div>
+        </section>
+        <section id="Interest">
+            <h2>Interests</h2>
+            <ul>
+                <li class="tag-1  enumerable-element">Football</li>
+                <li class="tag-2  enumerable-element">Cycling</li>
+                <li class="tag-3  enumerable-element">VideoGames</li>
+                <li class="tag-4  enumerable-element">Chess</li>
+
+
+
+            </ul>
+        </section>
+</div>
+</body>
+
+</html>

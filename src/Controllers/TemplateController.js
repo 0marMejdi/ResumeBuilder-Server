@@ -12,11 +12,9 @@ const getTemplateContent =async (name)=>{
 };
 
 const getTemplatePdf = async (name)=>{
-    let path = `../../temp/${Date.now()}.pdf`;
-    await pdfConverter(resolveName(name), path);
-    let content = await fs.readFile(path);
-    fs.rm(path);
-    return content;
+    let content = await getTemplateContent(name)
+    return await pdfConverter.getPdfBufferFromHTML(content);
+
 
 }
 /**
@@ -24,19 +22,19 @@ const getTemplatePdf = async (name)=>{
  * @param name : string
  * @returns {Promise<Buffer>}
  */
-const getTemplateThumb= async (name)=>  await fs.readFile(`${__dirname}/../../assets/thumbs/templates/${name}.png`);
+const getTemplateThumb= async (name)=>  await fs.readFile(`../../assets/thumbs/templates/${name}.png`);
 
 const getTemplateThumbDynamic = async(name)=>{
-    const Thumb = require(__dirname+"/../Models/PdfToPng");
-    const html2pdf = require(`${__dirname}+/../Models/html2pdfConverters/html2pdf`);
+    const Thumb = require("../Models/PdfToPng");
+    const html2pdf = require(`../Models/html2pdfConverters/html2pdf`);
     // making temporary name for intermediate file
     const tempName=Date.now();
     // converting template from html to pdf
-    await html2pdf(resolveName(name),`${__dirname}/../../temp/${tempName}.pdf`)
+    await html2pdf(resolveName(name),`../../temp/${tempName}.pdf`)
     // converting template from pdf to png
-    let pngContent = await Thumb.getPngContent(`${__dirname}/../../temp/${tempName}.pdf`);
+    let pngContent = await Thumb.getPngContent(`../../temp/${tempName}.pdf`);
     // deleting intermediate file
-    await fs.rm(`${__dirname}/../../temp/${tempName}.pdf`);
+    await fs.rm(`../../temp/${tempName}.pdf`);
     return pngContent;
 };
 const getAllTemplateContent = async()=>{

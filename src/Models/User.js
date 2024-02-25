@@ -36,7 +36,7 @@ class User{
      * @param user : User
      */
     static trim(user){
-        delete user.id;
+
         delete user.imageURL;
         return user;
     }

@@ -23,4 +23,23 @@ function convertHtmlToPdf(inputFileName, outputFileName) {
         });
     });
 }
-module.exports=convertHtmlToPdf;
+
+function getPdfBufferFromHTML(htmlContent) {
+    return new Promise((resolve, reject) => {
+        // Configuration for PDF creation
+        const pdfOptions = {
+            format: 'Letter',
+            orientation: 'portrait',
+        };
+
+        // Generate PDF buffer
+        pdf.create(htmlContent, pdfOptions).toBuffer((err, buffer) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(buffer);
+            }
+        });
+    });
+}
+module.exports= {convertHtmlToPdf,getPdfBufferFromHTML};

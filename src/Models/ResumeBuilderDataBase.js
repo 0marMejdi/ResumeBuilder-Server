@@ -6,6 +6,7 @@ const defaultConnection={
     user:"root",
     password:"",
 };
+const defaultDBName="resume_builder"
 function getConfiguration(){
     let conn = defaultConnection;
     if (process.env.DATABASE_HOST)
@@ -16,7 +17,7 @@ function getConfiguration(){
         conn.user = process.env.DATABASE_USERNAME;
     return conn;
 }
-const dataBaseName = process.env.DATABASE_NAME?process.env.DATABASE_NAME:defaultConnection.dbName;
+const dataBaseName = process.env.DATABASE_NAME?process.env.DATABASE_NAME:defaultDBName;
 const connection = mysql.createConnection(getConfiguration());
 
 // Function to execute a single query and return a promise
