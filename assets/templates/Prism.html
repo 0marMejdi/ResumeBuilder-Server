@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawPrototype - Resume</title>
+</head>
+
+<style id="mainStyle">
+    /*.testBorder {
+        border: black solid 1px;
+    }*/
+
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #B8CBD0;
+    }
+
+    .profile-photo {
+        margin-left: 70%;
+        margin-top: 5%;
+        border-radius: 50%;
+    }
+
+    #name {
+
+        padding-left: 20%;
+        font-size: 30px;
+    }
+
+    #lastName {
+        margin-left: 20%;
+        font-size: 30px;
+        padding-left: 20%;
+
+    }
+
+    #profileTitle {
+        margin-left: 17%;
+        font-size: 28px;
+        margin-top: 2%;
+    }
+
+    #north {
+        background-color: #344D59;
+        padding-bottom: 10%;
+    }
+
+    #secondPerso {
+        margin-left: 63%;
+        padding-left: 7%;
+        padding-top: 4%;
+        font-size: 20px;
+        background-color: #7A90A4;
+    }
+
+    #email {
+        padding-bottom: 3%;
+    }
+
+    #phoneNumber {
+        padding-bottom: 3%;
+    }
+
+    #address {
+        padding-bottom: 3%;
+    }
+
+    #city {
+        padding-bottom: 3%;
+    }
+
+    #postalCode {
+        padding-bottom: 3%;
+    }
+
+    #aboutMe {
+        padding-top: 3%;
+    }
+
+    #right {
+        margin-left: 63%;
+        padding-left: 7%;
+        padding-top: 5%;
+        font-size: 20px;
+        background-color: #7A90A4 ;
+        padding-bottom: 160px;
+    }
+
+    #Education {
+        margin-top: -930px;
+        margin-left: 3%;
+        font-size: large;
+    }
+
+    #nom {
+        margin-top: -15%;
+    }
+    #Language{
+        padding-top: 10%;
+    }
+    #Interest{
+        padding-top: 10%;
+        padding-bottom: 8%;
+    }
+    #section{
+        font-size: 25px;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    #ProfessionalExp{
+        padding-top: 7%;
+        padding-left: 3%;
+        font-size: large;
+    }
+    #intEduc{
+        font-size: 18px;
+        padding-left: 1%;
+    }
+    #intPro{
+        font-size: 18px;
+        padding-left: 2%;
+        
+    }
+    .instituteName{
+        padding-bottom: 1%;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .degree{
+        padding-bottom: 1%;
+    }
+    .started{
+        padding-bottom: 1%;
+    }
+    .finished{
+        padding-bottom: 1%;
+    }
+    .present{
+        padding-bottom: 1%;
+    }
+    .post{
+        padding-bottom: 1%;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .companyName{
+        padding-bottom: 1%;
+    }
+    .city{
+        padding-bottom: 1%;
+    }
+    .finished{
+        padding-bottom: 1%;
+        padding-top: 1%;
+    }
+</style>
+
+<!-- You can remove the testBorder class for body, it's just for seeing the limits of real A4 page -->
+
+<body class="testBorder" style="width: 814px; padding: 0; margin: 0;">
+    <div>
+        <section id="PersonalInfo">
+            <div id="north">
+                <!-- you have the freedom to write and add and style everything here for example,-->
+                <img class="profile-photo" width="150px" height="150px"
+                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    alt="Profile Photo" id="profilePicture">
+                <div id="nom">
+                    <table>
+                        <td id="name">
+                            <div id="firstName">
+                                {firstName}
+                            </div>
+                        </td>
+                        <td>
+                            <div id="lastName">
+                                {lastName}
+                            </div>
+                        </td>
+                    </table>
+                </div>
+
+                <div id="profileTitle">
+                    {profileTitle}
+                </div>
+            </div>
+
+            <div id="secondPerso">
+                <div id="email">
+                    {email}
+                </div>
+                <div id="phoneNumber">
+                    {phoneNumber}
+                </div>
+                <div id="address">
+                    {address}
+                </div>
+                <div id="city">
+                    {city}
+                </div>
+                <div id="postalCode">
+                    {postalCode}
+                </div>
+                <a href="{reference}">
+                    {reference}
+                </a>
+                <div id="aboutMe">
+                    {aboutMe}
+                </div>
+            </div>
+
+        </section>
+        <div id="right">
+            <section id="Skill">
+                <h2>Skills</h2>
+                <div class="tag-1 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level">{level} </span>
+                </div>
+                <div class="tag-2 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level"> {level}</span>
+                </div>
+                <div class="tag-3 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level"> {level}</span>
+                    <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+                </div>
+                <div class="tag-4 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level">{level}</span>
+                    <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+                </div>
+            </section>
+            <section id="Language">
+                <h2> Languages</h2>
+                <div class="tag-1 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level">{level} </span>
+                </div>
+                <div class="tag-2 enumerable-element">
+                    <span class="name"> {name} </span>
+                    <span class="level"> {level}</span>
+                </div>
+            </section>
+            <section id="Interest">
+                <h2>Interests</h2>
+                <div class="tag-1 enumerable-element">
+                    <span class="name"> {name} </span>
+                </div>
+                <div class="tag-2 enumerable-element">
+                    <span class="name"> {name} </span>
+                </div>
+            </section>
+        </div>
+
+        <section id="Education">
+            <h2 id="section">Education Section</h2>
+            <div id="intEduc">
+            <div class="tag-1 enumerable-element">
+                <div class="instituteName">
+                    {instituteName}
+                </div>
+                <div class="degree">
+                    {degree}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="present">
+                    To: Present
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+            <br>
+            <div class="tag-2 enumerable-element">
+                <div class="instituteName">
+                    {instituteName}
+                </div>
+                <div class="degree">
+                    {degree}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="finished">
+                    To: {finishingMonth} {finishingYear}
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <section id="ProfessionalExp">
+            <h2 id="section">Professional Experience Section</h2>
+            <div id="intPro">
+            <div class="tag-1 enumerable-element">
+                <div class="post">
+                    {post}
+                </div>
+                <div class="companyName">
+                    {companyName}
+                </div>
+                <div class="city">
+                    {city}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="finished">
+                    To: {finishingMonth} {finishingYear}
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+            <br>
+            <div class="tag-2 enumerable-element">
+                <div class="post">
+                    {post}
+                </div>
+                <div class="companyName">
+                    {companyName}
+                </div>
+                <div class="city">
+                    {city}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="present">
+                    To: Present
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+        </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

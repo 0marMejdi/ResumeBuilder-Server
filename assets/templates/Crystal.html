@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawPrototype - Resume</title>
+   
+</head>
+
+
+<style id="mainStyle">
+    .testBorder{
+        border: black solid 1px;
+    }
+    body{
+        font-family: math;
+        background-color: aliceblue;
+    }
+
+    #profilePicture{
+        border-radius: 50%;
+        margin-left: 22%;
+        margin-top: 10%;
+        padding-left: 1%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        padding-right: 1%;
+        background-color: #42AEE4;
+    }
+    #left{
+        background-color: #323230;
+        width: 40%;
+        color: aliceblue;
+    }
+    #firstName{
+        font-size: 27px;
+        
+    }
+    #lastName{
+        font-size: 27px;
+    }
+    #nom{
+        margin-top: 10%;
+        display: flex;
+        justify-content: center;
+    }
+    #profileTitle{
+        font-size: 23px;
+        display: flex;
+        justify-content: center;
+    }
+    #secondPerso{
+        margin-left: 10%;
+        font-size: 20px;
+        display: flex;
+        justify-content: baseline;
+        margin-top: 20%;
+
+    }
+    #Skill{
+        margin-left: 10%;
+        font-size: 20px;
+        padding-bottom: 5%;
+    }
+    #skillH2{
+        font-size: 35px;
+        font-weight: lighter;
+        padding-top: 2%;
+    }
+    #Language{
+        margin-left: 10%;
+        font-size: 20px;
+        padding-bottom: 5%;
+    }
+    #LanguageH2{
+        font-size: 35px;
+        font-weight: lighter;
+        padding-top: 2%;
+        
+    }
+    #InterestH2{
+        font-size: 35px;
+        font-weight: lighter;
+        padding-top: 2%;
+    }
+    #Interest{
+        margin-left: 10%;
+        font-size: 20px;
+        padding-bottom: 30%;
+    }
+    #Education{
+        margin-left: 45%;
+        margin-top: -140%;
+        padding-bottom: 20%;
+        font-size: 20px;
+    }
+    #ProfessionalExp{
+        margin-left: 45%;
+        padding-bottom: 20%;
+        font-size: 20px;
+    }
+    #ProfessionalExpH2{
+        font-size: 35px;
+        font-weight: lighter;
+        padding-top: 2%;
+    }
+    #EducationH2{
+        font-size: 35px;
+        font-weight: lighter;
+        padding-top: 2%;
+    }
+</style>
+
+<!-- You can remove the testBorder class for body, it's just for seeing the limits of real A4 page -->
+<body   class="testBorder"  style="width: 814px; padding: 0; margin: 0;">
+    <div>
+        <div id="left">
+        <section id="PersonalInfo">
+            <!-- you have the freedom to write and add and style everything here for example,-->
+            <img class="profile-photo" width="160px" height="160px" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile Photo" id="profilePicture">
+            <table id="nom">
+                <td>
+            <div id="firstName">
+                {firstName}
+            </div>
+        </td>
+        <td>
+            <div id="lastName">
+                {lastName}
+            </div>
+        </td>
+        </table>
+            <div id="profileTitle">
+                {profileTitle}
+            </div>
+            <table id="secondPerso">
+                <tr> <td>
+                    <i class="fa-regular fa-envelope"></i>
+                </td>
+                <td>
+            <div id="email">
+                {email}
+            </div>
+        </td>
+        </tr>
+        <tr>
+            <td><i class="fa-solid fa-phone"></i></td>
+            <td>
+            <div id="phoneNumber">
+                {phoneNumber}
+            </div>
+        </td>
+        </tr>
+        <tr><td><i class="fa-solid fa-location-dot"></i></td>
+            <td>
+            <div id="address">
+                {address}
+            </div>
+        </td>
+        </tr>
+        <tr><td><i class="fa-solid fa-city"></i></td>
+            <td>
+            <div id="city">
+                {city}
+            </div>
+        </td>
+        </tr>
+        <tr>
+            <td><i class="fa-solid fa-inbox"></i></td>
+            <td><div id="postalCode">
+                {postalCode}
+            </div></td>
+        </tr>
+            <tr><td><i class="fa-solid fa-circle-user"></i></td>
+                <td>
+            <a href="{reference}">
+                {reference}
+            </a>
+        </td>
+        </tr>
+        <tr><td>
+            <i class="fa-solid fa-address-card"></i>
+        </td>
+        <td>
+            <div id="aboutMe">
+                {aboutMe}
+            </div>
+        </td>
+        </tr>
+        </table>
+        </section>
+        <section id="Skill">
+            
+            <h2 id="skillH2"> Skills </h2>
+                    <div class="tag-1 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level">{level} </span>
+                    </div>
+                    <div class="tag-2 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level"> {level}</span>
+                    </div>
+                    <div class="tag-3 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level"> {level}</span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+                    </div>
+                    <div class="tag-4 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level">{level}</span> <!-- could be anything: five points/stars, a bar meter, a keyword ("inermediat", "native") -->
+                    </div>
+                </section>
+                <section id="Language">
+                    <h2 id="LanguageH2"> Languages</h2>
+                    <div class="tag-1 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level">{level} </span>
+                    </div>
+                    <div class="tag-2 enumerable-element">
+                        <span class="name"> {name} </span>
+                        <span class="level"> {level}</span>
+                    </div>
+                </section>
+                <section id="Interest">
+                    <h2 id="InterestH2">Interests</h2>
+                    <div class="tag-1 enumerable-element">
+                        <span class="name"> {name} </span>
+                    </div>
+                    <div class="tag-2 enumerable-element">
+                        <span class="name"> {name} </span>
+                    </div>
+                </section>
+            </div>
+        <section id="Education">
+            <h2 id="EducationH2">Education Section</h2>
+            <div class="tag-1 enumerable-element" >
+                <div class="instituteName">
+                    {instituteName}
+                </div>
+                <div class="degree">
+                    {degree}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="present">
+                    To: Present
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+            <br>
+            <div class="tag-2 enumerable-element" >
+                <div class="instituteName">
+                    {instituteName}
+                </div>
+                <div class="degree">
+                    {degree}
+                </div>
+                <div class="started">
+                    Started at: {startingMonth} {startingYear}
+                </div>
+                <div class="finished">
+                    To: {finishingMonth} {finishingYear}
+                </div>
+                <div class="description">
+                    {description}
+                </div>
+            </div>
+        </section>
+        <section id="ProfessionalExp">
+        <h2 id="ProfessionalExpH2">Professional Experience Section</h2>
+        <div class="tag-1 enumerable-element">
+            <div class="post">
+                {post}
+            </div>
+            <div class="companyName">
+                {companyName}
+            </div>
+            <div class="city">
+                {city}
+            </div>
+            <div class="started">
+                Started at: {startingMonth} {startingYear}
+            </div>
+            <div class="finished">
+                To: {finishingMonth} {finishingYear}
+            </div>
+            <div class="description">
+                {description}
+            </div>
+        </div>
+        <br>
+        <div class="tag-2 enumerable-element">
+            <div class="post">
+                {post}
+            </div>
+            <div class="companyName">
+                {companyName}
+            </div>
+            <div class="city">
+                {city}
+            </div>
+            <div class="started">
+                Started at: {startingMonth} {startingYear}
+            </div>
+            <div class="present">
+                To: Present
+            </div>
+            <div class="description">
+                {description}
+            </div>
+        </div>
+
+    </section>
+        
+</div>
+<script src="https://kit.fontawesome.com/a3f8546e79.js" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
