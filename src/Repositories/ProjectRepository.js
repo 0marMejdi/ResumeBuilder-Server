@@ -8,7 +8,7 @@ const {executeQuery} = require("../Models/ResumeBuilderDataBase");
 
 
 async function projectExists(projectId) {
-    let query = connection.format('SELECT * FROM project WHERE id = ? ;',[projectId]);
+    let query = connection.format('SELECT * FROM Project WHERE id = ? ;',[projectId]);
     let result = await executeQuery(query);
     return (result.length>0);
 }
@@ -35,7 +35,7 @@ async function createProject (project){
  * @return {Promise<Project[]>}
  */
 async function getSimpleProjectsForUserById (userId){
-    let query = connection.format('SELECT * FROM project WHERE userId = ? ;', [userId]);
+    let query = connection.format('SELECT * FROM Project WHERE userId = ? ;', [userId]);
     // it's okay if he doesn't have any project, no exception needed
     return (await executeQuery(query));
 }
@@ -46,7 +46,7 @@ async function getSimpleProjectsForUserById (userId){
  * @return {Promise<User>}
  */
 async function  getSimpleProjectById(projectId){
-    let query  = connection.format('SELECT * FROM project WHERE id = ? ;', [projectId]);
+    let query  = connection.format('SELECT * FROM Project WHERE id = ? ;', [projectId]);
     let result = await executeQuery(query) ;
     if (result.length<=0)
         throw new Error("No Project Found For this id!")

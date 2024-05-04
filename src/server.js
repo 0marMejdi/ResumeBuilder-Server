@@ -25,7 +25,7 @@ app.use(require("./Routes/GlobalRoutes"));
 app.use(badRoute);
 
 
-const PORT = process.env.PORT?process.env.PORT:8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, async() => {
     console.log("Connecting to database and checking tables");
     let res = await dbContext.createTables();

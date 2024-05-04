@@ -8,7 +8,7 @@ const User = require("../Models/User")
  * @return {Promise<boolean>}
  */
 async function userExists(id) {
-    let query = connection.format(`SELECT * FROM user WHERE id = ? ;`,[id]);
+    let query = connection.format(`SELECT * FROM User WHERE id = ? ;`,[id]);
     let result =  await executeQuery(query);
     return result.length !== 0;
 }
@@ -18,7 +18,7 @@ async function userExists(id) {
  * @return {Promise<boolean>}
  */
 async function emailExists(email) {
-    let query = connection.format('SELECT * FROM user WHERE email = ? ;', [email]);
+    let query = connection.format('SELECT * FROM User WHERE email = ? ;', [email]);
     let result =  await executeQuery(query);
     return result.length !== 0;
 }
@@ -29,7 +29,7 @@ async function emailExists(email) {
  * @return {Promise<User>}
  */
 async function getUserById(id) {
-    let query = connection.format('SELECT * FROM user WHERE id = ? ;', [id]);
+    let query = connection.format('SELECT * FROM User WHERE id = ? ;', [id]);
     let result =  await executeQuery(query);
     if (result.length===0)
         throw new Error("No user found");
@@ -42,10 +42,10 @@ async function getUserById(id) {
  * @return {Promise<User>}
  */
 async function getUserByEmail(email) {
-    let query = connection.format('SELECT * FROM user WHERE email = ? ;', [email]);
+    let query = connection.format('SELECT * FROM User WHERE email = ? ;', [email]);
     let result =  await executeQuery(query);
     if (result.length===0)
-        throw new Error("No user found");
+        return null;
     return result[0];
 }
 
@@ -56,7 +56,7 @@ async function getUserByEmail(email) {
  */
 async function createUser(user) {
     user = User.sanitize(user);
-    let query = connection.format(`INSERT INTO user SET ? ;`,user);
+    let query = connection.format(`INSERT INTO User SET ? ;`,user);
     return await executeQuery(query) ;
 }
 
