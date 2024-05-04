@@ -76,51 +76,91 @@
                 float: none;
             }
         }
-        .testBorder{
+/*         .testBorder{
             border: black solid 1px;
-        }
+        } */
     </style>
 <body   class="testBorder"  style="width: 814px; padding: 0px; margin: 0px;">
 
 <div class="container">
     <header>
-        <h1>Your Name</h1>
-        <p>Web Developer</p>
+        <h1>{{ firstName }} {{ lastName }}</h1>
+        <p>{{ profileTitle }}</p>
     </header>
 
     <div class="clear"></div>
 
     <section>
         <h2>About Me</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel ipsum nec dolor finibus luctus. Nulla facilisi. Morbi quis felis vel purus eleifend congue vel nec enim. Integer bibendum congue lectus, non tempus justo imperdiet non.</p>
-
+        <p>{{ aboutMe }}</p>
+        
+        
+        {{#if ProfessionalExp.length}}
         <h2>Experience</h2>
-        <h3>Web Developer at XYZ Company</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel ipsum nec dolor finibus luctus.</p>
 
-        <h3>Frontend Developer at ABC Corporation</h3>
-        <p>Proin commodo, nisl a varius tristique, justo odio eleifend risus, ut feugiat eros dui vel neque.</p>
+        {{#each ProfessionalExp}}
+
+            <h3>{{ post }} at {{ companyName }} - {{ city }} </h3>
+            <h5>
+                From {{ startingMonth }}-{{ startingYear }} 
+                {{#if toPresent}}
+                    until now
+                {{else}}
+                
+                    to {{ finishMonth }}-{{ finishYear }}
+                
+                {{/if}}
+            </h5>
+            <p>{{ description }}</p>
+        
+        {{/each}}
+        {{/if}} 
+        
+
+
+        {{#if Education.length}}
+        <h2>Education</h2>
+
+        {{#each Education}}
+
+            <h3>{{ degree }} - {{ institutionName }} </h3>
+            <h5>
+                From {{ startingMonth }}-{{ startingYear }} 
+                {{#if toPresent}}
+                    until now
+                {{else}}
+                
+                    to {{ finishMonth }}-{{ finishYear }}
+                
+                {{/if}}
+            </h5>
+            <p>{{ description }}</p>
+        
+        {{/each}}
+        {{/if}} 
+
+        
+    </section>
+
+
+        
     </section>
 
     <aside>
         <h2>Contact</h2>
         <ul>
-            <li>Email: your.email@example.com</li>
-            <li>Phone: (123) 456-7890</li>
-            <li>Website: www.yourwebsite.com</li>
-            <li>LinkedIn: linkedin.com/in/yourname</li>
-            <li>GitHub: github.com/yourusername</li>
+            <li>{{email}}</li>
+            <li>Phone: {{phoneNumber}}</li>
+            <li>Website: <a href="{{ reference }}"> Portfolio </a></li>
         </ul>
-
+        {{#if Skill.length}}
         <h2>Skills</h2>
+        {{#each Skill}}
         <ul>
-            <li>HTML5</li>
-            <li>CSS3</li>
-            <li>JavaScript</li>
-            <li>React</li>
-            <li>Node.js</li>
-            <li>Git</li>
+            <li>{{name}}</li>
         </ul>
+        {{/each}}
+        {{/if}}
     </aside>
 
     <div class="clear"></div>

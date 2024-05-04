@@ -96,12 +96,19 @@ router.delete("/project",authorize,injectProject,async (req,res)=>{
     }
 });
 
-router.get("/project/thumb/:projectId",authorize,injectProject,notImplemented);
-
+router.get("/project/thumb/:projectId",authorize,injectProject,async(req,res)=>{
+    try{
+        let png  = await ProjectController.getProjectThumb(req.body.project.id);
+        res.setHeader("Content-Type",'image/png');
+        res.status(200).send(png);
+    }catch(e){
+        res.status(401).json({message:e.message});
+    }
+});
+//getProjectThumb, getProjectHtml, getProjectPdf, 
 router.get("/project/pdf/:projectId",authorize,injectProject,async(req,res)=>{
     try{
-        let htmlContent = await ProjectController.injectInfosHtml(req.body.project.id);
-        let pdf  = await ProjectController.getPDFContent(req.body.project.id);
+        let pdf  = await ProjectController.getProjectPdf(req.body.project.id);
         res.setHeader("Content-Type",'application/pdf');
         res.status(200).send(pdf);
     }catch(e){
@@ -111,7 +118,7 @@ router.get("/project/pdf/:projectId",authorize,injectProject,async(req,res)=>{
 
 router.get("/project/html/:projectId",authorize,injectProject,async(req,res)=>{
     try{
-        let htmlContent = await ProjectController.injectInfosHtml(req.body.project.id);
+        let htmlContent = await ProjectController.getProjectHtml(req.body.project.id);
         res.status(200).send(htmlContent);
     }catch(e){
         res.status(401).json({message:e.message});

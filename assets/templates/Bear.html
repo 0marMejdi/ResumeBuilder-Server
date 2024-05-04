@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ title }}</title>
+        <style>
+/*             .testBorder {
+                border: black solid 1px;
+            } */
+            body {
+                font-family: "{{ fontFamily }}", sans-serif;
+            }
+        </style>
+    </head>
+    <body class="testBorder" style="width: 814px; padding: 0; margin: 0">
+        <div>
+
+
+
+            
+            <section id="PersonalInfo">
+                <img
+                    class="profile-photo"
+                    width="150px"
+                    height="150px"
+                    src="{{ profilePicture }}"
+                    alt="Profile Photo"
+                    id="profilePicture"
+                />
+                <div>{{ firstName }} {{ lastName }}</div>
+
+                {{#if profileTitle}}
+                    <div>{{ profileTitle }}</div>
+                {{/if}} 
+
+                {{#if email}}
+                    <div >{{ email }}</div>
+                {{/if}} 
+                
+                {{#if phoneNumber}}
+                    <div id="phoneNumber">{{ phoneNumber }}</div>
+                {{/if}} 
+                
+                {{#if address}}
+                    <div id="address">{{ address }}</div>
+                {{/if}} 
+                
+                {{#if city}}
+                  <div id="city">{{ city }}</div>
+                {{/if}} 
+                
+                {{#if postalCode}}
+                  <div id="postalCode">{{ postalCode }}</div>
+                {{/if}} 
+                
+                {{#if reference}}
+                  <a href="{{ reference }}"> {{ reference }} </a>
+                {{/if}} 
+                
+                {{#if aboutMe}}
+                   <div id="aboutMe">{{ aboutMe }}</div>
+                {{/if}}
+            </section>
+
+
+
+
+            {{#if Education.length}}
+            <section id="Education">
+                <h2>Education Section</h2>
+                {{#each Education}}
+                <div class="tag-{{ tag }} enumerable-element">
+                    <div class="instituteName">{{ institutionName }}</div>
+                    <div class="degree">{{ degree }}</div>
+                    <div class="started">
+                        Started at: {{ startingMonth }} {{ startingYear }}
+                    </div>
+                    {{#if toPresent}}
+                    <div class="present">To: Present</div>
+                    {{else}}
+                    <div class="finished">
+                        To: {{ finishMonth }} {{ finishYear }}
+                    </div>
+                    {{/if}}
+                    <div class="description">{{ description }}</div>
+                </div>
+                <br />
+                {{/each}}
+            </section>
+
+            {{/if}} 
+            
+            
+            {{#if ProfessionalExp.length}}
+            <section id="ProfessionalExp">
+                <h2>Professional Experience Section</h2>
+                {{#each ProfessionalExp}}
+                <div class="tag-{{ tag }} enumerable-element">
+                    <div class="post">{{ post }}</div>
+                    <div class="companyName">{{ companyName }}</div>
+                    <div class="city">{{ city }}</div>
+                    <div class="started">
+                        Started at: {{ startingMonth }} {{ startingYear }}
+                    </div>
+                    {{#if toPresent}}
+                    <div class="present">To: Present</div>
+                    {{else}}
+                    <div class="finished">
+                        To: {{ finishMonth }} {{ finishYear }}
+                    </div>
+                    {{/if}}
+                    <div class="description">{{ description }}</div>
+                </div>
+                <br />
+                {{/each}}
+            </section>
+            {{/if}} 
+            
+            
+            
+            {{#if Language.length}}
+            <section id="Language">
+                <h2>Languages</h2>
+                {{#each Language}}
+                <div class="tag-{{ tag }} enumerable-element">
+                    <span class="name">{{ name }}</span>
+                    <span class="level">{{ stars level }}</span>
+                </div>
+                {{/each}}
+            </section>
+            {{/if}} 
+            
+            
+            
+            
+            {{#if Skill.length}}
+            <section id="Skill">
+                <h2>Skills</h2>
+                {{#each Skill}}
+                <div class="tag-{{ tag }} enumerable-element">
+                    <span class="name">{{ name }}</span>
+                    <span class="level">{{ stars level }}</span>
+                </div>
+                {{/each}}
+            </section>
+            {{/if}} 
+            
+            
+            
+            {{#if Interest.length}}
+            <section id="Interest">
+                <h2>Interests</h2>
+                {{#each Interest}}
+                <div class="tag-{{ tag }} enumerable-element">
+                    <span class="name">{{ name }}</span>
+                </div>
+                {{/each}}
+            </section>
+            {{/if}}
+        </div>
+    </body>
+</html>
