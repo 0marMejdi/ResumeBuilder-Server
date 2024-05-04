@@ -14,7 +14,7 @@ const placeHolderSnapshot =
     lastName: "Doe",
     phoneNumber: "+216 27 182 818",
     postalCode: "6140",
-    profileTitle: "Software ",
+    profileTitle: "Software Developer & CyberSec Consultant",
     Education:
         [
             {
@@ -34,7 +34,7 @@ const placeHolderSnapshot =
         [
             {
                 city: "Tunis",
-                description: "I did this and that and so on",
+                description: "With Elyadata, you gain an advantage in the data world—a unique blend of cutting-edge science and real-world application that pushes your business to new",
                 companyName: "ElyaData",
                 finishMonth: 12,
                 finishYear: 2022,
@@ -46,7 +46,7 @@ const placeHolderSnapshot =
             },
             {
                 city: "Tunis",
-                description: "Super Duper Underrated Description",
+                description: "Ernst & Young Global Limited, trade name EY, is a multinational professional services partnership. EY is one of the largest professional services networks in the world. ",
                 companyName: "EY",
 
                 post: "CyberSec Consultant",
@@ -78,6 +78,31 @@ const placeHolderSnapshot =
                 name: "Designing",
                 level: "3",
                 tag: 0
+            },
+            {
+                name: "Web Development",
+                level: "5",
+                tag: 1
+            },
+            {
+                name: "Problem Solving",
+                level: "4",
+                tag: 2
+            },
+            {
+                name: "Team Work",
+                level: "5",
+                tag: 3
+            },
+            {
+                name: "Communication",
+                level: "5",
+                tag: 4
+            },
+            {
+                name: "Leadership",
+                level: "5",
+                tag: 5
             }
         ]
     ,
@@ -86,7 +111,25 @@ const placeHolderSnapshot =
             {
                 name: "Sleeping",
                 tag: 0
-            }
+            },
+            {
+                name: "Gaming",
+                tag: 1
+            },
+            {
+                name: "Hacking",
+                tag:2
+            },
+            {
+                name: "Lifting",
+                tag:3
+            },
+            {
+                name: "Cycling",
+                tag:4
+            },
+
+
         ]
     ,
     Orders:

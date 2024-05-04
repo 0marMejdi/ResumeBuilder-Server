@@ -21,6 +21,7 @@ async function getPdfBuffer(templateName, snapshot) {
     });
 
 
+
     htmlPDF.setOptions({
         format: "A4",
         outline: false,

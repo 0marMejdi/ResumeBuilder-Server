@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Resume</title>
+    <title>{{firstName}} {{lastName}} - {{profileTitle}}</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -13,7 +13,7 @@
         }
 
         .container {
-            width: 80%;
+            width: 100%;
             margin: auto;
             overflow: hidden;
         }
@@ -147,20 +147,32 @@
     </section>
 
     <aside>
-        <h2>Contact</h2>
+        <h2 style="color: #ccc;">Contact</h2>
         <ul>
             <li>{{email}}</li>
             <li>Phone: {{phoneNumber}}</li>
+            <li>{{city}}, {{address}}</li>
             <li>Website: <a href="{{ reference }}"> Portfolio </a></li>
         </ul>
         {{#if Skill.length}}
-        <h2>Skills</h2>
+        <h2 style="color: #ccc;">Skills</h2>
         {{#each Skill}}
         <ul>
-            <li>{{name}}</li>
+            <li>{{name}} {{stars level}}</li>
         </ul>
         {{/each}}
         {{/if}}
+
+        {{#if Interest.length}}
+        <h2 style="color: #ccc;">Interests</h2>
+        {{#each Interest}}
+        <ul>
+            <li>{{name}}</li>
+        </ul>
+
+        {{/each}}
+        {{/if}}
+
     </aside>
 
     <div class="clear"></div>
