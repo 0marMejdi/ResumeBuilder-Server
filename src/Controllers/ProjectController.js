@@ -128,7 +128,7 @@ const getImageType = async(projectId)=>{
  */
 const getProjectHtml = async (projectId) => {
     const /**@type Project */ project   = await getFullProject(projectId);
-    return await renderHtml(project.templateName, project.snapshot);
+    return await renderHtml(project.templateName, project.Snapshot);
 };
 /**
  * 
@@ -137,7 +137,7 @@ const getProjectHtml = async (projectId) => {
  */
 const getProjectPdf = async (projectId) => {
     const /**@type Project */ project   = await getFullProject(projectId);
-    return await getPdfBuffer(project.templateName, project.snapshot);
+    return await getPdfBuffer(project.templateName, project.Snapshot);
 }
 /**
  * gets the thumbnail image for a given template name. mainly it's the binary content of the image in a buffer.

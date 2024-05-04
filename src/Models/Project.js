@@ -6,7 +6,7 @@ class Project {
     /**@type string*/ title ;
     /**@type number*/ creationDate ;
     /**@type string*/ templateName ;
-    /**@type Snapshot*/ snapshot;
+    /**@type Snapshot*/ Snapshot;
 
     constructor(title, templateName, userId) {
         this.id=require("uuid").v4().toString();
@@ -14,8 +14,8 @@ class Project {
         this.templateName = templateName;
         this.title = title;
         this.creationDate = (new Date()).getTime();
-        this.snapshot = new Snapshot(this.id);
-        this.snapshot.projectId = this.id;
+        this.Snapshot = new Snapshot(this.id);
+        this.Snapshot.projectId = this.id;
     }
 
     /**
@@ -35,13 +35,13 @@ class Project {
         for (const key in sanitized) {
             sanitized[key]=project[key];
         }
-        delete sanitized.snapshot;
+        delete sanitized.Snapshot;
         delete sanitized.sanitize;
         return sanitized;
     }
     static fullTrim (project){
-        if (project.snapshot)
-            project.snapshot = Snapshot.fullTrim(project.snapshot);
+        if (project.Snapshot)
+            project.Snapshot = Snapshot.fullTrim(project.Snapshot);
         delete project.userId;
         return project;
     }

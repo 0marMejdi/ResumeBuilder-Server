@@ -194,7 +194,7 @@ new APIEndpoint()
             "title": "Dark Crystal",
             "creationDate": 1707956677599,
             "templateName": "Obsidian",
-            "snapshot": {
+            "Snapshot": {
                 "aboutMe": "Placeholder about me text",
                 "fontFamily": "Arial",
                 "reference": "Placeholder reference",
@@ -388,7 +388,7 @@ new APIEndpoint()
     .inDesc('The request body should contain the id of the project and the new snapshot object as given below.')
     .inObj({
             "projectId":"a0fe5464-a186-444a-97df-273f799fe9bc",
-            "snapshot": {
+            "Snapshot": {
                 "aboutMe": "Placeholder about me text",
                 "fontFamily": "Arial",
                 "reference": "Placeholder reference",
@@ -471,7 +471,7 @@ new APIEndpoint()
             "title": "Dark Crystal",
             "creationDate": 1707956677599,
             "templateName": "Obsidian",
-            "snapshot": {
+            "Snapshot": {
                 "aboutMe": "Placeholder about me text",
                 "fontFamily": "Arial",
                 "reference": "Placeholder reference",

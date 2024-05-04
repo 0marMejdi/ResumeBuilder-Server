@@ -128,7 +128,7 @@ const createTableQueries = [
         projectId varchar(40),
         FOREIGN KEY (projectId) REFERENCES Project(id)
     );`,
-    `CREATE TABLE IF NOT EXISTS interest (
+    `CREATE TABLE IF NOT EXISTS Interest (
         id varchar(40) PRIMARY KEY,
         name varchar(30),
         tag int,

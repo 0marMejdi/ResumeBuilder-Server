@@ -19,11 +19,11 @@ async function projectExists(projectId) {
  * @returns {Promise<unknown>}
  */
 async function createProject (project){
-    console.log(`Attempting to insert ${JSON.stringify(project.snapshot.Orders)}`);
+    console.log(`Attempting to insert ${JSON.stringify(project.Snapshot.Orders)}`);
 
-    let snapQuery = connection.format('INSERT INTO SNAPSHOT SET ?;',Snapshot.sanitize(project.snapshot));
-    let query  = connection.format('INSERT INTO project SET ? ;',Project.sanitize(project));
-    let Orders = connection.format('INSERT INTO ORDERS SET ?;', project.snapshot.Orders);
+    let snapQuery = connection.format('INSERT INTO Snapshot SET ?;',Snapshot.sanitize(project.Snapshot));
+    let query  = connection.format('INSERT INTO Project SET ? ;',Project.sanitize(project));
+    let Orders = connection.format('INSERT INTO Orders SET ?;', project.Snapshot.Orders);
     await executeQuery(query);
     await executeQuery(snapQuery);
     await executeQuery(Orders);
@@ -67,7 +67,7 @@ async function  getFullProjectById(projectId){
         throw new Error("Project Not Found!")
     let snapshot = await getSnapshotOnly(projectId);
 
-    project[0].snapshot = snapshot;
+    project[0].Snapshot = snapshot;
 
     return project[0];
 }
@@ -111,7 +111,7 @@ async function updateSnapshotFieldForEnumerable (projectId,fieldName,fieldValue,
    return await executeQuery(query);
 }
 async function updateSnapshotField (projectId,fieldName,fieldValue){
-    let query = connection.format(`UPDATE snapshot SET ${connection.escapeId(fieldName)} = ? WHERE projectId=?`,[fieldValue,projectId]);
+    let query = connection.format(`UPDATE Snapshot SET ${connection.escapeId(fieldName)} = ? WHERE projectId=?`,[fieldValue,projectId]);
     return await executeQuery(query);
 }
 async function deleteEnumerableForProject(projectId,entryName) {
@@ -123,7 +123,7 @@ async function insertNewEnumerable(entryName, enumData) {
      return await executeQuery(insertEnum);
 }
 async function updateSnapshotForProject(projectId, snapshot) {
-    let updateSnapQuery = connection.format(`UPDATE snapshot SET ? WHERE projectId=? ;`, [snapshot, projectId]);
+    let updateSnapQuery = connection.format(`UPDATE Snapshot SET ? WHERE projectId=? ;`, [snapshot, projectId]);
     return await executeQuery(updateSnapQuery);
 }
 async function getNextTag(projectId, entryName){
