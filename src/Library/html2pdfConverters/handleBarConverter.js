@@ -1,7 +1,7 @@
 const PuppeteerHTMLPDF = require("puppeteer-html-pdf");
 const hbs = require("handlebars");
 const Snapshot = require("../../Models/Snapshot");
-
+const fs = require("fs").promises;
 
 /**
  * 
@@ -9,7 +9,11 @@ const Snapshot = require("../../Models/Snapshot");
  * @param {Snapshot} snapshot 
  * @returns 
  */
-async function getPdfBuffer(templateName, snapshot) {
+async function getPdfBuffer(templateName, snapshot, imageBuffer = null) {
+    const buffer = imageBuffer ?? await fs.readFile("assets/projects/00000000-0000-0000-0000-000000000000/pdp.jpg");
+    let encodedImage = Buffer.from(buffer).toString('base64');
+    encodedImage = 'data:image/jpeg;base64,' + encodedImage;
+    const pdfData = { ...snapshot, image: encodedImage }; //{ ...snapshot };
 
     const htmlPDF = new PuppeteerHTMLPDF();
     hbs.registerHelper('stars', function (level) {
@@ -28,7 +32,6 @@ async function getPdfBuffer(templateName, snapshot) {
 
     });
 
-    const pdfData = { ...snapshot }; //{ ...snapshot };
     if (templateName.endsWith(".html")) {
         templateName = templateName.slice(0, -5);
     }
@@ -39,7 +42,12 @@ async function getPdfBuffer(templateName, snapshot) {
     return pdfBuffer;
 }
 
-async function renderHtml(templateName, snapshot){
+
+async function renderHtml(templateName, snapshot, imageBuffer = null) {
+    const buffer = imageBuffer ?? await fs.readFile("assets/projects/00000000-0000-0000-0000-000000000000/pdp.jpg");
+    let encodedImage = Buffer.from(buffer).toString('base64');
+    encodedImage = 'data:image/jpeg;base64,' + encodedImage;
+    const pdfData = { ...snapshot, image: encodedImage }; //{ ...snapshot };
 
     const htmlPDF = new PuppeteerHTMLPDF();
     hbs.registerHelper('stars', function (level) {
@@ -56,8 +64,6 @@ async function renderHtml(templateName, snapshot){
         outline: false,
 
     });
-
-    const pdfData = { ...snapshot }; //{ ...snapshot };
     if (templateName.endsWith(".html")) {
         templateName = templateName.slice(0, -5);
     }
